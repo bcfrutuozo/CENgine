@@ -166,182 +166,182 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\SkinnedBox.cpp" />
-    <ClCompile Include="src\Cylinder.cpp" />
-    <ClCompile Include="src\Object.cpp" />
-    <ClCompile Include="src\SolidSphere.cpp" />
-    <ClCompile Include="src\PointLight.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\imgui\imgui_demo.cpp" />
-    <ClCompile Include="src\ImGuiManager.cpp" />
-    <ClCompile Include="src\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="src\imgui\imgui.cpp" />
-    <ClCompile Include="src\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Sampler.cpp" />
-    <ClCompile Include="src\Pyramid.cpp" />
-    <ClCompile Include="src\GDIPlusManager.cpp" />
-    <ClCompile Include="src\DXGIInfoManager.cpp" />
-    <ClCompile Include="src\PixelShader.cpp" />
-    <ClCompile Include="src\InputLayout.cpp" />
-    <ClCompile Include="src\Box.cpp" />
-    <ClCompile Include="src\Drawable.cpp" />
-    <ClCompile Include="src\IndexBuffer.cpp" />
-    <ClCompile Include="src\Bindable.cpp" />
-    <ClCompile Include="src\dxerr.cpp" />
-    <ClCompile Include="src\Graphics.cpp" />
-    <ClCompile Include="src\App.cpp" />
-    <ClCompile Include="src\Keyboard.cpp" />
-    <ClCompile Include="src\Mouse.cpp" />
-    <ClCompile Include="src\CENgineException.cpp" />
-    <ClCompile Include="src\WinMain.cpp" />
-    <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
-    <ClCompile Include="src\WindowsMessageMap.cpp" />
-    <ClCompile Include="src\Topology.cpp" />
-    <ClCompile Include="src\VertexBuffer.cpp" />
-    <ClCompile Include="src\VertexShader.cpp" />
-    <ClCompile Include="src\TransformCbuf.cpp" />
-    <ClCompile Include="src\Surface.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="SkinnedBox.cpp" />
+    <ClCompile Include="Cylinder.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="SolidSphere.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Sampler.cpp" />
+    <ClCompile Include="Pyramid.cpp" />
+    <ClCompile Include="GDIPlusManager.cpp" />
+    <ClCompile Include="DXGIInfoManager.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="InputLayout.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="dxerr.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="CENgineException.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="WindowsMessageMap.cpp" />
+    <ClCompile Include="Topology.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="TransformCbuf.cpp" />
+    <ClCompile Include="Surface.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\assimp\include\assimp\aabb.h" />
-    <ClInclude Include="src\assimp\include\assimp\ai_assert.h" />
-    <ClInclude Include="src\assimp\include\assimp\anim.h" />
-    <ClInclude Include="src\assimp\include\assimp\BaseImporter.h" />
-    <ClInclude Include="src\assimp\include\assimp\Bitmap.h" />
-    <ClInclude Include="src\assimp\include\assimp\BlobIOSystem.h" />
-    <ClInclude Include="src\assimp\include\assimp\ByteSwapper.h" />
-    <ClInclude Include="src\assimp\include\assimp\camera.h" />
-    <ClInclude Include="src\assimp\include\assimp\cexport.h" />
-    <ClInclude Include="src\assimp\include\assimp\cfileio.h" />
-    <ClInclude Include="src\assimp\include\assimp\cimport.h" />
-    <ClInclude Include="src\assimp\include\assimp\color4.h" />
-    <ClInclude Include="src\assimp\include\assimp\config.h" />
-    <ClInclude Include="src\assimp\include\assimp\CreateAnimMesh.h" />
-    <ClInclude Include="src\assimp\include\assimp\DefaultIOStream.h" />
-    <ClInclude Include="src\assimp\include\assimp\DefaultIOSystem.h" />
-    <ClInclude Include="src\assimp\include\assimp\DefaultLogger.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\Defines.h" />
-    <ClInclude Include="src\assimp\include\assimp\defs.h" />
-    <ClInclude Include="src\assimp\include\assimp\Exceptional.h" />
-    <ClInclude Include="src\assimp\include\assimp\Exporter.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\fast_atof.h" />
-    <ClInclude Include="src\assimp\include\assimp\GenericProperty.h" />
-    <ClInclude Include="src\assimp\include\assimp\Hash.h" />
-    <ClInclude Include="src\assimp\include\assimp\Importer.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\importerdesc.h" />
-    <ClInclude Include="src\assimp\include\assimp\IOStream.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\IOStreamBuffer.h" />
-    <ClInclude Include="src\assimp\include\assimp\IOSystem.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\irrXMLWrapper.h" />
-    <ClInclude Include="src\assimp\include\assimp\light.h" />
-    <ClInclude Include="src\assimp\include\assimp\LineSplitter.h" />
-    <ClInclude Include="src\assimp\include\assimp\LogAux.h" />
-    <ClInclude Include="src\assimp\include\assimp\Logger.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\LogStream.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\Macros.h" />
-    <ClInclude Include="src\assimp\include\assimp\material.h" />
-    <ClInclude Include="src\assimp\include\assimp\MathFunctions.h" />
-    <ClInclude Include="src\assimp\include\assimp\matrix3x3.h" />
-    <ClInclude Include="src\assimp\include\assimp\matrix4x4.h" />
-    <ClInclude Include="src\assimp\include\assimp\MemoryIOWrapper.h" />
-    <ClInclude Include="src\assimp\include\assimp\mesh.h" />
-    <ClInclude Include="src\assimp\include\assimp\metadata.h" />
-    <ClInclude Include="src\assimp\include\assimp\NullLogger.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\ParsingUtils.h" />
-    <ClInclude Include="src\assimp\include\assimp\pbrmaterial.h" />
-    <ClInclude Include="src\assimp\include\assimp\postprocess.h" />
-    <ClInclude Include="src\assimp\include\assimp\Profiler.h" />
-    <ClInclude Include="src\assimp\include\assimp\ProgressHandler.hpp" />
-    <ClInclude Include="src\assimp\include\assimp\qnan.h" />
-    <ClInclude Include="src\assimp\include\assimp\quaternion.h" />
-    <ClInclude Include="src\assimp\include\assimp\RemoveComments.h" />
-    <ClInclude Include="src\assimp\include\assimp\scene.h" />
-    <ClInclude Include="src\assimp\include\assimp\SceneCombiner.h" />
-    <ClInclude Include="src\assimp\include\assimp\SGSpatialSort.h" />
-    <ClInclude Include="src\assimp\include\assimp\SkeletonMeshBuilder.h" />
-    <ClInclude Include="src\assimp\include\assimp\SmoothingGroups.h" />
-    <ClInclude Include="src\assimp\include\assimp\SpatialSort.h" />
-    <ClInclude Include="src\assimp\include\assimp\StandardShapes.h" />
-    <ClInclude Include="src\assimp\include\assimp\StreamReader.h" />
-    <ClInclude Include="src\assimp\include\assimp\StreamWriter.h" />
-    <ClInclude Include="src\assimp\include\assimp\StringComparison.h" />
-    <ClInclude Include="src\assimp\include\assimp\StringUtils.h" />
-    <ClInclude Include="src\assimp\include\assimp\Subdivision.h" />
-    <ClInclude Include="src\assimp\include\assimp\texture.h" />
-    <ClInclude Include="src\assimp\include\assimp\TinyFormatter.h" />
-    <ClInclude Include="src\assimp\include\assimp\types.h" />
-    <ClInclude Include="src\assimp\include\assimp\vector2.h" />
-    <ClInclude Include="src\assimp\include\assimp\vector3.h" />
-    <ClInclude Include="src\assimp\include\assimp\version.h" />
-    <ClInclude Include="src\assimp\include\assimp\Vertex.h" />
-    <ClInclude Include="src\assimp\include\assimp\XMLTools.h" />
-    <ClInclude Include="src\assimp\include\assimp\ZipArchiveIOSystem.h" />
-    <ClInclude Include="src\SkinnedBox.h" />
-    <ClInclude Include="src\Cylinder.h" />
-    <ClInclude Include="src\Object.h" />
-    <ClInclude Include="src\SolidSphere.h" />
-    <ClInclude Include="src\PointLight.h" />
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\ImGuiManager.h" />
-    <ClInclude Include="src\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="src\imgui\imconfig.h" />
-    <ClInclude Include="src\imgui\imgui.h" />
-    <ClInclude Include="src\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="src\imgui\imgui_internal.h" />
-    <ClInclude Include="src\imgui\imstb_rectpack.h" />
-    <ClInclude Include="src\imgui\imstb_textedit.h" />
-    <ClInclude Include="src\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\Sampler.h" />
-    <ClInclude Include="src\Pyramid.h" />
-    <ClInclude Include="src\GDIPlusManager.h" />
-    <ClInclude Include="src\Cone.h" />
-    <ClInclude Include="src\Cube.h" />
-    <ClInclude Include="src\Math.h" />
-    <ClInclude Include="src\IndexedTriangleList.h" />
-    <ClInclude Include="src\DrawableBase.h" />
-    <ClInclude Include="src\DXGIInfoManager.h" />
-    <ClInclude Include="src\PixelShader.h" />
-    <ClInclude Include="src\InputLayout.h" />
-    <ClInclude Include="src\BindableBase.h" />
-    <ClInclude Include="src\Box.h" />
-    <ClInclude Include="src\Drawable.h" />
-    <ClInclude Include="src\ConstantBuffer.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
-    <ClInclude Include="src\Bindable.h" />
-    <ClInclude Include="src\CENgineWRL.h" />
-    <ClInclude Include="src\dxerr.h" />
-    <ClInclude Include="src\Graphics.h" />
-    <ClInclude Include="src\App.h" />
-    <ClInclude Include="src\GraphicsThrowMacros.h" />
-    <ClInclude Include="src\Mouse.h" />
-    <ClInclude Include="src\Keyboard.h" />
-    <ClInclude Include="src\Plane.h" />
-    <ClInclude Include="src\Prism.h" />
-    <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\CENgineException.h" />
-    <ClInclude Include="src\CENgineWin.h" />
-    <ClInclude Include="src\Sphere.h" />
-    <ClInclude Include="src\Window.h" />
-    <ClInclude Include="src\WindowsThrowMacros.h" />
-    <ClInclude Include="src\Timer.h" />
-    <ClInclude Include="src\WindowsMessageMap.h" />
-    <ClInclude Include="src\Topology.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
-    <ClInclude Include="src\VertexShader.h" />
-    <ClInclude Include="src\TransformCbuf.h" />
-    <ClInclude Include="src\Surface.h" />
-    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="assimp\include\assimp\aabb.h" />
+    <ClInclude Include="assimp\include\assimp\ai_assert.h" />
+    <ClInclude Include="assimp\include\assimp\anim.h" />
+    <ClInclude Include="assimp\include\assimp\BaseImporter.h" />
+    <ClInclude Include="assimp\include\assimp\Bitmap.h" />
+    <ClInclude Include="assimp\include\assimp\BlobIOSystem.h" />
+    <ClInclude Include="assimp\include\assimp\ByteSwapper.h" />
+    <ClInclude Include="assimp\include\assimp\camera.h" />
+    <ClInclude Include="assimp\include\assimp\cexport.h" />
+    <ClInclude Include="assimp\include\assimp\cfileio.h" />
+    <ClInclude Include="assimp\include\assimp\cimport.h" />
+    <ClInclude Include="assimp\include\assimp\color4.h" />
+    <ClInclude Include="assimp\include\assimp\config.h" />
+    <ClInclude Include="assimp\include\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="assimp\include\assimp\DefaultIOStream.h" />
+    <ClInclude Include="assimp\include\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="assimp\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="assimp\include\assimp\Defines.h" />
+    <ClInclude Include="assimp\include\assimp\defs.h" />
+    <ClInclude Include="assimp\include\assimp\Exceptional.h" />
+    <ClInclude Include="assimp\include\assimp\Exporter.hpp" />
+    <ClInclude Include="assimp\include\assimp\fast_atof.h" />
+    <ClInclude Include="assimp\include\assimp\GenericProperty.h" />
+    <ClInclude Include="assimp\include\assimp\Hash.h" />
+    <ClInclude Include="assimp\include\assimp\Importer.hpp" />
+    <ClInclude Include="assimp\include\assimp\importerdesc.h" />
+    <ClInclude Include="assimp\include\assimp\IOStream.hpp" />
+    <ClInclude Include="assimp\include\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="assimp\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="assimp\include\assimp\irrXMLWrapper.h" />
+    <ClInclude Include="assimp\include\assimp\light.h" />
+    <ClInclude Include="assimp\include\assimp\LineSplitter.h" />
+    <ClInclude Include="assimp\include\assimp\LogAux.h" />
+    <ClInclude Include="assimp\include\assimp\Logger.hpp" />
+    <ClInclude Include="assimp\include\assimp\LogStream.hpp" />
+    <ClInclude Include="assimp\include\assimp\Macros.h" />
+    <ClInclude Include="assimp\include\assimp\material.h" />
+    <ClInclude Include="assimp\include\assimp\MathFunctions.h" />
+    <ClInclude Include="assimp\include\assimp\matrix3x3.h" />
+    <ClInclude Include="assimp\include\assimp\matrix4x4.h" />
+    <ClInclude Include="assimp\include\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="assimp\include\assimp\mesh.h" />
+    <ClInclude Include="assimp\include\assimp\metadata.h" />
+    <ClInclude Include="assimp\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="assimp\include\assimp\ParsingUtils.h" />
+    <ClInclude Include="assimp\include\assimp\pbrmaterial.h" />
+    <ClInclude Include="assimp\include\assimp\postprocess.h" />
+    <ClInclude Include="assimp\include\assimp\Profiler.h" />
+    <ClInclude Include="assimp\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="assimp\include\assimp\qnan.h" />
+    <ClInclude Include="assimp\include\assimp\quaternion.h" />
+    <ClInclude Include="assimp\include\assimp\RemoveComments.h" />
+    <ClInclude Include="assimp\include\assimp\scene.h" />
+    <ClInclude Include="assimp\include\assimp\SceneCombiner.h" />
+    <ClInclude Include="assimp\include\assimp\SGSpatialSort.h" />
+    <ClInclude Include="assimp\include\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="assimp\include\assimp\SmoothingGroups.h" />
+    <ClInclude Include="assimp\include\assimp\SpatialSort.h" />
+    <ClInclude Include="assimp\include\assimp\StandardShapes.h" />
+    <ClInclude Include="assimp\include\assimp\StreamReader.h" />
+    <ClInclude Include="assimp\include\assimp\StreamWriter.h" />
+    <ClInclude Include="assimp\include\assimp\StringComparison.h" />
+    <ClInclude Include="assimp\include\assimp\StringUtils.h" />
+    <ClInclude Include="assimp\include\assimp\Subdivision.h" />
+    <ClInclude Include="assimp\include\assimp\texture.h" />
+    <ClInclude Include="assimp\include\assimp\TinyFormatter.h" />
+    <ClInclude Include="assimp\include\assimp\types.h" />
+    <ClInclude Include="assimp\include\assimp\vector2.h" />
+    <ClInclude Include="assimp\include\assimp\vector3.h" />
+    <ClInclude Include="assimp\include\assimp\version.h" />
+    <ClInclude Include="assimp\include\assimp\Vertex.h" />
+    <ClInclude Include="assimp\include\assimp\XMLTools.h" />
+    <ClInclude Include="assimp\include\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="SkinnedBox.h" />
+    <ClInclude Include="Cylinder.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="SolidSphere.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="imgui\imgui_impl_win32.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="Sampler.h" />
+    <ClInclude Include="Pyramid.h" />
+    <ClInclude Include="GDIPlusManager.h" />
+    <ClInclude Include="Cone.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="IndexedTriangleList.h" />
+    <ClInclude Include="DrawableBase.h" />
+    <ClInclude Include="DXGIInfoManager.h" />
+    <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="InputLayout.h" />
+    <ClInclude Include="BindableBase.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="Drawable.h" />
+    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="Bindable.h" />
+    <ClInclude Include="CENgineWRL.h" />
+    <ClInclude Include="dxerr.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="GraphicsThrowMacros.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Plane.h" />
+    <ClInclude Include="Prism.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="CENgineException.h" />
+    <ClInclude Include="CENgineWin.h" />
+    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowsThrowMacros.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="WindowsMessageMap.h" />
+    <ClInclude Include="Topology.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="TransformCbuf.h" />
+    <ClInclude Include="Surface.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\CENgine.rc" />
+    <ResourceCompile Include="CENgine.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\cengine.ico" />
-    <Image Include="src\Images\teste.png">
+    <Image Include="cengine.ico" />
+    <Image Include="Images\teste.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -349,7 +349,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="src\BlendedPhongPS.hlsl">
+    <FxCompile Include="BlendedPhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -363,7 +363,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\BlendedPhongVS.hlsl">
+    <FxCompile Include="BlendedPhongVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -377,7 +377,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\IndexedPhongPS.hlsl">
+    <FxCompile Include="IndexedPhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -391,7 +391,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\SolidPS.hlsl">
+    <FxCompile Include="SolidPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -405,7 +405,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\SolidVS.hlsl">
+    <FxCompile Include="SolidVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -419,7 +419,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\PhongPS.hlsl">
+    <FxCompile Include="PhongPS.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
@@ -433,7 +433,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="src\PhongVS.hlsl">
+    <FxCompile Include="PhongVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -447,7 +447,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\ColorBlendPs.hlsl">
+    <FxCompile Include="ColorBlendPs.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -461,7 +461,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\ColorBlendVS.hlsl">
+    <FxCompile Include="ColorBlendVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
@@ -471,7 +471,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\PixelShader.hlsl">
+    <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -485,7 +485,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="src\TexturedPhongPS.hlsl">
+    <FxCompile Include="TexturedPhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -499,7 +499,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\TexturedPhongVS.hlsl">
+    <FxCompile Include="TexturedPhongVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -513,7 +513,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\VertexShader.hlsl">
+    <FxCompile Include="VertexShader.hlsl">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
@@ -523,7 +523,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="src\TexturePS.hlsl">
+    <FxCompile Include="TexturePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -537,7 +537,7 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
     </FxCompile>
-    <FxCompile Include="src\TextureVS.hlsl">
+    <FxCompile Include="TextureVS.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
@@ -553,19 +553,19 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\assimp-vc142-mt.dll" />
-    <None Include="src\assimp\include\assimp\color4.inl" />
-    <None Include="src\assimp\include\assimp\material.inl" />
-    <None Include="src\assimp\include\assimp\matrix3x3.inl" />
-    <None Include="src\assimp\include\assimp\matrix4x4.inl" />
-    <None Include="src\assimp\include\assimp\quaternion.inl" />
-    <None Include="src\assimp\include\assimp\SmoothingGroups.inl" />
-    <None Include="src\assimp\include\assimp\vector2.inl" />
-    <None Include="src\assimp\include\assimp\vector3.inl" />
-    <None Include="src\zlib1.dll" />
+    <None Include="assimp-vc142-mt.dll" />
+    <None Include="assimp\include\assimp\color4.inl" />
+    <None Include="assimp\include\assimp\material.inl" />
+    <None Include="assimp\include\assimp\matrix3x3.inl" />
+    <None Include="assimp\include\assimp\matrix4x4.inl" />
+    <None Include="assimp\include\assimp\quaternion.inl" />
+    <None Include="assimp\include\assimp\SmoothingGroups.inl" />
+    <None Include="assimp\include\assimp\vector2.inl" />
+    <None Include="assimp\include\assimp\vector3.inl" />
+    <None Include="zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="src\assimp\bin\x64\assimp-vc142-mt.lib" />
+    <Library Include="assimp\bin\x64\assimp-vc142-mt.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
