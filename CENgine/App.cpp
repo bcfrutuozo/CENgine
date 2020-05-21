@@ -8,6 +8,7 @@
 #include "SkinnedBox.h"
 #include "Cube.h"
 #include "imgui/imgui.h"
+#include "AssimpTest.h"
 
 #include <memory>
 #include <algorithm>
@@ -25,9 +26,6 @@ App::App()
 	class Factory
 	{
 	public:
-		Assimp::Importer imp;
-		auto model = imp.ReadFile("D:\\Desktop\\cb.stl",aiProcess_Triangulate | aiProcess_JoinIdenticalVertices);
-
 		Factory(Graphics& graphics)
 			:
 			graphics(graphics)
@@ -47,6 +45,8 @@ App::App()
 				return std::make_unique<Pyramid>(graphics, rng, aDist, dDist, oDist, rDist, tDist);
 			case 3:
 				return std::make_unique<SkinnedBox>(graphics, rng, aDist, dDist, oDist, rDist);
+			case 4:
+				return std::make_unique<AssimpTest>(graphics, rng, aDist, dDist, oDist, rDist, mat, 1.5f);
 			default:
 				assert(false && "impossible drawable option in factory");
 				return {};
@@ -57,7 +57,7 @@ App::App()
 
 		Graphics& graphics;
 		std::mt19937 rng{ std::random_device{}() };
-		std::uniform_int_distribution<int> sDist{ 0, 2};
+		std::uniform_int_distribution<int> sDist{ 0, 4 };
 		std::uniform_real_distribution<float> aDist{ 0.0f,PI * 2.0f };
 		std::uniform_real_distribution<float> dDist{ 0.0f,PI * 0.5f };
 		std::uniform_real_distribution<float> oDist{ 0.0f,PI * 0.08f };
@@ -68,17 +68,17 @@ App::App()
 	};
 
 	drawables.reserve(nDrawables);
-	std::generate_n(std::back_inserter(drawables), nDrawables, Factory {window.Gfx()});
+	std::generate_n(std::back_inserter(drawables), nDrawables, Factory{ window.Gfx() });
 
 	// Init box pointers for editing instance parameters
-	for(auto& pd : drawables)
+	for (auto& pd : drawables)
 	{
-		if(auto pb = dynamic_cast<Box*>(pd.get()))
+		if (auto pb = dynamic_cast<Box*>(pd.get()))
 		{
 			boxes.push_back(pb);
 		}
 	}
-	
+
 	window.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
 
@@ -133,47 +133,47 @@ void App::Run()
 	light.SpawnControlWindow();
 	SpawnBoxControlManagerWindow();
 	SpawnBoxWindows();
-	
+
 	// Present the frame
 	window.Gfx().EndFrame();
 }
 
 void App::SpawnSimulationWindow() noexcept
 {
-	if( ImGui::Begin( "Simulation Speed" ) )
+	if (ImGui::Begin("Simulation Speed"))
 	{
-		ImGui::SliderFloat( "Speed Factor",&speed_factor,0.0f,6.0f,"%.4f",3.2f );
-		ImGui::Text( "%.3f ms/frame (%.1f FPS)",1000.0f / ImGui::GetIO().Framerate,ImGui::GetIO().Framerate );
-		ImGui::Text( "Status: %s",window.keyboard.IsKeyPressed( VK_SPACE ) ? "PAUSED" : "RUNNING (hold spacebar to pause)" );
+		ImGui::SliderFloat("Speed Factor", &speed_factor, 0.0f, 6.0f, "%.4f", 3.2f);
+		ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::Text("Status: %s", window.keyboard.IsKeyPressed(VK_SPACE) ? "PAUSED" : "RUNNING (hold spacebar to pause)");
 	}
 	ImGui::End();
 }
 
 void App::SpawnBoxControlManagerWindow() noexcept
 {
-	if( ImGui::Begin( "Boxes" ) )
+	if (ImGui::Begin("Boxes"))
 	{
 		using namespace std::string_literals;
-		const auto preview = comboBoxIndex ? std::to_string( *comboBoxIndex ) : "Choose a box..."s;
-		if( ImGui::BeginCombo( "Box Number",preview.c_str() ) )
+		const auto preview = comboBoxIndex ? std::to_string(*comboBoxIndex) : "Choose a box..."s;
+		if (ImGui::BeginCombo("Box Number", preview.c_str()))
 		{
-			for( int i = 0; i < boxes.size(); i++ )
+			for (int i = 0; i < boxes.size(); i++)
 			{
 				const bool selected = *comboBoxIndex == i;
-				if( ImGui::Selectable( std::to_string( i ).c_str(),selected ) )
+				if (ImGui::Selectable(std::to_string(i).c_str(), selected))
 				{
 					comboBoxIndex = i;
 				}
-				if( selected )
+				if (selected)
 				{
 					ImGui::SetItemDefaultFocus();
 				}
 			}
 			ImGui::EndCombo();
 		}
-		if( ImGui::Button( "Spawn Control Window" ) && comboBoxIndex )
+		if (ImGui::Button("Spawn Control Window") && comboBoxIndex)
 		{
-			boxControlIds.insert( *comboBoxIndex );
+			boxControlIds.insert(*comboBoxIndex);
 			comboBoxIndex.reset();
 		}
 	}
@@ -182,9 +182,9 @@ void App::SpawnBoxControlManagerWindow() noexcept
 
 void App::SpawnBoxWindows() noexcept
 {
-	for(auto i = boxControlIds.begin(); i != boxControlIds.end();)
+	for (auto i = boxControlIds.begin(); i != boxControlIds.end();)
 	{
-		if(!boxes[*i]->SpawnControlWindow( *i,window.Gfx() ) )
+		if (!boxes[*i]->SpawnControlWindow(*i, window.Gfx()))
 		{
 			i = boxControlIds.erase(i);
 		}

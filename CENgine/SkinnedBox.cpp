@@ -29,7 +29,7 @@ SkinnedBox::SkinnedBox( Graphics& graphics,
 
 		AddStaticBind( std::make_unique<VertexBuffer>( graphics,model.vertices ) );
 
-		AddStaticBind( std::make_unique<Texture>( graphics,Surface::FromFile( "C:\\Users\\bcfru\\source\\repos\\Game\\CENgine\\src\\Images\\teste.png" ) ) );
+		AddStaticBind( std::make_unique<Texture>( graphics,Surface::FromFile( "Images\\teste.png" ) ) );
 
 		AddStaticBind( std::make_unique<Sampler>( graphics ) );
 

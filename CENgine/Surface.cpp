@@ -3,6 +3,11 @@
 #include "Surface.h"
 
 #include <algorithm>
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+}
 #include <gdiplus.h>
 #include <sstream>
 

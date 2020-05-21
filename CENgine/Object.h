@@ -16,6 +16,9 @@ public:
 		std::uniform_real_distribution<float>& rDist)
 		:
 		r( rDist( rng ) ),
+		roll(0.0f),
+		pitch(0.0f),
+		yaw(0.0f),
 		theta( aDist( rng ) ),
 		phi( aDist( rng ) ),
 		chi( aDist( rng ) ),

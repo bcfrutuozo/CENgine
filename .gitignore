@@ -72,6 +72,8 @@ StyleCopReport.xml
 *.meta
 *.obj
 *.iobj
+!CENgine/Models/*.obj
+!CENgine/assimp/bin/*
 *.pch
 *.pdb
 *.ipdb

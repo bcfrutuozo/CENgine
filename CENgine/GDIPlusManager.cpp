@@ -1,9 +1,12 @@
 #define FULL_WINTARD
-
-#include "CENgineWin.h"
+#include "CENgineException.h"
 #include "GDIPlusManager.h"
-
 #include <algorithm>
+namespace Gdiplus
+{
+	using std::min;
+	using std::max;
+}
 #include <gdiplus.h>
 
 ULONG_PTR GDIPlusManager::token = 0;
