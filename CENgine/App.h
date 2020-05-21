@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include "Mesh.h"
 
 #include <set>
 
@@ -15,11 +16,9 @@ public:
 	~App();
 
 	int Start();
+	void ShowModelWindow();
 private:
 	void Run();
-	void SpawnSimulationWindow() noexcept;
-	void SpawnBoxControlManagerWindow() noexcept;
-	void SpawnBoxWindows() noexcept;
 private:
 	ImGuiManager imgui;
 	Window window;
@@ -28,9 +27,14 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 
-	std::vector<class Box*> boxes;
-	std::vector<std::unique_ptr<class Drawable>> drawables;
-	static constexpr size_t nDrawables = 10	;
-	std::optional<int> comboBoxIndex;
-	std::set<int> boxControlIds;
+	Model nano { window.Gfx(), "Models\\nanosuit.obj" };
+	struct
+	{
+		float roll = 0.0f;
+		float pitch = 0.0f;
+		float yaw = 0.0f;
+		float x = 0.0f;
+		float y = 0.0f;
+		float z = 0.0f;
+	} pos;
 };

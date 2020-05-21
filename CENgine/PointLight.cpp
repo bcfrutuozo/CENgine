@@ -49,7 +49,7 @@ void PointLight::Reset() noexcept
 	};
 }
 
-void PointLight::Draw(Graphics& graphics) const noexcept(!IS_DEBUG)
+void PointLight::Draw(Graphics& graphics) const NOXND
 {
 	mesh.SetPos(cbData.pos);
 	mesh.Draw(graphics);

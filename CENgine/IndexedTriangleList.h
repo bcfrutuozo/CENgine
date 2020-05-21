@@ -30,7 +30,7 @@ public:
 	}
 
 	// Asserts face-independent vertices with normals cleared to zero
-	void SetNormalsIndependentFlat() noexcept(!IS_DEBUG)
+	void SetNormalsIndependentFlat() NOXND
 	{
 		using namespace DirectX;
 		

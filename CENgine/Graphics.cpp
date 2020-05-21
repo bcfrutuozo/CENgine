@@ -3,6 +3,7 @@
 #include "GraphicsThrowMacros.h"
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
+#include "Conditional_noexcept.h"
 
 #include <sstream>
 #include <d3dcompiler.h>
@@ -188,7 +189,7 @@ void Graphics::EndFrame()
 	}
 }
 
-void Graphics::DrawIndexed(UINT count) noexcept
+void Graphics::DrawIndexed(UINT count) NOXND
 {
 	GFX_THROW_INFO_ONLY(pContext->DrawIndexed(count, 0u, 0u));
 }

@@ -4,51 +4,35 @@
 #include "GraphicsThrowMacros.h"
 #include "Vertex.h"
 
-class VertexBuffer : public Bindable
-{
-public:
-	template<class V>
-	VertexBuffer(Graphics& graphics, const std::vector<V>& vertices)
-		:
-	stride(sizeof(V))
+namespace Bind {
+	class VertexBuffer : public Bindable
 	{
-		INFOMAN(graphics);
+	public:
+		template<class V>
+		VertexBuffer(Graphics& graphics, const std::vector<V>& vertices)
+			:
+			stride(sizeof(V))
+		{
+			INFOMAN(graphics);
 
-		D3D11_BUFFER_DESC bd = {};
-		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.CPUAccessFlags = 0u;
-		bd.MiscFlags = 0u;
-		bd.ByteWidth = UINT(sizeof(V) * vertices.size());
-		bd.StructureByteStride = sizeof(V);
+			D3D11_BUFFER_DESC bd = {};
+			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.CPUAccessFlags = 0u;
+			bd.MiscFlags = 0u;
+			bd.ByteWidth = UINT(sizeof(V) * vertices.size());
+			bd.StructureByteStride = sizeof(V);
 
-		D3D11_SUBRESOURCE_DATA isResourceData = {};
-		isResourceData.pSysMem = vertices.data();
-		GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&bd, &isResourceData, &pVertexBuffer));
-	}
+			D3D11_SUBRESOURCE_DATA isResourceData = {};
+			isResourceData.pSysMem = vertices.data();
+			GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&bd, &isResourceData, &pVertexBuffer));
+		}
 
-	VertexBuffer(Graphics& graphics, const CENgineexp::VertexBuffer& vbuf)
-		:
-		stride(static_cast<UINT>(vbuf.GetLayout().Size()))
-	{
-		INFOMAN(graphics);
+		VertexBuffer(Graphics& graphics, const CENgineexp::VertexBuffer& vbuf);
+		void Bind(Graphics& graphics) noexcept override;
 
-		D3D11_BUFFER_DESC bd = {};
-		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		bd.Usage = D3D11_USAGE_DEFAULT;
-		bd.CPUAccessFlags = 0u;
-		bd.MiscFlags = 0u;
-		bd.ByteWidth = UINT( vbuf.SizeBytes() );
-		bd.StructureByteStride = stride;
-		D3D11_SUBRESOURCE_DATA sd = {};
-		sd.pSysMem = vbuf.GetData();
-		GFX_THROW_INFO( GetDevice( graphics )->CreateBuffer( &bd,&sd,&pVertexBuffer ) );
-	}
-
-	void Bind(Graphics& graphics) noexcept override;
-
-protected:
-	UINT stride;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
-};
-
+	protected:
+		UINT stride;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
+	};
+}

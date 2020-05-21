@@ -11,7 +11,7 @@ public:
 	PointLight(Graphics& graphics, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
-	void Draw(Graphics& graphics) const noexcept(!IS_DEBUG);
+	void Draw(Graphics& graphics) const NOXND;
 	void Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept;
 private:
 
@@ -29,6 +29,6 @@ private:
 
 	PointLightCBuf cbData;
 	mutable SolidSphere mesh;
-	mutable PixelConstantBuffer<PointLightCBuf> constantBuffer;
+	mutable Bind::PixelConstantBuffer<PointLightCBuf> constantBuffer;
 };
 

@@ -2,14 +2,16 @@
 
 #include "Bindable.h"
 
-class Sampler : public Bindable
-{
-public:
+namespace Bind {
 
-	Sampler(Graphics& graphics);
-	void Bind(Graphics& graphics) noexcept override;
-protected:
+	class Sampler : public Bindable
+	{
+	public:
 
-	Microsoft::WRL::ComPtr<ID3D11SamplerState> pSampler;
-};
+		Sampler(Graphics& graphics);
+		void Bind(Graphics& graphics) noexcept override;
+	protected:
 
+		Microsoft::WRL::ComPtr<ID3D11SamplerState> pSampler;
+	};
+}

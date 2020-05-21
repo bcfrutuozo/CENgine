@@ -3,6 +3,7 @@
 #include "CENgineWin.h"
 #include "CENgineException.h"
 #include "DxgiInfoManager.h"
+#include "Conditional_noexcept.h"
 
 #include <wrl.h>
 #include <d3d11.h>
@@ -12,9 +13,15 @@
 #include <memory>
 #include <random>
 
+namespace Bind
+{
+	class Bindable;
+}
+
+
 class Graphics
 {
-	friend class Bindable;
+	friend class Bind::Bindable;
 	
 public:
 	class Exception : public CENgineException
@@ -67,7 +74,7 @@ public:
 
 		void BeginFrame(float red, float green, float blue) const noexcept;
 	void EndFrame();
-	void DrawIndexed(UINT count) noexcept;
+	void DrawIndexed(UINT count) NOXND;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SetCamera(DirectX::FXMMATRIX cmr) noexcept;

@@ -1,10 +1,12 @@
 #include "SolidSphere.h"
-#include "BindableBase.h"
+#include "BindableCommon.h"
 #include "GraphicsThrowMacros.h"
 #include "Sphere.h"
 
 SolidSphere::SolidSphere(Graphics& graphics, float radius)
 {
+	using namespace Bind;
+	
 	if(!IsStaticInitialized())
 	{
 		struct Vertex
