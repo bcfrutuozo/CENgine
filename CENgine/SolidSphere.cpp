@@ -1,57 +1,38 @@
 #include "SolidSphere.h"
 #include "BindableCommon.h"
 #include "GraphicsThrowMacros.h"
+#include "Vertex.h"
 #include "Sphere.h"
 
 SolidSphere::SolidSphere(Graphics& graphics, float radius)
 {
 	using namespace Bind;
-	
-	if(!IsStaticInitialized())
+
+	auto model = Sphere::Make();
+	model.Transform(DirectX::XMMatrixScaling(radius, radius, radius));
+
+	const auto geometryTag = "$sphere." + std::to_string(radius);
+	AddBind(VertexBuffer::Resolve(graphics, geometryTag, model.vertices));
+	AddBind(IndexBuffer::Resolve(graphics, geometryTag, model.indices));
+
+	auto pvs = VertexShader::Resolve(graphics, "SolidVS.cso");
+	auto pvsbc = pvs->GetByteCode();
+	AddBind(std::move(pvs));
+
+	AddBind(PixelShader::Resolve(graphics, "SolidPS.cso"));
+
+	struct PSColorConstant
 	{
-		struct Vertex
-		{
-			DirectX::XMFLOAT3 pos;
-		};
+		DirectX::XMFLOAT3 color = { 1.0f, 1.0f, 1.0f, };
+		float padding;
+	} colorConst;
 
-		auto model = Sphere::Make<Vertex>();
-		model.Transform(DirectX::XMMatrixScaling(radius, radius, radius));
-		AddBind(std::make_unique<VertexBuffer>(graphics, model.vertices));
-		AddIndexBuffer(std::make_unique<IndexBuffer>(graphics, model.indices));
+	AddBind(PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));
 
-		auto pvs = std::make_unique<VertexShader>(graphics, L"SolidVS.cso");
-		auto pvsbc = pvs->GetByteCode();
-		AddStaticBind(std::move(pvs));
+	AddBind(InputLayout::Resolve(graphics, model.vertices.GetLayout(), pvsbc));
+	AddBind(Topology::Resolve(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
-		AddStaticBind(std::make_unique<PixelShader>(graphics, L"SolidPS.cso"));
-
-		struct PSColorConstant
-		{
-			DirectX::XMFLOAT3 color = { 1.0f, 1.0f, 1.0f,};
-			float padding;
-		} colorConst;
-		
-		AddStaticBind(std::make_unique<PixelConstantBuffer<PSColorConstant>>(graphics, colorConst));
-
-		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
-		{
-			{ "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
-		};
-
-		AddStaticBind(std::make_unique<InputLayout>(graphics, ied, pvsbc));
-		AddStaticBind(std::make_unique<Topology>(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-	}
-	else
-	{
-		SetIndexFromStatic();
-	}
-
-	AddBind(std::make_unique<TransformCbuf>(graphics, *this));
-}
-
-void SolidSphere::Update(float dt) noexcept
-{
-	
+	AddBind(std::make_shared<TransformCbuf>(graphics, *this));
 }
 
 void SolidSphere::SetPos(DirectX::XMFLOAT3 pos) noexcept

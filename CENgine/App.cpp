@@ -1,7 +1,7 @@
 #include "App.h"
 #include "GDIPlusManager.h"
-#include "Cube.h"
 #include "imgui/imgui.h"
+#include "VertexShader.h"
 
 #include <memory>
 #include <algorithm>
@@ -13,10 +13,10 @@ GDIPlusManager gdipm;
 
 App::App()
 	:
-	window(1600, 1200, "CENgine"),
+	window(1920, 1080, "CENgine"),
 	light(window.Gfx())
 {
-	window.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+	window.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 40.0f));
 }
 
 App::~App()
@@ -57,36 +57,86 @@ void App::Run()
 	light.Bind(window.Gfx(), camera.GetMatrix());
 
 	// Render geometry
-	const auto transform = DirectX::XMMatrixRotationRollPitchYaw(pos.roll, pos.pitch, pos.yaw) *
-		DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
-	nano.Draw(window.Gfx(), transform);
+	nano.Draw(window.Gfx());
+	//nano2.Draw(window.Gfx());
 	
 	light.Draw(window.Gfx());
 
+	const auto k = window.keyboard.ReadKey();
+	
+	if(window.keyboard.IsKeyPressed(k.GetCode()))
+	{
+		switch( k.GetCode() )
+		{
+		case VK_ESCAPE:
+			if( window.IsCursorEnabled() )
+			{
+				window.DisableCursor();
+				window.mouse.EnableRaw();
+			}
+			else
+			{
+				window.EnableCursor();
+				window.mouse.DisableRaw();
+			}
+			break;
+		case VK_F1:
+			showDemoWindow = true;
+			break;
+		}
+	}
+
+	if(!window.IsCursorEnabled())
+	{
+		if(window.keyboard.IsKeyPressed('W'))
+		{
+			camera.Translate({0.0f, 0.0f, dt});
+		}
+		if(window.keyboard.IsKeyPressed('A'))
+		{
+			camera.Translate({-dt, 0.0f, 0.0f});
+		}
+		if(window.keyboard.IsKeyPressed('S'))
+		{
+			camera.Translate({ 0.0f, 0.0f, -dt});
+		}
+		if(window.keyboard.IsKeyPressed('D'))
+		{
+			camera.Translate({dt, 0.0f, 0.0f});
+		}
+		if(window.keyboard.IsKeyPressed('R'))
+		{
+			camera.Translate({ 0.0f, dt, 0.0f});
+		}
+		if(window.keyboard.IsKeyPressed('F'))
+		{
+			camera.Translate({0.0f, -dt, 0.0f});
+		}
+	}
+
+	while(const auto delta = window.mouse.ReadRawDelta())
+	{
+		if(!window.IsCursorEnabled())
+		{
+			camera.Rotate(static_cast<float>(delta->x), static_cast<float>(delta->y));
+		}
+	}
+	
 	// ImGui windows
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
-	ShowModelWindow();
+	ShowImGuiDemoWindow();
+	nano.ShowWindow("Model 1");
+	//nano2.ShowWindow("Model 2");
 
 	// Present the frame
 	window.Gfx().EndFrame();
 }
 
-void App::ShowModelWindow()
+void App::ShowImGuiDemoWindow()
 {
-	if( ImGui::Begin( "Model" ) )
+	if( showDemoWindow )
 	{
-		using namespace std::string_literals;
-
-		ImGui::Text( "Orientation" );
-		ImGui::SliderAngle( "Roll",&pos.roll,-180.0f,180.0f );
-		ImGui::SliderAngle( "Pitch",&pos.pitch,-180.0f,180.0f );
-		ImGui::SliderAngle( "Yaw",&pos.yaw,-180.0f,180.0f );
-
-		ImGui::Text( "Position" );
-		ImGui::SliderFloat( "X",&pos.x,-20.0f,20.0f );
-		ImGui::SliderFloat( "Y",&pos.y,-20.0f,20.0f );
-		ImGui::SliderFloat( "Z",&pos.z,-20.0f,20.0f );
+		ImGui::ShowDemoWindow(&showDemoWindow);
 	}
-	ImGui::End();
 }

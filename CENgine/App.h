@@ -16,10 +16,12 @@ public:
 	~App();
 
 	int Start();
-	void ShowModelWindow();
+	void ShowImGuiDemoWindow();
 private:
 	void Run();
 private:
+
+	bool showDemoWindow = false;
 	ImGuiManager imgui;
 	Window window;
 	Timer timer;
@@ -27,7 +29,10 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 
-	Model nano { window.Gfx(), "Models\\nanosuit.obj" };
+	/*Model nano { window.Gfx(), "Models\\teste.stl" };*/
+	Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
+	//Model nano2 { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
+	
 	struct
 	{
 		float roll = 0.0f;

@@ -111,9 +111,6 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="PixelShader.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
@@ -154,9 +151,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AssimpTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
@@ -209,19 +203,10 @@
     <ClInclude Include="CENgineWRL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Drawable.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawableBase.h">
       <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="dxerr.h">
@@ -260,19 +245,10 @@
     <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="PixelShader.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Prism.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -314,13 +290,31 @@
     <ClInclude Include="WindowsThrowMacros.h">
       <Filter>Header Files\Macros</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpTest.h">
+    <ClInclude Include="Vertex.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableCommon.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conditional_noexcept.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\aabb.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\ai_assert.h">
+      <Filter>Header Files\Libraries\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="assimp\include\assimp\port\AndroidJNI\AndroidJNIIOSystem.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\anim.h">
@@ -351,9 +345,6 @@
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\color4.h">
-      <Filter>Header Files\Libraries\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="assimp\include\assimp\config.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\CreateAnimMesh.h">
@@ -455,6 +446,9 @@
     <ClInclude Include="assimp\include\assimp\pbrmaterial.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
+    <ClInclude Include="assimp\include\assimp\Compiler\poppack1.h">
+      <Filter>Header Files\Libraries\assimp</Filter>
+    </ClInclude>
     <ClInclude Include="assimp\include\assimp\postprocess.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
@@ -462,6 +456,12 @@
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\ProgressHandler.hpp">
+      <Filter>Header Files\Libraries\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="assimp\include\assimp\Compiler\pstdint.h">
+      <Filter>Header Files\Libraries\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="assimp\include\assimp\Compiler\pushpack1.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\qnan.h">
@@ -476,10 +476,10 @@
     <ClInclude Include="assimp\include\assimp\scene.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="assimp\include\assimp\SceneCombiner.h">
+    <ClInclude Include="assimp\include\assimp\SGSpatialSort.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="assimp\include\assimp\SGSpatialSort.h">
+    <ClInclude Include="assimp\include\assimp\SceneCombiner.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\SkeletonMeshBuilder.h">
@@ -489,9 +489,6 @@
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\SpatialSort.h">
-      <Filter>Header Files\Libraries\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="Sphere.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\StandardShapes.h">
@@ -530,29 +527,17 @@
     <ClInclude Include="assimp\include\assimp\version.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="assimp\include\assimp\Vertex.h">
-      <Filter>Header Files\Libraries\assimp</Filter>
-    </ClInclude>
     <ClInclude Include="assimp\include\assimp\XMLTools.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\ZipArchiveIOSystem.h">
       <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="assimp\include\assimp\Vertex.h">
+      <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
-    <ClInclude Include="BindableCommon.h">
+    <ClInclude Include="BindableCodex.h">
       <Filter>Header Files\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Conditional_noexcept.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -580,6 +565,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PhongPSSpecMap.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

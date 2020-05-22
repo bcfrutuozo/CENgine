@@ -35,6 +35,16 @@ namespace CENgineexp
 		return desc;
 	}
 
+	std::string VertexLayout::GetCode() const noexcept(!true)
+	{
+		std::string code;
+		for(const auto& e : elements)
+		{
+			code += e.GetCode();
+		}
+		return code;
+	}
+
 	// VertexLayout::Element
 	VertexLayout::Element::Element(ElementType type, size_t offset)
 		:
@@ -86,6 +96,31 @@ namespace CENgineexp
 		return type;
 	}
 
+	const char* VertexLayout::Element::GetCode() const noexcept
+	{
+		switch(type)
+		{
+		case Position2D:
+			return Map<Position2D>::code;
+		case Position3D:
+			return Map<Position3D>::code;
+		case Texture2D:
+			return Map<Texture2D>::code;
+		case Normal:
+			return Map<Normal>::code;
+		case Float3Color:
+			return Map<Float3Color>::code;
+		case Float4Color:
+			return Map<Float4Color>::code;
+		case BGRAColor:
+			return Map<BGRAColor>::code;
+		}
+
+		assert("Invalid element type" && false);
+		return "Invalid";
+	}
+
+	
 	D3D11_INPUT_ELEMENT_DESC VertexLayout::Element::GetDescriptor() const noexcept(!IS_DEBUG)
 	{
 		switch (type)

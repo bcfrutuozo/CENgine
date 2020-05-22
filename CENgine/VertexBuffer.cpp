@@ -1,9 +1,16 @@
 #include "VertexBuffer.h"
+#include "BindableCodex.h"
 
 namespace Bind {
 
-	VertexBuffer::VertexBuffer(Graphics& graphics, const CENgineexp::VertexBuffer& vbuf)
+	VertexBuffer::VertexBuffer(Graphics& graphics,const CENgineexp::VertexBuffer& vbuf)
 		:
+		VertexBuffer(graphics, "?", vbuf)
+	{}
+
+	VertexBuffer::VertexBuffer(Graphics& graphics,  const std::string& tag, const CENgineexp::VertexBuffer& vbuf)
+		:
+		tag(tag),
 		stride(static_cast<UINT>(vbuf.GetLayout().Size()))
 	{
 		INFOMAN(graphics);
@@ -24,5 +31,22 @@ namespace Bind {
 	{
 		const UINT offset = 0u;
 		GetContext(graphics)->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+	}
+
+	std::shared_ptr<VertexBuffer> VertexBuffer::Resolve(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf)
+	{
+		assert(tag != "?");
+		return Codex::Resolve<VertexBuffer>(graphics, tag, vbuf);
+	}
+
+	std::string VertexBuffer::GenerateUID_(const std::string& tag)
+	{
+		using namespace std::string_literals;
+		return typeid(VertexBuffer).name() + "#"s + tag;
+	}
+
+	std::string VertexBuffer::GetUID() const noexcept
+	{
+		return GenerateUID(tag);
 	}
 }

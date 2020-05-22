@@ -1,10 +1,18 @@
 #include "IndexBuffer.h"
 #include "GraphicsThrowMacros.h"
+#include "BindableCodex.h"
 
 namespace Bind {
+
 	IndexBuffer::IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& indices)
 		:
-		count((UINT)indices.size())
+		IndexBuffer(graphics, "?", indices)
+	{}
+	
+	IndexBuffer::IndexBuffer(Graphics& graphics, std::string tag, const std::vector<unsigned short>& indices)
+		:
+		tag(tag),
+		count(static_cast<UINT>(indices.size()))
 	{
 		INFOMAN(graphics);
 
@@ -30,5 +38,22 @@ namespace Bind {
 	UINT IndexBuffer::GetCount() const noexcept
 	{
 		return count;
+	}
+
+	std::shared_ptr<IndexBuffer> IndexBuffer::Resolve(Graphics& graphics, const std::string& tag, const std::vector<unsigned short>& indices)
+	{
+		assert(tag != "?");
+		return Codex::Resolve<IndexBuffer>(graphics, tag, indices);
+	}
+	
+	std::string IndexBuffer::GenerateUID_(const std::string& tag)
+	{
+		using namespace std::string_literals;
+		return typeid(IndexBuffer).name() + "#"s + tag;
+	}
+
+	std::string IndexBuffer::GetUID() const noexcept
+	{
+		return GenerateUID_(tag);
 	}
 }

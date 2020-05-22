@@ -166,9 +166,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AssimpTest.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Object.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -206,7 +204,6 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssimpTest.h" />
     <ClInclude Include="assimp\include\assimp\aabb.h" />
     <ClInclude Include="assimp\include\assimp\ai_assert.h" />
     <ClInclude Include="assimp\include\assimp\anim.h" />
@@ -219,7 +216,9 @@
     <ClInclude Include="assimp\include\assimp\cfileio.h" />
     <ClInclude Include="assimp\include\assimp\cimport.h" />
     <ClInclude Include="assimp\include\assimp\color4.h" />
-    <ClInclude Include="assimp\include\assimp\config.h" />
+    <ClInclude Include="assimp\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="assimp\include\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="assimp\include\assimp\Compiler\pushpack1.h" />
     <ClInclude Include="assimp\include\assimp\CreateAnimMesh.h" />
     <ClInclude Include="assimp\include\assimp\DefaultIOStream.h" />
     <ClInclude Include="assimp\include\assimp\DefaultIOSystem.h" />
@@ -253,6 +252,7 @@
     <ClInclude Include="assimp\include\assimp\NullLogger.hpp" />
     <ClInclude Include="assimp\include\assimp\ParsingUtils.h" />
     <ClInclude Include="assimp\include\assimp\pbrmaterial.h" />
+    <ClInclude Include="assimp\include\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
     <ClInclude Include="assimp\include\assimp\postprocess.h" />
     <ClInclude Include="assimp\include\assimp\Profiler.h" />
     <ClInclude Include="assimp\include\assimp\ProgressHandler.hpp" />
@@ -280,10 +280,10 @@
     <ClInclude Include="assimp\include\assimp\Vertex.h" />
     <ClInclude Include="assimp\include\assimp\XMLTools.h" />
     <ClInclude Include="assimp\include\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="BindableCodex.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Conditional_noexcept.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Camera.h" />
@@ -298,11 +298,8 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="GDIPlusManager.h" />
-    <ClInclude Include="Cone.h" />
-    <ClInclude Include="Cube.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="IndexedTriangleList.h" />
-    <ClInclude Include="DrawableBase.h" />
     <ClInclude Include="DXGIInfoManager.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="InputLayout.h" />
@@ -318,8 +315,6 @@
     <ClInclude Include="GraphicsThrowMacros.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Keyboard.h" />
-    <ClInclude Include="Plane.h" />
-    <ClInclude Include="Prism.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="CENgineException.h" />
     <ClInclude Include="CENgineWin.h" />
@@ -349,6 +344,20 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="PhongPSSpecMap.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0_level_9_1</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0_level_9_1</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="SolidPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>

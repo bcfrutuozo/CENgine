@@ -10,10 +10,17 @@ namespace Bind {
 	{
 	public:
 
-		Texture(Graphics& graphics, const class Surface& surface);
+		Texture(Graphics& graphics, const std::string& path, UINT slot = 0);
 		void Bind(Graphics& graphics) noexcept override;
+		static std::shared_ptr<Texture> Resolve(Graphics& graphics, const std::string& path, UINT slot = 0);
+		static std::string GenerateUID(const std::string& path, UINT slot = 0);
+		std::string GetUID() const noexcept override;
 	protected:
 
+		std::string path;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pTextureView;
+	private:
+
+		unsigned int slot;
 	};
 }

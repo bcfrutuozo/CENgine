@@ -12,24 +12,16 @@ void Drawable::Draw(Graphics& graphics) const NOXND
 	{
 		b->Bind(graphics);
 	}
-
-	for(auto& b : GetStaticBinds())
-	{
-		b->Bind(graphics);
-	}
-
 	graphics.DrawIndexed(pIndexBuffer->GetCount());
 }
 
-void Drawable::AddBind(std::unique_ptr<Bindable> bind) NOXND
+void Drawable::AddBind(std::shared_ptr<Bindable> bind) NOXND
 {
-	assert( "Must* use AddIndexBuffer to bind index buffer" && typeid(*bind) != typeid(Bind::IndexBuffer));
+	// Special case for index buffer
+	if(typeid(*bind) == typeid(IndexBuffer))
+	{
+		assert("Binding multiple index buffers are not allowed" && pIndexBuffer == nullptr);
+		pIndexBuffer = &static_cast<IndexBuffer&>(*bind);
+	}
 	binds.push_back(std::move(bind));
-}
-
-void Drawable::AddIndexBuffer(std::unique_ptr<IndexBuffer> iBuffer) NOXND
-{
-	assert("Attempting to add index buffer a second time" && pIndexBuffer == nullptr);
-	pIndexBuffer = iBuffer.get();
-	binds.push_back(std::move(iBuffer));
 }

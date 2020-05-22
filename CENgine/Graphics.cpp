@@ -24,7 +24,9 @@ Graphics::Graphics()
 {
 }
 
-Graphics::Graphics(HWND handle)
+Graphics::Graphics(HWND handle,
+	int width,
+	int height)
 	:
 	pDevice(nullptr),
 	pSwapChain(nullptr),
@@ -34,8 +36,8 @@ Graphics::Graphics(HWND handle)
 {
 	DXGI_SWAP_CHAIN_DESC swapDescriptor = {};
 
-	swapDescriptor.BufferDesc.Width = 0;
-	swapDescriptor.BufferDesc.Height = 0;
+	swapDescriptor.BufferDesc.Width = width;
+	swapDescriptor.BufferDesc.Height = height;
 	swapDescriptor.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	// Layout of the pixels RGBA
 	swapDescriptor.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -103,8 +105,8 @@ Graphics::Graphics(HWND handle)
 	// Create depth stencil texture
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = 1600; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
-	descDepth.Height = 1200u; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
+	descDepth.Width = width; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
+	descDepth.Height = height; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
 	descDepth.MipLevels = 1u;	// Mip maps
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
@@ -128,8 +130,8 @@ Graphics::Graphics(HWND handle)
 
 	// Configure viewport
 	D3D11_VIEWPORT viewport;
-	viewport.Width = 1600.0f;
-	viewport.Height = 1200.0f;
+	viewport.Width = static_cast<float>(width);
+	viewport.Height = static_cast<float>(height);
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0.0f;

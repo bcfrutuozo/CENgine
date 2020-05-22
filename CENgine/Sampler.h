@@ -10,6 +10,9 @@ namespace Bind {
 
 		Sampler(Graphics& graphics);
 		void Bind(Graphics& graphics) noexcept override;
+		static std::shared_ptr<Sampler> Resolve(Graphics& graphics);
+		static std::string GenerateUID();
+		std::string GetUID() const noexcept override;
 	protected:
 
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> pSampler;

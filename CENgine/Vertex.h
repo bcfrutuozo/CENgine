@@ -33,6 +33,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			static constexpr const char* code = "P2";
 		};
 
 		template<> struct Map<Position3D>
@@ -40,6 +41,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Position";
+			static constexpr const char* code = "P3";
 		};
 
 		template<> struct Map<Texture2D>
@@ -47,6 +49,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
 			static constexpr const char* semantic = "Texcoord";
+			static constexpr const char* code = "T2";
 		};
 
 		template<> struct Map<Normal>
@@ -54,6 +57,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Normal";
+			static constexpr const char* code = "N";
 		};
 
 		template<> struct Map<Float3Color>
@@ -61,6 +65,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C3";
 		};
 
 		template<> struct Map<Float4Color>
@@ -68,6 +73,7 @@ namespace CENgineexp
 			using SysType = DirectX::XMFLOAT4;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C4";
 		};
 
 		template<> struct Map<BGRAColor>
@@ -75,6 +81,7 @@ namespace CENgineexp
 			using SysType = ::BGRAColor;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 			static constexpr const char* semantic = "Color";
+			static constexpr const char* code = "C8";
 		};
 
 		class Element
@@ -88,10 +95,11 @@ namespace CENgineexp
 			static constexpr size_t SizeOf(ElementType type) NOXND;
 			ElementType GetType() const noexcept;
 			D3D11_INPUT_ELEMENT_DESC GetDescriptor() const NOXND;
+			const char* GetCode() const noexcept;
 		private:
 
 			template<ElementType type>
-			static constexpr D3D11_INPUT_ELEMENT_DESC GenerateDescriptor(size_t offset) NOXND
+			static constexpr D3D11_INPUT_ELEMENT_DESC GenerateDescriptor(size_t offset) noexcept
 			{
 				return { Map<type>::semantic, 0, Map<type>::dxgiFormat, 0, static_cast<UINT>(offset), D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			}
@@ -120,6 +128,7 @@ namespace CENgineexp
 		size_t Size() const NOXND;
 		size_t GetElementCount() const noexcept;
 		std::vector<D3D11_INPUT_ELEMENT_DESC> GetD3DLayout() const NOXND;
+		std::string GetCode() const NOXND;
 	private:
 
 		std::vector<Element> elements;
