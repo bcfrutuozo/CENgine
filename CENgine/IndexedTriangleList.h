@@ -32,6 +32,27 @@ public:
 		}
 	}
 
+	void SetNormalsIndependentFlat() NOXND
+	{
+		using namespace DirectX;
+		using Type = CENgineexp::VertexLayout::ElementType;
+		for (size_t i = 0; i < indices.size(); i += 3)
+		{
+			auto v0 = vertices[indices[i]];
+			auto v1 = vertices[indices[i + 1]];
+			auto v2 = vertices[indices[i + 2]];
+			const auto p0 = XMLoadFloat3(&v0.Attr<Type::Position3D>());
+			const auto p1 = XMLoadFloat3(&v1.Attr<Type::Position3D>());
+			const auto p2 = XMLoadFloat3(&v2.Attr<Type::Position3D>());
+
+			const auto n = XMVector3Normalize(XMVector3Cross((p1 - p0), (p2 - p0)));
+
+			XMStoreFloat3(&v0.Attr<Type::Normal>(), n);
+			XMStoreFloat3(&v1.Attr<Type::Normal>(), n);
+			XMStoreFloat3(&v2.Attr<Type::Normal>(), n);
+		}
+	}
+
 	CENgineexp::VertexBuffer vertices;
 	std::vector<unsigned short> indices;
 };

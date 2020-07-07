@@ -72,7 +72,7 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
 
-		void BeginFrame(float red, float green, float blue) const noexcept;
+	void BeginFrame(float red, float green, float blue) const noexcept;
 	void EndFrame();
 	void DrawIndexed(UINT count) NOXND;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;

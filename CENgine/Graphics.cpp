@@ -107,7 +107,7 @@ Graphics::Graphics(HWND handle,
 	D3D11_TEXTURE2D_DESC descDepth;
 	descDepth.Width = width; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
 	descDepth.Height = height; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
-	descDepth.MipLevels = 1u;	// Mip maps
+	descDepth.MipLevels = 1u;	// Mipmap
 	descDepth.ArraySize = 1u;
 	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
 	descDepth.SampleDesc.Count = 1u;	// No Anti-aliasing
@@ -257,7 +257,7 @@ const char* Graphics::HrException::what() const noexcept
 	std::ostringstream oss;
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
+		<< std::dec << " (" << static_cast<unsigned long>(GetErrorCode()) << ")" << std::endl
 		<< "[Error String] " << GetErrorString() << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl;
 

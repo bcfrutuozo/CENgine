@@ -57,8 +57,8 @@ void App::Run()
 	light.Bind(window.Gfx(), camera.GetMatrix());
 
 	// Render geometry
-	nano.Draw(window.Gfx());
-	//nano2.Draw(window.Gfx());
+	//nano.Draw(window.Gfx());
+	gobber.Draw(window.Gfx());
 	
 	light.Draw(window.Gfx());
 
@@ -126,8 +126,8 @@ void App::Run()
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
 	ShowImGuiDemoWindow();
-	nano.ShowWindow("Model 1");
-	//nano2.ShowWindow("Model 2");
+	//nano.ShowWindow("Nanosuit");
+	gobber.ShowWindow(window.Gfx(), "Gobber");
 
 	// Present the frame
 	window.Gfx().EndFrame();

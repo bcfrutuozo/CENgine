@@ -79,6 +79,10 @@ namespace CENgineexp
 			return sizeof(Map<Texture2D>::SysType);
 		case Normal:
 			return sizeof(Map<Normal>::SysType);
+		case Tangent:
+			return sizeof(Map<Tangent>::SysType);
+		case Bitangent:
+			return sizeof(Map<Bitangent>::SysType);
 		case Float3Color:
 			return sizeof(Map<Float3Color>::SysType);
 		case Float4Color:
@@ -108,6 +112,10 @@ namespace CENgineexp
 			return Map<Texture2D>::code;
 		case Normal:
 			return Map<Normal>::code;
+		case Tangent:
+			return Map<Tangent>::code;
+		case Bitangent:
+			return Map<Bitangent>::code;
 		case Float3Color:
 			return Map<Float3Color>::code;
 		case Float4Color:
@@ -133,6 +141,10 @@ namespace CENgineexp
 			return GenerateDescriptor<Texture2D>(GetOffset());
 		case Normal:
 			return GenerateDescriptor<Normal>(GetOffset());
+		case Tangent:
+			return GenerateDescriptor<Tangent>(GetOffset());
+		case Bitangent:
+			return GenerateDescriptor<Bitangent>(GetOffset());
 		case Float3Color:
 			return GenerateDescriptor<Float3Color>(GetOffset());
 		case Float4Color:
@@ -159,10 +171,12 @@ namespace CENgineexp
 	{}
 
 	// VertexBuffer
-	VertexBuffer::VertexBuffer(VertexLayout layout) NOXND
+	VertexBuffer::VertexBuffer(VertexLayout layout, size_t size) NOXND
 		:
 		layout(std::move(layout))
-	{}
+	{
+		Resize(size);
+	}
 
 	const char* VertexBuffer::GetData() const NOXND
 	{
@@ -172,6 +186,15 @@ namespace CENgineexp
 	const VertexLayout& VertexBuffer::GetLayout() const noexcept
 	{
 		return layout;
+	}
+
+	void VertexBuffer::Resize(size_t newSize) NOXND
+	{
+		const auto size = Size();
+		if(size < newSize)
+		{
+			buffer.resize( buffer.size() + layout.Size() * (newSize - size) );
+		}
 	}
 
 	size_t VertexBuffer::Size() const NOXND

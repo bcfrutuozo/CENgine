@@ -95,6 +95,7 @@ Surface Surface::FromFile(const std::string& filename)
 	unsigned int height = 0;
 	std::unique_ptr<Color[]> pBuffer;
 
+	bool isAlphaLoaded = false;
 	{
 		// Convert filename to wide string (for GDI+)
 		wchar_t fullname[512];
@@ -119,11 +120,15 @@ Surface Surface::FromFile(const std::string& filename)
 				Gdiplus::Color c;
 				bitmap.GetPixel(x, y, &c);
 				pBuffer[y * width + x] = c.GetValue();
+				if(c.GetAlpha() != 255)
+				{
+					isAlphaLoaded = true;
+				}
 			}
 		}
 	}
 
-	return Surface(width, height, std::move(pBuffer));
+	return Surface(width, height, std::move(pBuffer), isAlphaLoaded);
 }
 
 void Surface::Save(const std::string& filename) const
@@ -194,11 +199,17 @@ void Surface::Copy(const Surface& source) NOXND
 	memcpy(pBuffer.get(), source.pBuffer.get(), width * height * sizeof(Color));
 }
 
-Surface::Surface(unsigned width, unsigned height, std::unique_ptr<Color[]> pBufferParameters) noexcept
+bool Surface::IsAlphaLoaded() const noexcept
+{
+	return isAlphaLoaded;
+}
+
+Surface::Surface(unsigned width, unsigned height, std::unique_ptr<Color[]> pBufferParameters, bool isAlphaLoaded) noexcept
 	:
 	width(width),
 	height(height),
-	pBuffer(std::move(pBufferParameters))
+	pBuffer(std::move(pBufferParameters)),
+	isAlphaLoaded(isAlphaLoaded)
 {}
 
 

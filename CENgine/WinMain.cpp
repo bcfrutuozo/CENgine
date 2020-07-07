@@ -1,10 +1,10 @@
 #include "App.h"
 
 int CALLBACK WinMain(
-	HINSTANCE p_currentInstance,
-	HINSTANCE p_previousInstance,
-	LPSTR p_commandLine,
-	int p_commandShow)
+	HINSTANCE currentInstance,
+	HINSTANCE previousInstance,
+	LPSTR commandLine,
+	int commandShow)
 {
 	try
 	{

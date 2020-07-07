@@ -7,10 +7,9 @@ Camera::Camera() noexcept
 	Reset();
 }
 
-
 DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 {	
-	const DirectX::XMVECTOR forwardBaseVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	const auto& forwardBaseVector = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
 	// Apply the camera rotations to a base vector
 	const auto lookVector = DirectX::XMVector3Transform(forwardBaseVector, 
@@ -23,7 +22,6 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 	const auto camTarget = DirectX::XMVectorAdd(camPosition, lookVector);
 	return DirectX::XMMatrixLookAtLH(camPosition, camTarget, DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 }
-
 
 void Camera::SpawnControlWindow() noexcept
 {
@@ -48,7 +46,9 @@ void Camera::SpawnControlWindow() noexcept
 
 void Camera::Reset() noexcept
 {
-	position = { 0.0f, 7.5f, -18.0f };
+	position = { -10.0f, 0.0f, -20.0f };
+	pitch = 0.0;
+	yaw = 0.45f;
 }
 
 void Camera::Rotate(float dx, float dy) noexcept

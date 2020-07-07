@@ -29,9 +29,8 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 
-	/*Model nano { window.Gfx(), "Models\\teste.stl" };*/
-	Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
-	//Model nano2 { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
+	//Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
+	Model gobber { window.Gfx(), "Models\\gobber\\GoblinX.obj" };
 	
 	struct
 	{

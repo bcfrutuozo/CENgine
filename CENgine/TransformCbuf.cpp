@@ -14,14 +14,22 @@ namespace Bind {
 
 	void TransformCbuf::Bind(Graphics& graphics) noexcept
 	{
-		const auto& modelView = parent.GetTransformXM() * graphics.GetCamera();
-		const Transforms tf = {
+		UpdateBindImpl(graphics, GetTransforms(graphics));
+	}
+
+	void TransformCbuf::UpdateBindImpl(Graphics& graphics, const Transforms& tf) noexcept
+	{
+		pVertexConstantBuffer->Update(graphics, tf);
+		pVertexConstantBuffer->Bind(graphics);
+	}
+
+	TransformCbuf::Transforms TransformCbuf::GetTransforms(Graphics& graphics) noexcept
+	{
+		const auto modelView = parent.GetTransformXM() * graphics.GetCamera();
+		return {
 			DirectX::XMMatrixTranspose(modelView),
 			DirectX::XMMatrixTranspose(modelView * graphics.GetProjection())
 		};
-
-		pVertexConstantBuffer->Update(graphics, tf);
-		pVertexConstantBuffer->Bind(graphics);
 	}
 
 	std::unique_ptr<VertexConstantBuffer<TransformCbuf::Transforms>> TransformCbuf::pVertexConstantBuffer;

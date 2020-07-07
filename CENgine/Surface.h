@@ -134,12 +134,14 @@ public:
 	static Surface FromFile(const std::string& filename);
 	void Save(const std::string& filename) const;
 	void Copy(const Surface& source) NOXND;
+	bool IsAlphaLoaded() const noexcept;
 private:
 	
-	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParameters) noexcept;
+	Surface(unsigned int width, unsigned int height, std::unique_ptr<Color[]> pBufferParameters, bool isAlphaLoaded = false) noexcept;
 
 	std::unique_ptr<Color[]> pBuffer;
 	unsigned int width;
 	unsigned int height;
+	bool isAlphaLoaded = false;
 };
 
