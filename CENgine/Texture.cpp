@@ -20,31 +20,34 @@ namespace Bind {
 		D3D11_TEXTURE2D_DESC texDesc = {};
 		texDesc.Width = surface.GetWidth();
 		texDesc.Height = surface.GetHeight();
-		texDesc.MipLevels = 1;
+		texDesc.MipLevels = 0;
 		texDesc.ArraySize = 1;
 		texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 		texDesc.SampleDesc.Count = 1;
 		texDesc.SampleDesc.Quality = 0;
 		texDesc.Usage = D3D11_USAGE_DEFAULT;
-		texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 		texDesc.CPUAccessFlags = 0;
-		texDesc.MiscFlags = 0;
+		texDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
-		D3D11_SUBRESOURCE_DATA sd = {};
-		sd.pSysMem = surface.GetBufferPtr();
-		sd.SysMemPitch = surface.GetWidth() * sizeof(Surface::Color);
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 
-		GFX_THROW_INFO(GetDevice(graphics)->CreateTexture2D(&texDesc, &sd, &pTexture));
+		GFX_THROW_INFO(GetDevice(graphics)->CreateTexture2D(&texDesc, nullptr, &pTexture));
+
+		// Write image data into top mip level
+		GetContext(graphics)->UpdateSubresource(pTexture.Get(), 0u, nullptr, surface.GetBufferPtrConst(), surface.GetWidth() * sizeof(Surface::Color), 0u);
 
 		// Create the texture resource view
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 		srvDesc.Format = texDesc.Format;
 		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		srvDesc.Texture2D.MostDetailedMip = 0;
-		srvDesc.Texture2D.MipLevels = 1;
+		srvDesc.Texture2D.MipLevels = -1;
 
 		GFX_THROW_INFO(GetDevice(graphics)->CreateShaderResourceView(pTexture.Get(), &srvDesc, &pTextureView));
+
+		// Generate the mip chain using the GPU rendering pipeline
+		GetContext(graphics)->GenerateMips(pTextureView.Get());
 	}
 
 	void Texture::Bind(Graphics& graphics) noexcept
@@ -71,5 +74,13 @@ namespace Bind {
 	bool Texture::HasAlpha() const noexcept
 	{
 		return hasAlpha;
+	}
+
+	UINT Texture::CalculateNumberOfMipLevels(const UINT width, const UINT height) noexcept
+	{
+		const float xSteps = std::ceil(log2(static_cast<float>(width)));
+		const float ySteps = std::ceil(log2(static_cast<float>(height)));
+
+		return static_cast<UINT>(std::max(xSteps, ySteps));
 	}
 }

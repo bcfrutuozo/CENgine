@@ -47,7 +47,8 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 Window::Window(int width, int p_height, const char* p_name)
 	:
 	width(width),
-	height(p_height)
+	height(p_height),
+	consoleWindow(nullptr)
 {
 	// Calculate window size based on desired client region size
 	RECT wr;
@@ -97,6 +98,7 @@ Window::Window(int width, int p_height, const char* p_name)
 Window::~Window()
 {
 	ImGui_ImplWin32_Shutdown();
+	FreeConsole();
 	DestroyWindow(handleWindow);
 }
 
@@ -122,6 +124,25 @@ void Window::DisableCursor() noexcept
 	HideCursor();
 	DisableImGuiMouse();
 	EncloseCursor();
+}
+
+void Window::ShowConsole() noexcept
+{
+	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+
+	if(!AllocConsole())
+	{
+		throw CHWND_LAST_EXCEPT();
+	};
+
+	AttachConsole(ATTACH_PARENT_PROCESS);
+
+	SetConsoleTitle("CENgine Debugger");
+
+	GetConsoleScreenBufferInfo(handleWindow, &consoleInfo);
+	freopen_s(&consoleWindow, "CONIN$", "r", stdin);
+	freopen_s(&consoleWindow, "CONOUT$", "w", stdout);
+	freopen_s(&consoleWindow, "CONOUT$", "w", stderr);
 }
 
 std::optional<int> Window::ProcessMessages()

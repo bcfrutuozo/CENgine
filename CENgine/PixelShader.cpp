@@ -4,7 +4,6 @@
 
 namespace Bind
 {
-
 	PixelShader::PixelShader(Graphics& graphics, const std::string& path)
 		:
 		path(path)
@@ -36,5 +35,4 @@ namespace Bind
 	{
 		return GenerateUID(path);
 	}
-
 }

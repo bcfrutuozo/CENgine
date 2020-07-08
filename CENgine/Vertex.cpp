@@ -35,7 +35,7 @@ namespace CENgineexp
 		return desc;
 	}
 
-	std::string VertexLayout::GetCode() const noexcept(!true)
+	std::string VertexLayout::GetCode() const NOXND
 	{
 		std::string code;
 		for(const auto& e : elements)
@@ -57,7 +57,7 @@ namespace CENgineexp
 		return offset + Size();
 	}
 
-	size_t VertexLayout::Element::GetOffset() const
+	size_t VertexLayout::Element::GetOffset() const NOXND
 	{
 		return offset;
 	}

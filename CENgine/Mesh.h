@@ -11,6 +11,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <type_traits>
+#include <filesystem>
 
 class ModelException : public CENgineException
 {
@@ -64,6 +65,7 @@ public:
 	void Draw(Graphics& graphics, DirectX::FXMMATRIX accumulatedTransform) const NOXND;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	void ShowTree(Node*& pSelectedNode) const noexcept;
+	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	int GetId() const noexcept;
 
 	template<class T>
@@ -137,14 +139,14 @@ class Model
 {
 public:
 
-	Model(Graphics& graphics, const std::string filename);
+	Model(Graphics& graphics, const std::string& path, const float scale = 1.0f);
 	~Model() noexcept;
 	void Draw(Graphics& graphics) const NOXND;
 	void ShowWindow(Graphics& graphics, const char* windowName = nullptr) noexcept;
 	void SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept;
 private:
 
-	static std::unique_ptr<Mesh> ParseMesh(Graphics& graphics, const aiMesh& mesh, const aiMaterial* const* psMaterials);
+	static std::unique_ptr<Mesh> ParseMesh(Graphics& graphics, const aiMesh& mesh, const aiMaterial* const* psMaterials, const std::filesystem::path& path, const float scale);
 	std::unique_ptr<Node> ParseNode(int& nextId, const aiNode& node) noexcept;
 
 	std::unique_ptr<Node> pRoot;

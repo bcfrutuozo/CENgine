@@ -8,7 +8,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
-		return App{}.Start();
+		return App{ commandLine }.Start();
 	}
 	catch(const CENgineException& e)
 	{

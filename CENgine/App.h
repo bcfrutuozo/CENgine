@@ -12,7 +12,7 @@
 class App
 {
 public:
-	App();
+	App(const std::string& commandLine = "");
 	~App();
 
 	int Start();
@@ -21,6 +21,7 @@ private:
 	void Run();
 private:
 
+	std::string commandLine;
 	bool showDemoWindow = false;
 	ImGuiManager imgui;
 	Window window;
@@ -29,16 +30,8 @@ private:
 	PointLight light;
 	float speed_factor = 1.0f;
 
-	//Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
-	Model gobber { window.Gfx(), "Models\\gobber\\GoblinX.obj" };
-	
-	struct
-	{
-		float roll = 0.0f;
-		float pitch = 0.0f;
-		float yaw = 0.0f;
-		float x = 0.0f;
-		float y = 0.0f;
-		float z = 0.0f;
-	} pos;
+	Model sponza { window.Gfx(), "Models\\sponza\\sponza.obj", 1.0f / 20.0f };
+	Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj" };
+	Model gobber { window.Gfx(), "Models\\gobber\\GoblinX.obj", 6.0f };
+	Model stripey { window.Gfx(), "Models\\brick_wall\\brick_wall.obj", 2.0f };
 };

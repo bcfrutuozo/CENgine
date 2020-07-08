@@ -33,6 +33,8 @@ SolidSphere::SolidSphere(Graphics& graphics, float radius)
 	AddBind(Topology::Resolve(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
 	AddBind(std::make_shared<TransformCbuf>(graphics, *this));
+	AddBind(Blender::Resolve(graphics, false));
+	AddBind(Rasterizer::Resolve(graphics, false));
 }
 
 void SolidSphere::SetPos(DirectX::XMFLOAT3 pos) noexcept

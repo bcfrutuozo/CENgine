@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "imgui/imgui.h"
 #include "Surface.h"
+#include "Matrix.h"
 
 #include <sstream>
 #include <unordered_map>
@@ -129,6 +130,11 @@ void Node::ShowTree(Node*& pSelectedNode) const noexcept
 	}
 }
 
+const DirectX::XMFLOAT4X4& Node::GetAppliedTransform() const noexcept
+{
+	return appliedTransform;
+}
+
 int Node::GetId() const noexcept
 {
 	return id;
@@ -152,7 +158,27 @@ public:
 			ImGui::NextColumn();
 			if (pSelectedNode != nullptr)
 			{
-				auto& transform = transforms[pSelectedNode->GetId()];
+				const auto id = pSelectedNode->GetId();
+				auto i = transforms.find(id);
+				
+				if(i == transforms.end())
+				{
+					const auto& applied = pSelectedNode->GetAppliedTransform();
+					const auto angles = ExtractEulerAngles(applied);
+					const auto translation = ExtractTranslation(applied);
+
+					TransformParameters tp;
+					tp.roll = angles.z;
+					tp.pitch = angles.x;
+					tp.yaw = angles.y;
+					tp.x = translation.x;
+					tp.y = translation.y;
+					tp.z = translation.z;
+					std::tie(i, std::ignore) = transforms.insert({id, tp});
+				}
+
+				auto& transform = i->second;
+
 				ImGui::Text("Orientation");
 				ImGui::SliderAngle("Roll", &transform.roll, -180.0f, 180.0f);
 				ImGui::SliderAngle("Pitch", &transform.pitch, -180.0f, 180.0f);
@@ -161,8 +187,8 @@ public:
 				ImGui::SliderFloat("X", &transform.x, -20.0f, 20.0f);
 				ImGui::SliderFloat("Y", &transform.y, -20.0f, 20.0f);
 				ImGui::SliderFloat("Z", &transform.z, -20.0f, 20.0f);
-				
-				if(!pSelectedNode->Control(graphics, skinMaterial))
+
+				if (!pSelectedNode->Control(graphics, skinMaterial))
 				{
 					pSelectedNode->Control(graphics, ringMaterial);
 				}
@@ -198,12 +224,12 @@ private:
 	std::unordered_map<int, TransformParameters> transforms;
 };
 
-Model::Model(Graphics& graphics, const std::string filename)
+Model::Model(Graphics& graphics, const std::string& path, const float scale)
 	:
 	pWindow(std::make_unique<ModelWindow>())
 {
 	Assimp::Importer imp;
-	const auto pScene = imp.ReadFile(filename.c_str(),
+	const auto pScene = imp.ReadFile(path.c_str(),
 		aiProcess_Triangulate |
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_ConvertToLeftHanded |
@@ -217,7 +243,7 @@ Model::Model(Graphics& graphics, const std::string filename)
 
 	for (size_t i = 0; i < pScene->mNumMeshes; i++)
 	{
-		psMeshes.push_back(ParseMesh(graphics, *pScene->mMeshes[i], pScene->mMaterials));
+		psMeshes.push_back(ParseMesh(graphics, *pScene->mMeshes[i], pScene->mMaterials, path, scale));
 	}
 
 	int nextId = 0;
@@ -227,7 +253,7 @@ Model::Model(Graphics& graphics, const std::string filename)
 Model::~Model() noexcept
 {}
 
-void Model::Draw(Graphics& graphics) const
+void Model::Draw(Graphics& graphics) const NOXND
 {
 	if (auto node = pWindow->GetSelectedNode())
 	{
@@ -247,18 +273,18 @@ void Model::SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept
 	pRoot->SetAppliedTransform(transformMatrix);
 }
 
-std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, const aiMaterial* const* psMaterials)
+std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, const aiMaterial* const* psMaterials, const std::filesystem::path& path, const float scale)
 {
 	using CENgineexp::VertexLayout;
 	using namespace std::string_literals;
 
 	std::vector<std::shared_ptr<Bind::Bindable>> psBindables;
 
-	using namespace std::string_literals;
-	const auto base = "Models\\gobber\\"s;
+	const auto rootPath = path.parent_path().string() + "\\";
 
 	bool hasSpecularMap = false;
 	bool hasAlphaGloss = false;
+	bool hasAlphaDiffuse = false;
 	bool hasNormalMap = false;
 	bool hasDiffuseMap = false;
 	float shininess = 2.0f;
@@ -272,7 +298,9 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 
 		if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFilename) == aiReturn_SUCCESS)
 		{
-			psBindables.push_back(Bind::Texture::Resolve(graphics, base + texFilename.C_Str()));
+			auto tex = Bind::Texture::Resolve(graphics, rootPath + texFilename.C_Str());
+			hasAlphaDiffuse = tex->HasAlpha();
+			psBindables.push_back(std::move(tex));
 			hasDiffuseMap = true;
 		}
 		else
@@ -282,7 +310,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 
 		if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFilename) == aiReturn_SUCCESS)
 		{
-			auto tex = Bind::Texture::Resolve(graphics, base + texFilename.C_Str(), 1);
+			auto tex = Bind::Texture::Resolve(graphics, rootPath + texFilename.C_Str(), 1);
 			hasAlphaGloss = tex->HasAlpha();
 			psBindables.push_back(std::move(tex));
 			hasSpecularMap = true;
@@ -291,15 +319,15 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 		{
 			material.Get(AI_MATKEY_COLOR_SPECULAR, reinterpret_cast<aiColor3D&>(specularColor));
 		}
-		
-		if(!hasAlphaGloss)
+
+		if (!hasAlphaGloss)
 		{
 			material.Get(AI_MATKEY_SHININESS, shininess);
 		}
 
 		if (material.GetTexture(aiTextureType_NORMALS, 0, &texFilename) == aiReturn_SUCCESS)
 		{
-			auto tex = Bind::Texture::Resolve(graphics, base + texFilename.C_Str(), 2);
+			auto tex = Bind::Texture::Resolve(graphics, rootPath + texFilename.C_Str(), 2);
 			hasAlphaGloss = tex->HasAlpha();
 			psBindables.push_back(std::move(tex));
 			hasNormalMap = true;
@@ -311,8 +339,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 		}
 	}
 
-	const auto meshTag = base + "%" + mesh.mName.C_Str();
-	const float scale = 6.0f;
+	const auto meshTag = path.string() + "%" + mesh.mName.C_Str();
 
 	if (hasDiffuseMap && hasNormalMap && hasSpecularMap)
 	{
@@ -353,7 +380,7 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 		auto pvsbc = pvs->GetByteCode();
 		psBindables.push_back(std::move(pvs));
 
-		psBindables.push_back(Bind::PixelShader::Resolve(graphics, "PhongPSSpecNormalMap.cso"));
+		psBindables.push_back(Bind::PixelShader::Resolve(graphics, hasAlphaDiffuse ? "PhongPSSpecNormalMask.cso" : "PhongPSSpecNormalMap.cso"));
 		psBindables.push_back(Bind::InputLayout::Resolve(graphics, vbuf.GetLayout(), pvsbc));
 
 		Node::PSMaterialConstantFullmonte pmc;
@@ -421,6 +448,61 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 		// this is CLEARLY an issue... all meshes will share same mat const, but may have different
 		// Ns (specular power) specified for each in the material properties... bad conflict
 		psBindables.push_back(Bind::PixelConstantBuffer<PSMaterialConstantDiffnorm>::Resolve(graphics, pmc, 1u));
+	}
+	else if (hasDiffuseMap && !hasNormalMap && hasSpecularMap)
+	{
+		CENgineexp::VertexBuffer vbuf(std::move(
+			VertexLayout{}
+			.Append(VertexLayout::Position3D)
+			.Append(VertexLayout::Normal)
+			.Append(VertexLayout::Texture2D)
+		));
+
+		for (unsigned int i = 0; i < mesh.mNumVertices; i++)
+		{
+			vbuf.EmplaceBack(
+				DirectX::XMFLOAT3(mesh.mVertices[i].x * scale, mesh.mVertices[i].y * scale, mesh.mVertices[i].z * scale),
+				*reinterpret_cast<DirectX::XMFLOAT3*>(&mesh.mNormals[i]),
+				*reinterpret_cast<DirectX::XMFLOAT2*>(&mesh.mTextureCoords[0][i])
+			);
+		}
+
+		std::vector<unsigned short> indices;
+		indices.reserve(mesh.mNumFaces * 3);
+		for (unsigned int i = 0; i < mesh.mNumFaces; i++)
+		{
+			const auto& face = mesh.mFaces[i];
+			assert(face.mNumIndices == 3);
+			indices.push_back(face.mIndices[0]);
+			indices.push_back(face.mIndices[1]);
+			indices.push_back(face.mIndices[2]);
+		}
+
+		psBindables.push_back(Bind::VertexBuffer::Resolve(graphics, meshTag, vbuf));
+
+		psBindables.push_back(Bind::IndexBuffer::Resolve(graphics, meshTag, indices));
+
+		auto pvs = Bind::VertexShader::Resolve(graphics, "PhongVS.cso");
+		auto pvsbc = pvs->GetByteCode();
+		psBindables.push_back(std::move(pvs));
+
+		psBindables.push_back(Bind::PixelShader::Resolve(graphics, "PhongPSSpec.cso"));
+
+		psBindables.push_back(Bind::InputLayout::Resolve(graphics, vbuf.GetLayout(), pvsbc));
+
+		struct PSMaterialConstantDiffuseSpec
+		{
+			float specularPowerConst;
+			BOOL hasGloss;
+			float specularMapWeight;
+			float padding;
+		} pmc;
+		pmc.specularPowerConst = shininess;
+		pmc.hasGloss = hasAlphaGloss ? TRUE : FALSE;
+		pmc.specularMapWeight = 1.0f;
+		// this is CLEARLY an issue... all meshes will share same mat const, but may have different
+		// Ns (specular power) specified for each in the material properties... bad conflict
+		psBindables.push_back(Bind::PixelConstantBuffer<PSMaterialConstantDiffuseSpec>::Resolve(graphics, pmc, 1u));
 	}
 	else if (hasDiffuseMap)
 	{
@@ -526,6 +608,11 @@ std::unique_ptr<Mesh> Model::ParseMesh(Graphics& graphics, const aiMesh& mesh, c
 	{
 		throw std::runtime_error("terrible combination of textures in material");
 	}
+
+	// Anything with alpha diffuse is two-sided IN SPONZA, need a better way
+	// of signalling two-sidedness to be more general in the future
+	psBindables.push_back(Bind::Rasterizer::Resolve(graphics, hasAlphaDiffuse));
+	psBindables.push_back(Bind::Blender::Resolve(graphics, false));
 
 	return std::make_unique<Mesh>(graphics, std::move(psBindables));
 }

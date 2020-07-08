@@ -9,10 +9,14 @@ namespace Bind {
 		INFOMAN(graphics);
 
 		D3D11_SAMPLER_DESC sDesc = {};
-		sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		sDesc.Filter = D3D11_FILTER_ANISOTROPIC;
 		sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 		sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+		sDesc.MaxAnisotropy = D3D11_REQ_MAXANISOTROPY;
+		sDesc.MipLODBias = 0.0f;
+		sDesc.MinLOD = 0.0f;
+		sDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 		GFX_THROW_INFO(GetDevice(graphics)->CreateSamplerState(&sDesc, &pSampler));
 	}

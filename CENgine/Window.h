@@ -69,6 +69,7 @@ public:
 	void SetTitle(const std::string& title) noexcept;
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
+	void ShowConsole() noexcept;
 	bool IsCursorEnabled() const noexcept;
 	static std::optional<int> ProcessMessages();
 	Graphics& Gfx() const;
@@ -93,6 +94,8 @@ private:
 	int width;
 	int height;
 	HWND handleWindow;
+	FILE* consoleWindow;
 	std::unique_ptr<Graphics> pGraphics;
 	std::vector<BYTE> rawBuffer;
+	std::string commandLine;
 };
