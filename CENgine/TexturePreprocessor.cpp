@@ -110,6 +110,33 @@ void TexturePreprocessor::ValidateNormalMap(const std::string& pathInput, const 
 	}
 }
 
+void TexturePreprocessor::MakeStripes(const std::string& pathOutput, const unsigned int size, const unsigned int stripeWidth)
+{
+	// Make sure texture dimension is power of 2
+	auto power = log2(size);
+	assert(modf(power, &power) == 0.0);
+
+	// Make sure stripe width enables at least 2 stripes
+	assert(stripeWidth < (size / 2));
+
+	Surface surface(size, size);
+	for(unsigned int y = 0; y < size; y++)
+	{
+		for(unsigned int x = 0; x < size; x++)
+		{
+			Surface::Color c = { 0, 0, 0 };
+			if((x / stripeWidth) % 2 == 0)
+			{
+				c = { 255, 255, 255 };
+			}
+
+			surface.PutPixel(x, y, c);
+		}
+	}
+
+	surface.Save(pathOutput);
+}
+
 DirectX::XMVECTOR TexturePreprocessor::ColorToVector(Surface::Color c) noexcept
 {
 	auto n = DirectX::XMVectorSet(static_cast<float>(c.GetR()), static_cast<float>(c.GetG()), static_cast<float>(c.GetB()), 0.0f);

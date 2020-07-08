@@ -32,7 +32,7 @@ float4 main(
     const float3 diffuse = Diffuse(diffuseColor, diffuseIntensity, att, lv.dirToL, viewNormal);
 	
 	// Specular
-    const float3 specular = Speculate(diffuseColor, diffuseIntensity, viewNormal, lv.vToL, viewFragPos, att, specularPower);
+    const float3 specular = Speculate(diffuseColor, diffuseIntensity * specularIntensity, viewNormal, lv.vToL, viewFragPos, att, specularPower);
 	
 	// Final color
     return float4(saturate((diffuse + ambient) * tex.Sample(splr, tc).rgb + specular), 1.0f);

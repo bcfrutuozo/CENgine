@@ -5,6 +5,7 @@
 #include "GraphicsThrowMacros.h"
 
 namespace Bind {
+
 	template<typename C>
 	class ConstantBuffer : public Bindable
 	{

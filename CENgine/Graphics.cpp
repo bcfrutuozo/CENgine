@@ -109,7 +109,7 @@ Graphics::Graphics(HWND handle,
 	descDepth.Height = height; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
 	descDepth.MipLevels = 1u;	// Mipmap
 	descDepth.ArraySize = 1u;
-	descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	descDepth.SampleDesc.Count = 1u;	// No Anti-aliasing
 	descDepth.SampleDesc.Quality = 0u;
 	descDepth.Usage = D3D11_USAGE_DEFAULT;
@@ -120,7 +120,7 @@ Graphics::Graphics(HWND handle,
 
 	// Create view of depth stencil texture
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+	descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
 	GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDepthStencilView));
@@ -160,7 +160,7 @@ void Graphics::BeginFrame(float red, float green, float blue) const noexcept
 	const float color[] = { red,green,blue, 1.0f };
 	pContext->ClearRenderTargetView(
 		pTarget.Get(), color);
-	pContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	pContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u);
 }
 
 void Graphics::EndFrame()

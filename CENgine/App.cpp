@@ -2,6 +2,7 @@
 #include "imgui/imgui.h"
 #include "VertexShader.h"
 #include "TexturePreprocessor.h"
+#include "Utilities.h"
 
 #include <memory>
 #include <algorithm>
@@ -15,42 +16,10 @@ App::App(const std::string& commandLine)
 	:
 	commandLine(commandLine),
 	window(1920, 1080, "CENgine"),
+	scriptParser(TokenizedQuoted(commandLine)),
 	light(window.Gfx())
 {
-	if(this->commandLine != "" )
-	{
-		int nArgs;
-		const auto pLineW = GetCommandLineW();
-		const auto pArgs = CommandLineToArgvW(pLineW, &nArgs);
-		if(nArgs >= 4 && std::wstring(pArgs[1]) == L"--tweak-objnorm")
-		{
-			const std::wstring pathInWide = pArgs[2];
-			const std::wstring pathOutWide = pArgs[3];
-			TexturePreprocessor::FlipYAllNormalMapsInObject(
-				std::string(pathInWide.begin(), pathInWide.end()));
-		}
-		else if(nArgs >= 3 && std::wstring( pArgs[1] ) == L"--tweak-flipy")
-		{
-			const std::wstring pathInWide = pArgs[2];
-			const std::wstring pathOutWide = pArgs[3];
-			TexturePreprocessor::FlipYNormalMap(
-				std::string(pathInWide.begin(), pathInWide.end()),
-				std::string(pathOutWide.begin(), pathOutWide.end()));
-		}
-		else if (nArgs >= 4 && std::wstring(pArgs[1]) == L"--tweak-validate")
-		{
-			const std::wstring minWide = pArgs[2];
-			const std::wstring maxWide = pArgs[3];
-			const std::wstring pathWide = pArgs[4];
-			TexturePreprocessor::ValidateNormalMap(
-				std::string(pathWide.begin(), pathWide.end()), std::stof(minWide), std::stof(maxWide)
-			);
-			throw std::runtime_error("Normal map validated successfully. Just kidding about that whole runtime error thing.");
-		}
-	}
-
 	stripey.SetRootTransform(DirectX::XMMatrixTranslation(-13.5f, 6.0f, 3.5f));
-
 	window.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
 	window.ShowConsole();
 }

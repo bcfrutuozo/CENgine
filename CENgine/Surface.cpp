@@ -2,6 +2,8 @@
 
 #include "Surface.h"
 #include "Window.h"
+#include "ScriptParser.h"
+#include "Utilities.h"
 
 #include <algorithm>
 #include <cassert>
@@ -80,10 +82,8 @@ const Surface::Color* Surface::GetBufferPtrConst() const noexcept
 
 Surface Surface::FromFile(const std::string& filename)
 {
-	wchar_t wideName[512];
-	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
 	DirectX::ScratchImage scratch;
-	HRESULT hr = DirectX::LoadFromWICFile(wideName, DirectX::WIC_FLAGS_NONE, nullptr, scratch);
+	HRESULT hr = DirectX::LoadFromWICFile(ToWide(filename).c_str(), DirectX::WIC_FLAGS_NONE, nullptr, scratch);
 
 	if (FAILED(hr))
 	{
@@ -132,13 +132,10 @@ void Surface::Save(const std::string& filename) const
 		throw Exception(__LINE__, __FILE__, filename, "Image format not supported");
 	};
 
-	wchar_t wideName[512];
-	mbstowcs_s(nullptr, wideName, filename.c_str(), _TRUNCATE);
-
 	HRESULT hr = DirectX::SaveToWICFile(*scratch.GetImage(0, 0, 0),
 		DirectX::WIC_FLAGS_NONE,
 		GetWICCodec(GetCodecID(filename)),
-		wideName);
+		ToWide(filename).c_str());
 
 	if (FAILED(hr))
 	{

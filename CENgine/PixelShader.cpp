@@ -1,6 +1,7 @@
 #include "PixelShader.h"
 #include "GraphicsThrowMacros.h"
 #include "BindableCodex.h"
+#include "Utilities.h"
 
 namespace Bind
 {
@@ -11,7 +12,7 @@ namespace Bind
 		INFOMAN(graphics);
 
 		Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
-		GFX_THROW_INFO(D3DReadFileToBlob(std::wstring{path.begin(), path.end()}.c_str(), &pBlob));
+		GFX_THROW_INFO(D3DReadFileToBlob(ToWide(path).c_str(), &pBlob));
 		GFX_THROW_INFO(GetDevice(graphics)->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader));
 	}
 

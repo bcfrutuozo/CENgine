@@ -12,6 +12,7 @@ public:
 	static void FlipYAllNormalMapsInObject(const std::string& path);
 	static void FlipYNormalMap(const std::string& pathInput, const std::string& pathOutput);
 	static void ValidateNormalMap(const std::string& pathInput, const float thresholdMin, const float thresholdMax);
+	static void MakeStripes(const std::string& pathOutput, const unsigned int size, const unsigned int stripeWidth);
 private:
 
 	template<typename F>

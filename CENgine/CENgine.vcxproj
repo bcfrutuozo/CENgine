@@ -176,9 +176,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blender.cpp" />
+    <ClCompile Include="DynamicConstant.cpp" />
+    <ClCompile Include="LayoutCodex.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
+    <ClCompile Include="ScriptParser.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -203,6 +206,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="CENgineException.cpp" />
     <ClCompile Include="TexturePreprocessor.cpp" />
+    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -304,9 +308,15 @@
     <ClInclude Include="dxtex\include\dxtex\DirectXTexP.h" />
     <ClInclude Include="dxtex\include\dxtex\filters.h" />
     <ClInclude Include="dxtex\include\dxtex\scoped.h" />
+    <ClInclude Include="DynamicConstant.h" />
+    <ClInclude Include="DynamicConstantBuffer.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="LayoutCodex.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Rasterizer.h" />
+    <ClInclude Include="ScriptParser.h" />
+    <ClInclude Include="Stencil.h" />
     <ClInclude Include="TexturePreprocessor.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="SolidSphere.h" />
@@ -343,6 +353,7 @@
     <ClInclude Include="CENgineException.h" />
     <ClInclude Include="CENgineWin.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsThrowMacros.h" />

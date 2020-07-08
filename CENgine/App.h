@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "PointLight.h"
 #include "Mesh.h"
+#include "ScriptParser.h"
 
 #include <set>
 
@@ -24,6 +25,7 @@ private:
 	std::string commandLine;
 	bool showDemoWindow = false;
 	ImGuiManager imgui;
+	ScriptParser scriptParser;
 	Window window;
 	Timer timer;
 	Camera camera;
