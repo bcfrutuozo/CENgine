@@ -63,7 +63,7 @@ namespace Bind {
 	std::string Texture::GenerateUID(const std::string& path, UINT slot)
 	{
 		using namespace std::string_literals;
-		return typeid(Texture).name() + "#"s + path + std::to_string(slot);
+		return typeid(Texture).name() + "#"s + path + "#" + std::to_string(slot);
 	}
 
 	std::string Texture::GetUID() const noexcept

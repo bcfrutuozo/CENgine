@@ -4,6 +4,7 @@
 #include "imgui/imgui_impl_dx11.h"
 #include "imgui/imgui_impl_win32.h"
 #include "Conditional_noexcept.h"
+#include "DepthStencil.h"
 
 #include <sstream>
 #include <d3dcompiler.h>
@@ -13,25 +14,10 @@
 // For Shader loading functions real time compilation
 #pragma comment(lib, "D3DCompiler.lib")
 
-Graphics::Graphics()
+Graphics::Graphics(HWND handle, int width, int height)
 	:
-	pDevice(nullptr),
-	pSwapChain(nullptr),
-	pContext(nullptr),
-	pTarget(nullptr),
-	pDepthStencilView(nullptr),
-	isImGuiEnabled(true)
-{
-}
-
-Graphics::Graphics(HWND handle,
-	int width,
-	int height)
-	:
-	pDevice(nullptr),
-	pSwapChain(nullptr),
-	pContext(nullptr),
-	pTarget(nullptr),
+	width(width),
+	height(height),
 	isImGuiEnabled(true)
 {
 	DXGI_SWAP_CHAIN_DESC swapDescriptor = {};
@@ -62,9 +48,9 @@ Graphics::Graphics(HWND handle,
 
 	UINT swapCreateFlags = 0u;
 
-#ifndef NDEBUG
+	#ifndef NDEBUG
 	swapCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
+	#endif
 
 	// To check results of D3D function calls
 	HRESULT hr;
@@ -90,54 +76,6 @@ Graphics::Graphics(HWND handle,
 	GFX_THROW_INFO(pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
 	GFX_THROW_INFO(pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget));
 
-	// Create depth stencil state (Z-BUFFER)
-	D3D11_DEPTH_STENCIL_DESC depthDescriptor = {};
-	depthDescriptor.DepthEnable = TRUE;
-	depthDescriptor.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	depthDescriptor.DepthFunc = D3D11_COMPARISON_LESS;
-
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pDepthStencilState;
-	GFX_THROW_INFO(pDevice->CreateDepthStencilState(&depthDescriptor, &pDepthStencilState));
-
-	// Bind depth stencil state
-	pContext->OMSetDepthStencilState(pDepthStencilState.Get(), 1u);
-
-	// Create depth stencil texture
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
-	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = width; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
-	descDepth.Height = height; // MUST BE THE SAME VALUE OF THE SWAP CHAIN
-	descDepth.MipLevels = 1u;	// Mipmap
-	descDepth.ArraySize = 1u;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1u;	// No Anti-aliasing
-	descDepth.SampleDesc.Quality = 0u;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0u;
-	descDepth.MiscFlags = 0u;
-	GFX_THROW_INFO(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
-
-	// Create view of depth stencil texture
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
-	descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0u;
-	GFX_THROW_INFO(pDevice->CreateDepthStencilView(pDepthStencil.Get(), &descDSV, &pDepthStencilView));
-
-	// Bind depth stencil view on OM
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDepthStencilView.Get());
-
-	// Configure viewport
-	D3D11_VIEWPORT viewport;
-	viewport.Width = static_cast<float>(width);
-	viewport.Height = static_cast<float>(height);
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	viewport.TopLeftX = 0.0f;
-	viewport.TopLeftY = 0.0f;
-	pContext->RSSetViewports( 1u,&viewport );
-
 	// Init ImGui D3D implementation
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }
@@ -156,11 +94,10 @@ void Graphics::BeginFrame(float red, float green, float blue) const noexcept
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
-	
-	const float color[] = { red,green,blue, 1.0f };
+
+	const float color[] = { red, green, blue, 0.0f };
 	pContext->ClearRenderTargetView(
 		pTarget.Get(), color);
-	pContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u);
 }
 
 void Graphics::EndFrame()
@@ -171,16 +108,16 @@ void Graphics::EndFrame()
 		ImGui::Render();
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
-	
+
 	HRESULT hr;
 
-#ifndef NDEBUG
+	#ifndef NDEBUG
 	infoManager.Set();
-#endif
+	#endif
 
-	if (FAILED(hr = pSwapChain->Present(1u, 0u)))
+	if(FAILED(hr = pSwapChain->Present(1u, 0u)))
 	{
-		if (hr == DXGI_ERROR_DEVICE_REMOVED)
+		if(hr == DXGI_ERROR_DEVICE_REMOVED)
 		{
 			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason());
 		}
@@ -189,6 +126,36 @@ void Graphics::EndFrame()
 			GFX_EXCEPT(hr);
 		}
 	}
+}
+
+void Graphics::BindSwapBuffer() noexcept
+{
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), nullptr);
+
+	// Configure viewport
+	D3D11_VIEWPORT vp;
+	vp.Width = (float)width;
+	vp.Height = (float)height;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
+	pContext->RSSetViewports( 1u,&vp );
+}
+
+void Graphics::BindSwapBuffer(const DepthStencil& depthStencil) noexcept
+{
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), depthStencil.pDepthStencilView.Get());
+
+	// Configure viewport
+	D3D11_VIEWPORT vp;
+	vp.Width = (float)width;
+	vp.Height = (float)height;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
+	pContext->RSSetViewports( 1u,&vp );
 }
 
 void Graphics::DrawIndexed(UINT count) NOXND
@@ -231,6 +198,16 @@ bool Graphics::IsImGuiEnabled() const noexcept
 	return isImGuiEnabled;
 }
 
+UINT Graphics::GetWidth() const noexcept
+{
+	return width;
+}
+
+UINT Graphics::GetHeight() const noexcept
+{
+	return height;
+}
+
 
 // Graphics exceptions
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMessages) noexcept
@@ -239,14 +216,14 @@ Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::
 	hr(hr)
 {
 	// Join all messages with new lines in a single string
-	for (const auto& m : infoMessages)
+	for(const auto& m : infoMessages)
 	{
 		info += m;
 		info.push_back('\n');
 	}
 
 	// Remove final new line if it exists
-	if (!info.empty())
+	if(!info.empty())
 	{
 		info.pop_back();
 	}
@@ -261,7 +238,7 @@ const char* Graphics::HrException::what() const noexcept
 		<< "[Error String] " << GetErrorString() << std::endl
 		<< "[Description] " << GetErrorDescription() << std::endl;
 
-	if (!info.empty())
+	if(!info.empty())
 	{
 		oss << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
 	}
@@ -311,14 +288,14 @@ Graphics::InfoException::InfoException(int line, const char* file, std::vector<s
 	Exception(line, file)
 {
 	// Join all messages with new lines in a single string
-	for (const auto& m : infoMessages)
+	for(const auto& m : infoMessages)
 	{
 		info += m;
 		info.push_back('\n');
 	}
 
 	// Remove final new line if it exists
-	if (!info.empty())
+	if(!info.empty())
 	{
 		info.pop_back();
 	}

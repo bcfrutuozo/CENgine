@@ -7,6 +7,7 @@ namespace Bind
 	class IndexBuffer : public Bindable
 	{
 	public:
+
 		IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& indices);
 		IndexBuffer(Graphics& graphics, std::string tag, const std::vector<unsigned short>& indices);
 		void Bind(Graphics& graphics) noexcept override;
@@ -19,11 +20,10 @@ namespace Bind
 			return GenerateUID_(tag);
 		}
 
-		std::string GetUID() const noexcept override;
-		
+		std::string GetUID() const noexcept override;	
 	protected:
 
-		std::string& tag;
+		std::string tag;
 		UINT count;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pIndexBuffer;
 	private:

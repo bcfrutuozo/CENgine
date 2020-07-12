@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Bindable.h"
+#include "BindableCodex.h"
+
 #include <memory>
 #include <unordered_map>
 #include <type_traits>
 
-namespace Bind	{
-
+namespace Bind
+{
 	class Codex
 	{
 	public:

@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Bindable.h"
-#include "BindableCodex.h"
 #include "GraphicsThrowMacros.h"
+#include "BindableCodex.h"
 
-namespace Bind {
-
+namespace Bind
+{
 	template<typename C>
 	class ConstantBuffer : public Bindable
 	{
 	public:
+
 		void Update(Graphics& graphics, const C& consts)
 		{
 			INFOMAN(graphics);

@@ -1,7 +1,10 @@
 #include "TexturePreprocessor.h"
-#include "Mesh.h"
 #include "Math.h"
+#include "ModelException.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include <filesystem>
 #include <sstream>
 

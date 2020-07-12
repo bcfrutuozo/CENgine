@@ -2,8 +2,8 @@
 
 #include "Bindable.h"
 
-namespace Bind {
-	
+namespace Bind
+{
 	class PixelShader : public Bindable
 	{
 	public:

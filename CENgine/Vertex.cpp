@@ -1,3 +1,5 @@
+#define SOURCE_FILE
+
 #include "Vertex.h"
 
 namespace CENgineexp
@@ -10,8 +12,25 @@ namespace CENgineexp
 
 	VertexLayout& VertexLayout::Append(ElementType type) NOXND
 	{
-		elements.emplace_back(type, Size());
+		if(!Has(type))
+		{
+			elements.emplace_back(type, Size());
+		}
+
 		return *this;
+	}
+
+	bool VertexLayout::Has(ElementType type) const noexcept
+	{
+		for(auto& e : elements)
+		{
+			if(e.GetType() == type)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	size_t VertexLayout::Size() const NOXND
@@ -28,7 +47,7 @@ namespace CENgineexp
 	{
 		std::vector<D3D11_INPUT_ELEMENT_DESC> desc;
 		desc.reserve(GetElementCount());
-		for (const auto& e : elements)
+		for(const auto& e : elements)
 		{
 			desc.push_back(e.GetDescriptor());
 		}
@@ -50,7 +69,7 @@ namespace CENgineexp
 		:
 		type(type),
 		offset(offset)
-	{}
+	{ }
 
 	size_t VertexLayout::Element::GetOffsetAfter() const NOXND
 	{
@@ -67,95 +86,56 @@ namespace CENgineexp
 		return SizeOf(type);
 	}
 
-	constexpr size_t VertexLayout::Element::SizeOf(ElementType type) NOXND
-	{
-		switch (type)
-		{
-		case Position2D:
-			return sizeof(Map<Position2D>::SysType);
-		case Position3D:
-			return sizeof(Map<Position3D>::SysType);
-		case Texture2D:
-			return sizeof(Map<Texture2D>::SysType);
-		case Normal:
-			return sizeof(Map<Normal>::SysType);
-		case Tangent:
-			return sizeof(Map<Tangent>::SysType);
-		case Bitangent:
-			return sizeof(Map<Bitangent>::SysType);
-		case Float3Color:
-			return sizeof(Map<Float3Color>::SysType);
-		case Float4Color:
-			return sizeof(Map<Float4Color>::SysType);
-		case BGRAColor:
-			return sizeof(Map<BGRAColor>::SysType);
-		}
-
-		assert("Invalid element type" && false);
-		return 0u;
-	}
-
 	VertexLayout::ElementType VertexLayout::Element::GetType() const noexcept
 	{
 		return type;
 	}
 
+	template<VertexLayout::ElementType type>
+	struct SysSizeLookup
+	{
+		static constexpr auto Exec() noexcept
+		{
+			return sizeof(VertexLayout::Map<type>::SysType);
+		}
+	};
+
+	constexpr size_t VertexLayout::Element::SizeOf(ElementType type) NOXND
+	{
+		return Bridge<SysSizeLookup>(type);
+	}
+
+	template<VertexLayout::ElementType type>
+	struct CodeLookup
+	{
+		static constexpr auto Exec() noexcept
+		{
+			return VertexLayout::Map<type>::code;
+		}
+	};
+
 	const char* VertexLayout::Element::GetCode() const noexcept
 	{
-		switch(type)
-		{
-		case Position2D:
-			return Map<Position2D>::code;
-		case Position3D:
-			return Map<Position3D>::code;
-		case Texture2D:
-			return Map<Texture2D>::code;
-		case Normal:
-			return Map<Normal>::code;
-		case Tangent:
-			return Map<Tangent>::code;
-		case Bitangent:
-			return Map<Bitangent>::code;
-		case Float3Color:
-			return Map<Float3Color>::code;
-		case Float4Color:
-			return Map<Float4Color>::code;
-		case BGRAColor:
-			return Map<BGRAColor>::code;
-		}
-
-		assert("Invalid element type" && false);
-		return "Invalid";
+		return Bridge<CodeLookup>(type);
 	}
 
-	
-	D3D11_INPUT_ELEMENT_DESC VertexLayout::Element::GetDescriptor() const noexcept(!IS_DEBUG)
+	template<VertexLayout::ElementType type>
+	struct DescriptorGenerator
 	{
-		switch (type)
+		static constexpr D3D11_INPUT_ELEMENT_DESC Exec(size_t offset) noexcept
 		{
-		case Position2D:
-			return GenerateDescriptor<Position2D>(GetOffset());
-		case Position3D:
-			return GenerateDescriptor<Position3D>(GetOffset());
-		case Texture2D:
-			return GenerateDescriptor<Texture2D>(GetOffset());
-		case Normal:
-			return GenerateDescriptor<Normal>(GetOffset());
-		case Tangent:
-			return GenerateDescriptor<Tangent>(GetOffset());
-		case Bitangent:
-			return GenerateDescriptor<Bitangent>(GetOffset());
-		case Float3Color:
-			return GenerateDescriptor<Float3Color>(GetOffset());
-		case Float4Color:
-			return GenerateDescriptor<Float4Color>(GetOffset());
-		case BGRAColor:
-			return GenerateDescriptor<BGRAColor>(GetOffset());
+			return {
+				VertexLayout::Map<type>::semantic, 0,
+				VertexLayout::Map<type>::dxgiFormat, 0,
+				static_cast<UINT>(offset), D3D11_INPUT_PER_VERTEX_DATA, 0
+			};
 		}
-		assert("Invalid element type" && false);
-		return { "Invalid", 0, DXGI_FORMAT_UNKNOWN, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 };
-	}
+	};
 
+	D3D11_INPUT_ELEMENT_DESC VertexLayout::Element::GetDescriptor() const NOXND
+	{
+		return Bridge<DescriptorGenerator>(type, GetOffset());
+	}
 	// Vertex
 	Vertex::Vertex(char* pData, const VertexLayout& layout) NOXND
 		:
@@ -168,7 +148,7 @@ namespace CENgineexp
 	ConstVertex::ConstVertex(const Vertex& vertex) NOXND
 		:
 	vertex(vertex)
-	{}
+	{ }
 
 	// VertexBuffer
 	VertexBuffer::VertexBuffer(VertexLayout layout, size_t size) NOXND
@@ -183,6 +163,29 @@ namespace CENgineexp
 		return buffer.data();
 	}
 
+	template<VertexLayout::ElementType type>
+	struct AttributeAiMeshFill
+	{
+		static constexpr void Exec(VertexBuffer* pBuffer, const aiMesh& mesh) NOXND
+		{
+			for(auto end = mesh.mNumVertices, i = 0u; i < end; i++)
+			{
+				(*pBuffer)[i].Attr<type>() = VertexLayout::Map<type>::Extract(mesh, i);
+			}
+		}
+	};
+
+	VertexBuffer::VertexBuffer(VertexLayout layout_in, const aiMesh& mesh)
+		:
+		layout(std::move(layout_in))
+	{
+		Resize(mesh.mNumVertices);
+		for(size_t i = 0, end = layout.GetElementCount(); i < end; i++)
+		{
+			VertexLayout::Bridge<AttributeAiMeshFill>(layout.ResolveByIndex(i).GetType(), this, mesh);
+		}
+	}
+
 	const VertexLayout& VertexBuffer::GetLayout() const noexcept
 	{
 		return layout;
@@ -193,7 +196,7 @@ namespace CENgineexp
 		const auto size = Size();
 		if(size < newSize)
 		{
-			buffer.resize( buffer.size() + layout.Size() * (newSize - size) );
+			buffer.resize(buffer.size() + layout.Size() * (newSize - size));
 		}
 	}
 

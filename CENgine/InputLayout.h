@@ -3,8 +3,8 @@
 #include "Bindable.h"
 #include "Vertex.h"
 
-namespace Bind {
-	
+namespace Bind
+{
 	class InputLayout : public Bindable
 	{
 	public:
@@ -13,6 +13,7 @@ namespace Bind {
 			CENgineexp::VertexLayout layout_in,
 			ID3DBlob* pVertexShaderByteCode);
 		void Bind(Graphics& graphics) noexcept override;
+		const CENgineexp::VertexLayout GetLayout() const noexcept;
 		static std::shared_ptr<InputLayout> Resolve(Graphics& graphics, const CENgineexp::VertexLayout& layout, ID3DBlob* pVertexShaderByteCode);
 		static std::string GenerateUID(const CENgineexp::VertexLayout& layout, ID3DBlob* pVertexShaderByteCode = nullptr);
 		std::string GetUID() const noexcept override;

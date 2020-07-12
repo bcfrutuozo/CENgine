@@ -1,8 +1,8 @@
 #include "VertexBuffer.h"
 #include "BindableCodex.h"
 
-namespace Bind {
-
+namespace Bind 
+{
 	VertexBuffer::VertexBuffer(Graphics& graphics,const CENgineexp::VertexBuffer& vbuf)
 		:
 		VertexBuffer(graphics, "?", vbuf)
@@ -25,12 +25,17 @@ namespace Bind {
 		D3D11_SUBRESOURCE_DATA sd = {};
 		sd.pSysMem = vbuf.GetData();
 		GFX_THROW_INFO( GetDevice( graphics )->CreateBuffer( &bd,&sd,&pVertexBuffer ) );
-	}
+	} 
 	
 	void VertexBuffer::Bind(Graphics& graphics) noexcept
 	{
 		const UINT offset = 0u;
 		GetContext(graphics)->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+	}
+
+	const CENgineexp::VertexLayout& VertexBuffer::GetLayout() const noexcept
+	{
+		return layout;
 	}
 
 	std::shared_ptr<VertexBuffer> VertexBuffer::Resolve(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf)

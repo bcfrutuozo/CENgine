@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "SolidSphere.h"
 #include "ConstantBuffer.h"
+#include "Conditional_noexcept.h"
 
 class PointLight
 {
@@ -11,7 +12,7 @@ public:
 	PointLight(Graphics& graphics, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
-	void Draw(Graphics& graphics) const NOXND;
+	void Submit(class FrameGenerator& frame) const NOXND;
 	void Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept;
 private:
 

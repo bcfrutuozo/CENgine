@@ -3,8 +3,8 @@
 #include "BindableCodex.h"
 #include "Vertex.h"
 
-namespace Bind {
-
+namespace Bind
+{
 	InputLayout::InputLayout(Graphics& graphics,
 		CENgineexp::VertexLayout layout_in,
 		ID3DBlob* pVertexShaderByteCode)
@@ -20,6 +20,11 @@ namespace Bind {
 			pVertexShaderByteCode->GetBufferPointer(),
 			pVertexShaderByteCode->GetBufferSize(),
 			&pInputLayout));
+	}
+
+	const CENgineexp::VertexLayout InputLayout::GetLayout() const noexcept
+	{
+		return layout;
 	}
 
 	void InputLayout::Bind(Graphics& graphics) noexcept

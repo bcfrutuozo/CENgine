@@ -5,9 +5,7 @@ struct LightVectorData
     float distToL;
 };
 
-LightVectorData CalculateLightVectorData(
-    const in float3 lightPos,
-    const in float3 fragPos)
+LightVectorData CalculateLightVectorData(const in float3 lightPos, const in float3 fragPos)
 {
     LightVectorData lv;
     lv.vToL = lightPos - fragPos;

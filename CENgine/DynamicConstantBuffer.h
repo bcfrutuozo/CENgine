@@ -1,14 +1,16 @@
 #pragma once
+
 #include "Bindable.h"
 #include "GraphicsThrowMacros.h"
 #include "DynamicConstant.h"
+#include "TechniqueProbe.h"
 
 namespace Bind
 {
-	class DynamicPixelConstantBuffer : public Bindable
+	class DynamicConstantBuffer : public Bindable
 	{
 	public:
-
+		
 		void Update(Graphics& graphics, const DRR::Buffer& buffer)
 		{
 			assert(&buffer.GetRootLayoutElement() == &GetRootLayoutElement());
@@ -20,19 +22,17 @@ namespace Bind
 				D3D11_MAP_WRITE_DISCARD, 0u,
 				&msr
 			));
+
 			memcpy(msr.pData, buffer.GetData(), buffer.GetSizeInBytes());
 			GetContext(graphics)->Unmap(pConstantBuffer.Get(), 0u);
 		}
 
-		void Bind(Graphics& graphics) noexcept override
-		{
-			GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
-		}
-
+		// This exists for validation of the update buffer layout
+		// The reason why it's not GetBuffer() is because NoCache doesn't store buffer
 		virtual const DRR::LayoutElement& GetRootLayoutElement() const noexcept = 0;
 	protected:
 
-		DynamicPixelConstantBuffer(Graphics& graphics, const DRR::LayoutElement& layoutRoot, UINT slot, const DRR::Buffer* pBuffer)
+		DynamicConstantBuffer(Graphics& graphics, const DRR::LayoutElement& layoutRoot, UINT slot, const DRR::Buffer* pBuffer)
 			:
 			slot(slot)
 		{
@@ -42,13 +42,13 @@ namespace Bind
 			cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 			cbd.Usage = D3D11_USAGE_DYNAMIC;
 			cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			cbd.MiscFlags = 0u;
-			cbd.ByteWidth = (UINT)layoutRoot.GetSizeInBytes();
+			cbd.MiscFlags = 0;
+			cbd.ByteWidth = static_cast<UINT>(layoutRoot.GetSizeInBytes());
 			cbd.StructureByteStride = 0u;
 
 			if(pBuffer != nullptr)
 			{
-				D3D11_SUBRESOURCE_DATA csd = {};
+				D3D11_SUBRESOURCE_DATA csd = { };
 				csd.pSysMem = pBuffer->GetData();
 				GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&cbd, &csd, &pConstantBuffer));
 			}
@@ -57,23 +57,50 @@ namespace Bind
 				GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&cbd, nullptr, &pConstantBuffer));
 			}
 		}
-	private:
+
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;
 		UINT slot;
 	};
 
-	class DynamicCachingPixelConstantBuffer  : public DynamicPixelConstantBuffer
+	class DynamicPixelConstantBuffer : public DynamicConstantBuffer
 	{
 	public:
-		DynamicCachingPixelConstantBuffer(Graphics& graphics, const DRR::CompleteLayout& layout, UINT slot)
+
+		using DynamicConstantBuffer::DynamicConstantBuffer;
+		
+		void Bind(Graphics& graphics) noexcept override
+		{
+			GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+		}
+	};
+
+	class DynamicVertexConstantBuffer : public DynamicConstantBuffer
+	{
+	public:
+
+		using DynamicConstantBuffer::DynamicConstantBuffer;
+
+		void Bind(Graphics& graphics) noexcept override
+		{
+			GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+		}
+
+	};
+
+	template<class T>
+	class DynamicCachingConstantBuffer : public T
+	{
+	public:
+		
+		DynamicCachingConstantBuffer(Graphics& graphics, const DRR::CompleteLayout& layout, UINT slot)
 			:
-			DynamicPixelConstantBuffer(graphics, *layout.ShareRoot(), slot, nullptr),
+			T(graphics, *layout.ShareRoot(), slot, nullptr),
 			buffer(DRR::Buffer(layout))
 		{ }
 
-		DynamicCachingPixelConstantBuffer(Graphics& graphics, const DRR::Buffer& buffer, UINT slot)
+		DynamicCachingConstantBuffer(Graphics& graphics, const DRR::Buffer& buffer, UINT slot)
 			:
-			DynamicPixelConstantBuffer(graphics, buffer.GetRootLayoutElement(), slot, &buffer),
+			T(graphics, buffer.GetRootLayoutElement(), slot, &buffer),
 			buffer(buffer)
 		{ }
 
@@ -97,11 +124,19 @@ namespace Bind
 		{
 			if(dirty)
 			{
-				Update(graphics, buffer);
+				T::Update(graphics, buffer);
 				dirty = false;
 			}
 
-			DynamicPixelConstantBuffer::Bind(graphics);
+			T::Bind(graphics);
+		}
+
+		void Accept(TechniqueProbe& probe) override
+		{
+			if(probe.VisitBuffer(buffer))
+			{
+				dirty = true;
+			}
 		}
 	private:
 
@@ -109,28 +144,6 @@ namespace Bind
 		DRR::Buffer buffer;
 	};
 
-	class DynamicNoCachePixelConstantBuffer : public DynamicPixelConstantBuffer
-	{
-	public:
-
-		DynamicNoCachePixelConstantBuffer(Graphics& graphics, const DRR::CompleteLayout& layout, UINT slot)
-			:
-			DynamicPixelConstantBuffer(graphics, *layout.ShareRoot(), slot, nullptr),
-			pLayoutRoot(layout.ShareRoot())
-		{ }
-
-		DynamicNoCachePixelConstantBuffer(Graphics& graphics, const DRR::Buffer& buffer, UINT slot)
-			:
-			DynamicPixelConstantBuffer(graphics, buffer.GetRootLayoutElement(), slot, &buffer),
-			pLayoutRoot(buffer.ShareLayoutRoot())
-		{ }
-
-		const DRR::LayoutElement& GetRootLayoutElement() const noexcept override
-		{
-			return *pLayoutRoot;
-		}
-	private:
-
-		std::shared_ptr<DRR::LayoutElement> pLayoutRoot;
-	};
+	using DynamicCachingPixelConstantBuffer = DynamicCachingConstantBuffer<DynamicPixelConstantBuffer>;
+	using DynamicCachingVertexConstantBuffer = DynamicCachingConstantBuffer<DynamicVertexConstantBuffer>;
 }

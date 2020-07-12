@@ -2,8 +2,8 @@
 
 #include "Bindable.h"
 
-namespace Bind {
-
+namespace Bind
+{
 	class VertexShader : public Bindable
 	{
 	public:

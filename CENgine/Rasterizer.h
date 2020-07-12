@@ -4,8 +4,8 @@
 
 #include <array>
 
-namespace Bind {
-	
+namespace Bind
+{
 	class Rasterizer : public Bindable
 	{
 	public:

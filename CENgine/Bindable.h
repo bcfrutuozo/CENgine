@@ -2,13 +2,27 @@
 
 #include "Graphics.h"
 #include "Conditional_noexcept.h"
+#include "GraphicsResource.h"
 
-namespace Bind {
-	
-	class Bindable
+#include <memory>
+#include <string>
+
+class Drawable;
+class TechniqueProbe;
+
+namespace Bind 
+{	
+	class Bindable : public GraphicsResource
 	{
 	public:
+
 		virtual void Bind(Graphics& graphics) noexcept = 0;
+		
+		virtual void InitializeParentReference(const Drawable&) noexcept
+		{ }
+
+		virtual void Accept(TechniqueProbe&)
+		{ }
 
 		virtual std::string GetUID() const noexcept
 		{
@@ -17,10 +31,12 @@ namespace Bind {
 		}
 		
 		virtual ~Bindable() = default;
+	};
 
-	protected:
-		static ID3D11DeviceContext* GetContext(Graphics& graphics) noexcept;
-		static ID3D11Device* GetDevice(Graphics& graphics) noexcept;
-		static DXGIInfoManager& GetInfoManager(Graphics& graphics) NOXND;
+	class CloningBindable : public Bindable
+	{
+	public:
+
+		virtual std::unique_ptr<CloningBindable> Clone() const noexcept = 0;
 	};
 }

@@ -4,8 +4,8 @@
 
 class Surface;
 
-namespace Bind {
-
+namespace Bind
+{
 	class Texture : public Bindable
 	{
 	public:

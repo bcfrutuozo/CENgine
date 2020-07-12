@@ -44,18 +44,18 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 }
 
 // Window
-Window::Window(int width, int p_height, const char* p_name)
+Window::Window(int width, int height, const char* p_name)
 	:
 	width(width),
-	height(p_height),
-	consoleWindow(nullptr)
+	height(height),
+	isCursorEnabled(true)
 {
 	// Calculate window size based on desired client region size
 	RECT wr;
 	wr.left = 100;
 	wr.right = width + wr.left;
 	wr.top = 100;
-	wr.bottom = p_height + wr.top;
+	wr.bottom = height + wr.top;
 	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
 		throw CHWND_LAST_EXCEPT();
@@ -98,7 +98,7 @@ Window::Window(int width, int p_height, const char* p_name)
 Window::~Window()
 {
 	ImGui_ImplWin32_Shutdown();
-	FreeConsole();
+	//FreeConsole();
 	DestroyWindow(handleWindow);
 }
 
@@ -126,24 +126,24 @@ void Window::DisableCursor() noexcept
 	EncloseCursor();
 }
 
-void Window::ShowConsole() noexcept
-{
-	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-
-	if(!AllocConsole())
-	{
-		throw CHWND_LAST_EXCEPT();
-	};
-
-	AttachConsole(ATTACH_PARENT_PROCESS);
-
-	SetConsoleTitle("CENgine Debugger");
-
-	GetConsoleScreenBufferInfo(handleWindow, &consoleInfo);
-	freopen_s(&consoleWindow, "CONIN$", "r", stdin);
-	freopen_s(&consoleWindow, "CONOUT$", "w", stdout);
-	freopen_s(&consoleWindow, "CONOUT$", "w", stderr);
-}
+//void Window::ShowConsole() noexcept
+//{
+//	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+//
+//	if(!AllocConsole())
+//	{
+//		throw CHWND_LAST_EXCEPT();
+//	};
+//
+//	AttachConsole(ATTACH_PARENT_PROCESS);
+//
+//	SetConsoleTitle("CENgine Debugger");
+//
+//	GetConsoleScreenBufferInfo(handleWindow, &consoleInfo);
+//	freopen_s(&consoleWindow, "CONIN$", "r", stdin);
+//	freopen_s(&consoleWindow, "CONOUT$", "w", stdout);
+//	freopen_s(&consoleWindow, "CONOUT$", "w", stderr);
+//}
 
 std::optional<int> Window::ProcessMessages()
 {

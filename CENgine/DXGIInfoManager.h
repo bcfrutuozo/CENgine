@@ -18,7 +18,7 @@ public:
 	void Set() noexcept;
 	std::vector<std::string> GetMessages() const;
 private:
-	unsigned long long next;
+	unsigned long long next = 0u;
 	Microsoft::WRL::ComPtr<IDXGIInfoQueue> pDXGIInfoQueue;
 };
 

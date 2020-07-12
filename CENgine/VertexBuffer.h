@@ -4,7 +4,8 @@
 #include "GraphicsThrowMacros.h"
 #include "Vertex.h"
 
-namespace Bind {
+namespace Bind 
+{
 	class VertexBuffer : public Bindable
 	{
 	public:
@@ -12,6 +13,7 @@ namespace Bind {
 		VertexBuffer(Graphics& graphics, const CENgineexp::VertexBuffer& vbuf);
 		VertexBuffer(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf);
 		void Bind(Graphics& graphics) noexcept override;
+		const CENgineexp::VertexLayout& GetLayout() const noexcept;
 		static std::shared_ptr<VertexBuffer> Resolve(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf);
 
 		template<typename... Ignore>
@@ -26,6 +28,7 @@ namespace Bind {
 		std::string tag;
 		UINT stride;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> pVertexBuffer;
+		CENgineexp::VertexLayout layout;
 	private:
 
 		static std::string GenerateUID_(const std::string& tag);
