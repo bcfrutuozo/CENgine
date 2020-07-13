@@ -16,7 +16,7 @@ modelPath(modelPath.string())
 	// Phong technique
 	{
 		Technique phong{ "Phong" };
-		Step step(0);
+		Step step("lambertian");
 		std::string shaderCode = "Phong";
 		aiString texFileName;
 
@@ -139,51 +139,51 @@ modelPath(modelPath.string())
 	}
 
 	// Outline technique
-	{
-		Technique outline("Outline", false);
-		{
-			Step mask(1);
+	//{
+	//	Technique outline("Outline", false);
+	//	{
+	//		Step mask("mask");
 
-			auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
-			auto pvsbc = pvs->GetByteCode();
-			mask.AddBindable(std::move(pvs));
+	//		auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
+	//		auto pvsbc = pvs->GetByteCode();
+	//		mask.AddBindable(std::move(pvs));
 
-			mask.AddBindable(Bind::InputLayout::Resolve(graphics, vtxLayout, pvsbc));
-			mask.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
+	//		mask.AddBindable(Bind::InputLayout::Resolve(graphics, vtxLayout, pvsbc));
+	//		mask.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
 
-			outline.AddStep(std::move(mask));
-		}
-		{
-			Step draw(2);
+	//		outline.AddStep(std::move(mask));
+	//	}
+	//	{
+	//		Step draw(2);
 
-			auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
-			auto pvsbc = pvs->GetByteCode();
-			draw.AddBindable(std::move(pvs));
-
-
-			draw.AddBindable(Bind::PixelShader::Resolve(graphics, "Solid_PS.cso"));
-
-			{
-				DRR::IncompleteLayout lay;
-				lay.Add<DRR::Float3>("materialColor");
-				auto buffer = DRR::Buffer(std::move(lay));
-				buffer["materialColor"] = DirectX::XMFLOAT3{ 1.0f, 0.4f, 0.4f };
-				draw.AddBindable(std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buffer, 1u));
-			}
+	//		auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
+	//		auto pvsbc = pvs->GetByteCode();
+	//		draw.AddBindable(std::move(pvs));
 
 
-			draw.AddBindable(Bind::InputLayout::Resolve(graphics, vtxLayout, pvsbc));
+	//		draw.AddBindable(Bind::PixelShader::Resolve(graphics, "Solid_PS.cso"));
 
-			draw.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
+	//		{
+	//			DRR::IncompleteLayout lay;
+	//			lay.Add<DRR::Float3>("materialColor");
+	//			auto buffer = DRR::Buffer(std::move(lay));
+	//			buffer["materialColor"] = DirectX::XMFLOAT3{ 1.0f, 0.4f, 0.4f };
+	//			draw.AddBindable(std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buffer, 1u));
+	//		}
 
-			// TODO: might need to specify rasterizer when doubled-sided models start being used
 
-			outline.AddStep(std::move(draw));
+	//		draw.AddBindable(Bind::InputLayout::Resolve(graphics, vtxLayout, pvsbc));
 
-		}
+	//		draw.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
 
-		techniques.push_back(std::move(outline));
-	}
+	//		// TODO: might need to specify rasterizer when doubled-sided models start being used
+
+	//		outline.AddStep(std::move(draw));
+
+	//	}
+
+	//	techniques.push_back(std::move(outline));
+	//}
 }
 
 CENgineexp::VertexBuffer Material::ExtractVertices(const aiMesh& mesh) const noexcept

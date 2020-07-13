@@ -8,7 +8,6 @@
 
 class Node;
 class Mesh;
-class FrameGenerator;
 struct aiMesh;
 struct aiMaterial;
 struct aiNode;
@@ -18,7 +17,7 @@ class Model
 public:
 
 	Model(Graphics& graphics, const std::string& path, const float scale = 1.0f);
-	void Submit(FrameGenerator& frame) const NOXND;
+	void Submit() const NOXND;
 	void SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept;
 	void Accept(class ModelProbe& probe);
 	~Model() noexcept;	

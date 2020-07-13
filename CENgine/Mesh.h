@@ -14,7 +14,7 @@ public:
 
 	Mesh(Graphics& graphics, const Material& material, const aiMesh& mesh, float scale = 1.0f) NOXND;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
-	void Submit(FrameGenerator& frame, DirectX::FXMMATRIX acculatedTransform) const NOXND;
+	void Submit(DirectX::FXMMATRIX acculatedTransform) const NOXND;
 private:
 
 	mutable DirectX::XMFLOAT4X4 transformMatrix;

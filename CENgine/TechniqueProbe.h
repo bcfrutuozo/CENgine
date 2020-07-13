@@ -1,30 +1,35 @@
 #pragma once
 
+#include <limits>
+
 // DRR - Dynamic Runtime Reflection 
 namespace DRR
 {
 	class Buffer;
 }
 
+class Technique;
+class Step;
+
 class TechniqueProbe
 {
 public:
 
-	void SetTechnique(class Technique* pTech_in)
+	void SetTechnique(Technique* pTech_in)
 	{
 		pTech = pTech_in;
 		techIdx++;
 		OnSetTechnique();
 	}
 
-	void SetStep(class Step* pStep_in)
+	void SetStep(Step* pStep_in)
 	{
 		pStep = pStep_in;
 		stepIdx++;
 		OnSetStep();
 	}
 
-	bool VisitBuffer(class DRR::Buffer& buffer)
+	bool VisitBuffer(DRR::Buffer& buffer)
 	{
 		bufIdx++;
 		return OnVisitBuffer(buffer);
@@ -37,13 +42,13 @@ protected:
 	virtual void OnSetStep()
 	{ }
 
-	virtual bool OnVisitBuffer(class DRR::Buffer&)
+	virtual bool OnVisitBuffer(DRR::Buffer&)
 	{
 		return false;
 	}
 
-	class Technique* pTech = nullptr;
-	class Step* pStep = nullptr;
+	Technique* pTech = nullptr;
+	Step* pStep = nullptr;
 	size_t techIdx = std::numeric_limits<size_t>::max();
 	size_t stepIdx = std::numeric_limits<size_t>::max();
 	size_t bufIdx = std::numeric_limits<size_t>::max();

@@ -10,6 +10,9 @@
 #include "ModelProbe.h"
 #include "Node.h"
 #include "Matrix.h"
+#include "BufferClearPass.h"
+#include "LambertianPass.h"
+#include "TechniqueProbe.h"
 
 #include <memory>
 #include <algorithm>
@@ -26,9 +29,29 @@ App::App(const std::string& commandLine)
 {
 	cube.SetPos({ 4.0f,0.0f,0.0f });
 	cube2.SetPos({ 0.0f,4.0f,0.0f });
-	stripey.SetRootTransform(DirectX::XMMatrixTranslation(-13.5f, 6.0f, 3.5f));
+
+	{
+		{
+			auto bcp = std::make_unique<BufferClearPass>( "clear" );
+			bcp->SetInputSource( "renderTarget","$.backbuffer" );
+			bcp->SetInputSource( "depthStencil","$.masterDepth" );
+			renderGraph.AppendPass( std::move( bcp ) );
+		}
+		{
+			auto lp = std::make_unique<LambertianPass>( "lambertian" );
+			lp->SetInputSource( "renderTarget","clear.renderTarget" );
+			lp->SetInputSource( "depthStencil","clear.depthStencil" );
+			renderGraph.AppendPass( std::move( lp ) );
+		}
+		renderGraph.SetSinkTarget( "backbuffer","lambertian.renderTarget" );
+		renderGraph.Finalize();
+
+		cube.LinkTechniques( renderGraph );
+		cube2.LinkTechniques( renderGraph );
+		light.LinkTechniques( renderGraph );
+	}
+
 	window.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 9.0f / 16.0f, 0.5f, 400.0f));
-	//window.ShowConsole();
 }
 
 App::~App()
@@ -69,15 +92,15 @@ void App::Run()
 	light.Bind(window.Gfx(), camera.GetMatrix());
 
 	// Render geometry
-	//nano.Submit(frame);
-	gobber.Submit(frame);
-	light.Submit(frame);
-	cube.Submit(frame);
-	sponza.Submit(frame);
-	cube2.Submit(frame);
-	stripey.Submit(frame);
+	//nano.Submit();
+	//gobber.Submit();
+	light.Submit();
+	cube.Submit();
+	//sponza.Submit();
+	cube2.Submit();
+	//stripey.Submit();
 
-	frame.Execute(window.Gfx());
+	renderGraph.Execute(window.Gfx());
 
 	const auto k = window.keyboard.ReadKey();
 
@@ -333,19 +356,18 @@ void App::Run()
 	static MP modelProbe;
 
 	// imgui windows
-	modelProbe.SpawnWindow(sponza);
+	/*modelProbe.SpawnWindow(sponza);
 	modelProbe.SpawnWindow(stripey);
-	modelProbe.SpawnWindow(gobber);
+	modelProbe.SpawnWindow(gobber);*/
 	camera.SpawnControlWindow();
 	light.SpawnControlWindow();
 	ShowImGuiDemoWindow();
 	cube.SpawnControlWindow(window.Gfx(), "Cube 1");
 	cube2.SpawnControlWindow(window.Gfx(), "Cube 2");
-	frame.ShowWindows(window.Gfx());
 
 	// Present the frame
 	window.Gfx().EndFrame();
-	frame.Reset();
+	renderGraph.Reset();
 }
 
 void App::ShowImGuiDemoWindow()

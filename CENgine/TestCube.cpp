@@ -22,83 +22,83 @@ TestCube::TestCube(Graphics& gfx, float size)
 	{
 		Technique shade("Shade");
 		{
-			Step only( 0 );
+			Step only("lambertian");
 
-			only.AddBindable( Bind::Texture::Resolve( gfx,"Images\\brickwall.jpg" ) );
-			only.AddBindable( Bind::Sampler::Resolve( gfx ) );
+			only.AddBindable(Bind::Texture::Resolve(gfx, "Images\\brickwall.jpg"));
+			only.AddBindable(Bind::Sampler::Resolve(gfx));
 
-			auto pvs = Bind::VertexShader::Resolve( gfx,"PhongDif_VS.cso" );
+			auto pvs = Bind::VertexShader::Resolve(gfx, "PhongDif_VS.cso");
 			auto pvsbc = pvs->GetByteCode();
-			only.AddBindable( std::move( pvs ) );
+			only.AddBindable(std::move(pvs));
 
-			only.AddBindable( Bind::PixelShader::Resolve( gfx,"PhongDif_PS.cso" ) );
-			
+			only.AddBindable(Bind::PixelShader::Resolve(gfx, "PhongDif_PS.cso"));
+
 			DRR::IncompleteLayout lay;
-			lay.Add<DRR::Float3>( "specularColor" );
-			lay.Add<DRR::Float>( "specularWeight" );
-			lay.Add<DRR::Float>( "specularGloss" );
-			auto buf = DRR::Buffer( std::move( lay ) );
+			lay.Add<DRR::Float3>("specularColor");
+			lay.Add<DRR::Float>("specularWeight");
+			lay.Add<DRR::Float>("specularGloss");
+			auto buf = DRR::Buffer(std::move(lay));
 			buf["specularColor"] = DirectX::XMFLOAT3{ 1.0f,1.0f,1.0f };
 			buf["specularWeight"] = 0.1f;
 			buf["specularGloss"] = 20.0f;
-			only.AddBindable( std::make_shared<Bind::DynamicCachingPixelConstantBuffer>( gfx,buf,1u ) );
+			only.AddBindable(std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(gfx, buf, 1u));
 
-			only.AddBindable( Bind::InputLayout::Resolve( gfx,model.vertices.GetLayout(),pvsbc ) );
+			only.AddBindable(Bind::InputLayout::Resolve(gfx, model.vertices.GetLayout(), pvsbc));
 
-			only.AddBindable( std::make_shared<Bind::TransformCbuf>( gfx ) );
+			only.AddBindable(std::make_shared<Bind::TransformCbuf>(gfx));
 
-			shade.AddStep( std::move( only ) );
+			shade.AddStep(std::move(only));
 		}
-		AddTechnique( std::move( shade ) );
+		AddTechnique(std::move(shade));
 	}
 
-	{
-		Technique outline("Outline");
-		{
-			Step mask( 1 );
+	//{
+	//	Technique outline("Outline");
+	//	{
+	//		Step mask( "mask" );
 
-			auto pvs = Bind::VertexShader::Resolve( gfx,"Solid_VS.cso" );
-			auto pvsbc = pvs->GetByteCode();
-			mask.AddBindable( std::move( pvs ) );
+	//		auto pvs = Bind::VertexShader::Resolve( gfx,"Solid_VS.cso" );
+	//		auto pvsbc = pvs->GetByteCode();
+	//		mask.AddBindable( std::move( pvs ) );
 
-			// TODO: better sub-layout generation tech for future consideration maybe
-			mask.AddBindable( Bind::InputLayout::Resolve( gfx,model.vertices.GetLayout(),pvsbc ) );
+	//		// TODO: better sub-layout generation tech for future consideration maybe
+	//		mask.AddBindable( Bind::InputLayout::Resolve( gfx,model.vertices.GetLayout(),pvsbc ) );
 
-			mask.AddBindable( std::make_shared<Bind::TransformCbuf>( gfx ) );
+	//		mask.AddBindable( std::make_shared<Bind::TransformCbuf>( gfx ) );
 
-			// TODO: might need to specify rasterizer when doubled-sided models start being used
+	//		// TODO: might need to specify rasterizer when doubled-sided models start being used
 
-			outline.AddStep( std::move( mask ) );
-		}
-		{
-			Step draw( 2 );
+	//		outline.AddStep( std::move( mask ) );
+	//	}
+	//	{
+	//		Step draw( "draw" );
 
-			// these can be pass-constant (tricky due to layout issues)
-			auto pvs = Bind::VertexShader::Resolve( gfx,"Solid_VS.cso" );
-			auto pvsbc = pvs->GetByteCode();
-			draw.AddBindable( std::move( pvs ) );
+	//		// these can be pass-constant (tricky due to layout issues)
+	//		auto pvs = Bind::VertexShader::Resolve( gfx,"Solid_VS.cso" );
+	//		auto pvsbc = pvs->GetByteCode();
+	//		draw.AddBindable( std::move( pvs ) );
 
-			// this can be pass-constant
-			draw.AddBindable( Bind::PixelShader::Resolve( gfx,"Solid_PS.cso" ) );
+	//		// this can be pass-constant
+	//		draw.AddBindable( Bind::PixelShader::Resolve( gfx,"Solid_PS.cso" ) );
 
-			DRR::IncompleteLayout lay;
-			lay.Add<DRR::Float4>( "color" );
-			auto buf = DRR::Buffer( std::move( lay ) );
-			buf["color"] = DirectX::XMFLOAT4{ 1.0f,0.4f,0.4f,1.0f };
-			draw.AddBindable( std::make_shared<Bind::DynamicCachingPixelConstantBuffer>( gfx,buf,1u ) );
+	//		DRR::IncompleteLayout lay;
+	//		lay.Add<DRR::Float4>( "color" );
+	//		auto buf = DRR::Buffer( std::move( lay ) );
+	//		buf["color"] = DirectX::XMFLOAT4{ 1.0f,0.4f,0.4f,1.0f };
+	//		draw.AddBindable( std::make_shared<Bind::DynamicCachingPixelConstantBuffer>( gfx,buf,1u ) );
 
-			// TODO: better sub-layout generation tech for future consideration maybe
-			draw.AddBindable( Bind::InputLayout::Resolve( gfx,model.vertices.GetLayout(),pvsbc ) );
+	//		// TODO: better sub-layout generation tech for future consideration maybe
+	//		draw.AddBindable( Bind::InputLayout::Resolve( gfx,model.vertices.GetLayout(),pvsbc ) );
 
-			
-			draw.AddBindable( std::make_shared<Bind::TransformCbuf>( gfx ) );
+	//		
+	//		draw.AddBindable( std::make_shared<Bind::TransformCbuf>( gfx ) );
 
-			// TODO: might need to specify rasterizer when doubled-sided models start being used
+	//		// TODO: might need to specify rasterizer when doubled-sided models start being used
 
-			outline.AddStep( std::move( draw ) );
-		}
-		AddTechnique( std::move( outline ) );
-	}
+	//		outline.AddStep( std::move( draw ) );
+	//	}
+	//	AddTechnique( std::move( outline ) );
+	//}
 }
 
 void TestCube::SetPos(DirectX::XMFLOAT3 pos) noexcept

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Graphics.h"
-#include "Conditional_noexcept.h"
 #include "GraphicsResource.h"
 
 #include <memory>
@@ -9,6 +7,7 @@
 
 class Drawable;
 class TechniqueProbe;
+class Graphics;
 
 namespace Bind 
 {	

@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Geometry">
       <UniqueIdentifier>{757187fe-a2c3-40e7-927e-da48e55d5a56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\RenderQueue\Passes">
+      <UniqueIdentifier>{82ac30fb-ad73-4a84-a21b-1fa49b4c8445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RenderQueue\Passes">
+      <UniqueIdentifier>{2b49ff4a-6cd5-4da2-8ed6-ac9f9b3a1ef7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -225,11 +231,41 @@
     <ClCompile Include="DepthStencil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderTarget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestCube.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="BindingPass.cpp">
+      <Filter>Source Files\RenderQueue\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="BufferClearPass.cpp">
+      <Filter>Source Files\RenderQueue\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pass.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="FullscreenPass.cpp">
+      <Filter>Source Files\RenderQueue\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderGraphCompileException.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="PassInput.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="PassOutput.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderGraph.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderQueuePass.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="StepLinkingProbe.cpp">
+      <Filter>Source Files\RenderQueue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -662,13 +698,7 @@
     <ClInclude Include="Technique.h">
       <Filter>Header Files\RenderQueue</Filter>
     </ClInclude>
-    <ClInclude Include="RenderQueue.h">
-      <Filter>Header Files\RenderQueue</Filter>
-    </ClInclude>
     <ClInclude Include="Job.h">
-      <Filter>Header Files\RenderQueue</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameGenerator.h">
       <Filter>Header Files\RenderQueue</Filter>
     </ClInclude>
     <ClInclude Include="NullPixelShader.h">
@@ -710,23 +740,59 @@
     <ClInclude Include="DepthStencil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="TestCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Channels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Blur.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Pass.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCube.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="BindingPass.h">
+      <Filter>Header Files\RenderQueue\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferClearPass.h">
+      <Filter>Header Files\RenderQueue\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferResource.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="FullscreenPass.h">
+      <Filter>Header Files\RenderQueue\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="LambertianPass.h">
+      <Filter>Header Files\RenderQueue\Passes</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderGraphCompileException.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="PassInput.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="PassOutput.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderGraph.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderQueuePass.h">
+      <Filter>Header Files\RenderQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="StepLinkingProbe.h">
+      <Filter>Header Files\RenderQueue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

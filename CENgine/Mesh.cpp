@@ -16,10 +16,10 @@ Mesh::Mesh(Graphics& graphics, const Material& material, const aiMesh& mesh, flo
 	Drawable(graphics, material, mesh, scale)
 { }
 
-void Mesh::Submit(FrameGenerator& frame, DirectX::FXMMATRIX accumulatedTransform) const NOXND
+void Mesh::Submit(DirectX::FXMMATRIX accumulatedTransform) const NOXND
 {
 	DirectX::XMStoreFloat4x4(&transformMatrix, accumulatedTransform);
-	Drawable::Submit(frame);
+	Drawable::Submit();
 }
 
 DirectX::XMMATRIX Mesh::GetTransformXM() const noexcept

@@ -47,10 +47,9 @@ Model::Model(Graphics& graphics, const std::string& path, const float scale)
 Model::~Model() noexcept
 { }
 
-void Model::Submit(FrameGenerator& frame) const NOXND
+void Model::Submit() const NOXND
 {
-	//pWindow->ApplyParameters();
-	pRoot->Submit(frame, DirectX::XMMatrixIdentity());
+	pRoot->Submit(DirectX::XMMatrixIdentity());
 }
 
 void Model::SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept

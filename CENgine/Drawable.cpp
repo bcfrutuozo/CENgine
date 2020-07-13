@@ -18,18 +18,17 @@ Drawable::Drawable(Graphics& graphics, const Material& mat, const aiMesh& mesh, 
 	}
 }
 
-
 void Drawable::AddTechnique(Technique tech_in) noexcept
 {
 	tech_in.InitializeParentReferences( *this );
 	techniques.push_back( std::move( tech_in ) );
 }
 
-void Drawable::Submit(class FrameGenerator& frame) const noexcept
+void Drawable::Submit() const noexcept
 {
 	for(const auto& tech : techniques)
 	{
-		tech.Submit(frame, *this);
+		tech.Submit(*this);
 	}
 }
 
@@ -51,6 +50,14 @@ void Drawable::Accept(TechniqueProbe& probe)
 UINT Drawable::GetIndexCount() const NOXND
 {
 	return pIndices->GetCount();
+}
+
+void Drawable::LinkTechniques(RenderGraph& renderGraph)
+{
+	for(auto& tech : techniques)
+	{
+		tech.Link(renderGraph);
+	}
 }
 
 Drawable::~Drawable()

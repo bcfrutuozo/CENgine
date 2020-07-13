@@ -4,7 +4,8 @@
 
 class Model;
 class Mesh;
-class FrameGenerator;
+class TechniqueProbe;
+class ModelProbe;
 
 class Node
 {
@@ -12,7 +13,7 @@ class Node
 public:
 
 	Node(int id, const std::string& name, std::vector<Mesh*> psMeshes, const DirectX::XMMATRIX& transformMatrix) NOXND;
-	void Submit(class FrameGenerator& frame, DirectX::FXMMATRIX accumulatedTransform) const NOXND;
+	void Submit(DirectX::FXMMATRIX accumulatedTransform) const NOXND;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	int GetId() const noexcept;
@@ -21,8 +22,8 @@ public:
 	{
 		return psChildren.size() > 0;
 	}
-	void Accept(class ModelProbe& probe);
-	void Accept(class TechniqueProbe& probe);
+	void Accept(ModelProbe& probe);
+	void Accept(TechniqueProbe& probe);
 	const std::string& GetName() const
 	{
 		return name;

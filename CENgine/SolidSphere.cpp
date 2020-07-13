@@ -19,7 +19,7 @@ SolidSphere::SolidSphere(Graphics& graphics, float radius)
 
 	{
 		Technique solid;
-		Step only(0);
+		Step only("lambertian");
 		auto pvs = VertexShader::Resolve(graphics, "Solid_VS.cso");
 		auto pvsbc = pvs->GetByteCode();
 		only.AddBindable(std::move(pvs));

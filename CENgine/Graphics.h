@@ -18,6 +18,7 @@ class DepthStencil;
 namespace Bind
 {
 	class Bindable;
+	class RenderTarget;
 }
 
 class Graphics
@@ -74,8 +75,6 @@ public:
 
 	void BeginFrame(float red, float green, float blue) const noexcept;
 	void EndFrame();
-	void BindSwapBuffer() noexcept;
-	void BindSwapBuffer(const DepthStencil& depthStencil) noexcept;
 	void DrawIndexed(UINT count) NOXND;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
@@ -86,6 +85,7 @@ public:
 	bool IsImGuiEnabled() const noexcept;
 	UINT GetWidth() const noexcept;
 	UINT GetHeight() const noexcept;
+	std::shared_ptr<Bind::RenderTarget> GetTarget();
 private:
 
 	UINT width;
@@ -101,6 +101,5 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11Device> pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> pSwapChain;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> pContext;
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTarget;
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
+	std::shared_ptr<Bind::RenderTarget> pTarget;
 };

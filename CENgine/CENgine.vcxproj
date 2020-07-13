@@ -175,9 +175,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BindingPass.cpp" />
     <ClCompile Include="Blender.cpp" />
+    <ClCompile Include="BufferClearPass.cpp" />
     <ClCompile Include="DepthStencil.cpp" />
     <ClCompile Include="DynamicConstant.cpp" />
+    <ClCompile Include="FullscreenPass.cpp" />
     <ClCompile Include="GraphicsResource.cpp" />
     <ClCompile Include="Job.cpp" />
     <ClCompile Include="LayoutCodex.cpp" />
@@ -188,7 +191,13 @@
     <ClCompile Include="ModelException.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NullPixelShader.cpp" />
+    <ClCompile Include="Pass.cpp" />
+    <ClCompile Include="PassInput.cpp" />
+    <ClCompile Include="PassOutput.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
+    <ClCompile Include="RenderGraph.cpp" />
+    <ClCompile Include="RenderGraphCompileException.cpp" />
+    <ClCompile Include="RenderQueuePass.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="ScriptParser.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
@@ -214,6 +223,7 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="CENgineException.cpp" />
     <ClCompile Include="Step.cpp" />
+    <ClCompile Include="StepLinkingProbe.cpp" />
     <ClCompile Include="Technique.cpp" />
     <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="TexturePreprocessor.cpp" />
@@ -308,8 +318,11 @@
     <ClInclude Include="assimp\include\assimp\XMLTools.h" />
     <ClInclude Include="assimp\include\assimp\ZipArchiveIOSystem.h" />
     <ClInclude Include="BindableCodex.h" />
+    <ClInclude Include="BindingPass.h" />
     <ClInclude Include="Blender.h" />
     <ClInclude Include="Blur.h" />
+    <ClInclude Include="BufferClearPass.h" />
+    <ClInclude Include="BufferResource.h" />
     <ClInclude Include="Channels.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Conditional_noexcept.h" />
@@ -325,10 +338,11 @@
     <ClInclude Include="dxtex\include\dxtex\scoped.h" />
     <ClInclude Include="DynamicConstant.h" />
     <ClInclude Include="DynamicConstantBuffer.h" />
-    <ClInclude Include="FrameGenerator.h" />
+    <ClInclude Include="FullscreenPass.h" />
     <ClInclude Include="GraphicsResource.h" />
     <ClInclude Include="Job.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="LambertianPass.h" />
     <ClInclude Include="LayoutCodex.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Material.h" />
@@ -339,12 +353,18 @@
     <ClInclude Include="ModelProbe.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NullPixelShader.h" />
+    <ClInclude Include="PassInput.h" />
+    <ClInclude Include="PassOutput.h" />
     <ClInclude Include="Rasterizer.h" />
-    <ClInclude Include="RenderQueue.h" />
+    <ClInclude Include="Pass.h" />
+    <ClInclude Include="RenderGraph.h" />
+    <ClInclude Include="RenderGraphCompileException.h" />
+    <ClInclude Include="RenderQueuePass.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="ScriptParser.h" />
     <ClInclude Include="Stencil.h" />
     <ClInclude Include="Step.h" />
+    <ClInclude Include="StepLinkingProbe.h" />
     <ClInclude Include="Technique.h" />
     <ClInclude Include="TechniqueProbe.h" />
     <ClInclude Include="TestCube.h" />
