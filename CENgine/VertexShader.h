@@ -9,7 +9,7 @@ namespace Bind
 	public:
 		
 		VertexShader(Graphics& graphics, const std::string& path);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 		ID3DBlob* GetByteCode() const noexcept;
 		static std::shared_ptr<VertexShader> Resolve(Graphics& graphics, const std::string& path);
 		static std::string GenerateUID(const std::string& path);

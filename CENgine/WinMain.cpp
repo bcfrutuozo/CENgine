@@ -8,6 +8,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
+		//std::string x("--commands process.json");
 		return App{ commandLine }.Start();
 	}
 	catch(const CENgineException& e)

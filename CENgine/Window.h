@@ -66,7 +66,7 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
-	void SetTitle(const std::string& title) noexcept;
+	void SetTitle(const std::string& title);
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
 	//void ShowConsole() noexcept;

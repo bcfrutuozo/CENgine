@@ -13,7 +13,7 @@ name(name)
 	DirectX::XMStoreFloat4x4(&appliedTransform, DirectX::XMMatrixIdentity());
 }
 
-void Node::Submit(DirectX::FXMMATRIX accumulatedTransform) const NOXND
+void Node::Submit(size_t channels, DirectX::FXMMATRIX accumulatedTransform) const NOXND
 {
 	const auto built = DirectX::XMLoadFloat4x4(&appliedTransform) *
 		DirectX::XMLoadFloat4x4(&transform) *
@@ -21,11 +21,11 @@ void Node::Submit(DirectX::FXMMATRIX accumulatedTransform) const NOXND
 
 	for(const auto pMesh : psMeshes)
 	{
-		pMesh->Submit(built);
+		pMesh->Submit(channels, built);
 	}
 	for(const auto& pChild : psChildren)
 	{
-		pChild->Submit(built);
+		pChild->Submit(channels, built);
 	}
 }
 

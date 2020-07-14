@@ -16,7 +16,8 @@
 	X(Float3) \
 	X(Float4) \
 	X(Matrix) \
-	X(Bool)
+	X(Bool) \
+	X(Integer)
 
 // Namespace for dynamic runtime reflection
 namespace DRR
@@ -86,14 +87,22 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
+	template<> struct Map<Integer>
+	{
+		using SysType = int;								// Type used on the CPU side
+		static constexpr size_t hlslSize = sizeof(SysType);	// Size of type on GPU side
+		static constexpr const char* code = "IN";			// Code used for generating signature of layout
+		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
+	};
+
 	// Ensures that every leaf type in master list has an entry in the static attribute map
 	#define X(el) static_assert(Map<el>::valid,"Missing map implementation for " #el);
 	LEAF_ELEMENT_TYPES
-	#undef X
+		#undef X
 
 
-	// Enables reverse lookup from SysType to leaf type
-	template<typename T>
+		// Enables reverse lookup from SysType to leaf type
+		template<typename T>
 	struct ReverseMap
 	{
 		static constexpr bool valid = false;
@@ -106,11 +115,11 @@ namespace DRR
 		static constexpr bool valid = true; \
 	};
 	LEAF_ELEMENT_TYPES
-	#undef X
+		#undef X
 
-	// LayoutElements instances form a tree that describes the layout of the data buffer
-	// supporting nested aggregates of structs and arrays	
-	class LayoutElement
+		// LayoutElements instances form a tree that describes the layout of the data buffer
+		// supporting nested aggregates of structs and arrays	
+		class LayoutElement
 	{
 	public:
 
@@ -168,8 +177,8 @@ namespace DRR
 				LEAF_ELEMENT_TYPES
 					#undef X
 				default:
-					assert("Tried to resolve non-leaf element" && false);
-					return 0u;
+				assert("Tried to resolve non-leaf element" && false);
+				return 0u;
 			}
 		}
 	private:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsResource.h"
+#include "Conditional_noexcept.h"
 
 #include <memory>
 #include <string>
@@ -15,7 +16,7 @@ namespace Bind
 	{
 	public:
 
-		virtual void Bind(Graphics& graphics) noexcept = 0;
+		virtual void Bind(Graphics& graphics) NOXND = 0;
 		
 		virtual void InitializeParentReference(const Drawable&) noexcept
 		{ }

@@ -23,5 +23,7 @@ public:
 	};
 
 	ScriptParser(const std::vector<std::string>& args);
-};
+private:
 
+	void Publish(std::string path) const;
+};

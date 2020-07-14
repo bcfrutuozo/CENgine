@@ -11,7 +11,7 @@ namespace Bind
 	public:
 
 		TransformCbuf(Graphics& graphics, UINT slot = 0u);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 		void InitializeParentReference(const Drawable& parent) noexcept override;
 		std::unique_ptr<CloningBindable> Clone() const noexcept override;
 	protected:
@@ -22,8 +22,8 @@ namespace Bind
 			DirectX::XMMATRIX modelViewProj;
 		};
 
-		void UpdateBindImpl(Graphics& graphics, const Transforms& tf) noexcept;
-		Transforms GetTransforms(Graphics& graphics) noexcept;
+		void UpdateBindImpl(Graphics& graphics, const Transforms& tf) NOXND;
+		Transforms GetTransforms(Graphics& graphics) NOXND;
 	private:
 
 		static std::unique_ptr<VertexConstantBuffer<Transforms>> pVertexConstantBuffer;

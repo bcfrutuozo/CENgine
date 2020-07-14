@@ -30,9 +30,10 @@ namespace Bind {
 		GFX_THROW_INFO(GetDevice(graphics)->CreateBuffer(&ibd, &isrd, &pIndexBuffer));
 	}
 
-	void IndexBuffer::Bind(Graphics& graphics) noexcept
+	void IndexBuffer::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u));
 	}
 
 	UINT IndexBuffer::GetCount() const noexcept

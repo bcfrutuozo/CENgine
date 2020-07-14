@@ -6,10 +6,6 @@
 #include <vector>
 #include <memory>
 
-class Pass;
-class RenderQueuePass;
-class PassOutput;
-class PassInput;
 class Graphics;
 
 namespace Bind
@@ -18,27 +14,42 @@ namespace Bind
 	class DepthStencil;
 }
 
-class RenderGraph
+namespace RGP
 {
-public:
+	class Pass;
+	class RenderQueuePass;
+	class Source;
+	class Sink;
 
-	RenderGraph(Graphics& graphics);
-	~RenderGraph();
-	void SetSinkTarget(const std::string& sinkName, const std::string& target);
-	void AppendPass(std::unique_ptr<Pass> pass);
-	void Execute(Graphics& graphics) NOXND;
-	void Reset() noexcept;
-	void Finalize();
-	RenderQueuePass& GetRenderQueue(const std::string& passName);
-private:
+	class RenderGraph
+	{
+	public:
 
-	void LinkPassInputs(Pass& pass);
-	void LinkGlobalSinks();
+		RenderGraph(Graphics& graphics);
+		~RenderGraph();
 
-	std::vector<std::unique_ptr<Pass>> passes;
-	std::vector<std::unique_ptr<PassOutput>> globalSources;
-	std::vector<std::unique_ptr<PassInput>> globalSinks;
-	std::shared_ptr<Bind::RenderTarget> backBufferTarget;
-	std::shared_ptr<Bind::DepthStencil> masterDepth;
-	bool finalized = false;
-};
+		void Execute(Graphics& graphics) NOXND;
+		void Reset() noexcept;
+		RenderQueuePass& GetRenderQueue(const std::string& passName);
+		void StoreDepth(Graphics& graphics, const std::string& path);
+	protected:
+
+		void SetSinkTarget(const std::string& sinkName, const std::string& target);
+		void AddGlobalSource(std::unique_ptr<Source> source);
+		void AddGlobalSink(std::unique_ptr<Sink> sink);
+		void AppendPass(std::unique_ptr<Pass> pass);
+		void Finalize();
+		Pass& FindPassByName(const std::string& name);
+	private:
+
+		void LinkSinks(Pass& pass);
+		void LinkGlobalSinks();
+
+		std::vector<std::unique_ptr<Pass>> passes;
+		std::vector<std::unique_ptr<Source>> globalSources;
+		std::vector<std::unique_ptr<Sink>> globalSinks;
+		std::shared_ptr<Bind::RenderTarget> backBufferTarget;
+		std::shared_ptr<Bind::DepthStencil> masterDepth;
+		bool finalized = false;
+	};
+}

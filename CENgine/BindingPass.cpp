@@ -2,24 +2,49 @@
 #include "Bindable.h"
 #include "RenderTarget.h"
 #include "DepthStencil.h"
+#include "RenderGraphCompileException.h"
 
-BindingPass::BindingPass(std::string name, std::vector<std::shared_ptr<Bind::Bindable>> binds)
-	:
-	Pass(std::move(name)),
-	binds(std::move(binds))
-{ }
-
-void BindingPass::AddBind(std::shared_ptr<Bind::Bindable> bind) noexcept
+namespace RGP
 {
-	binds.push_back(std::move(bind));
-}
+	BindingPass::BindingPass(std::string name, std::vector<std::shared_ptr<Bind::Bindable>> binds)
+		:
+		Pass(std::move(name)),
+		binds(std::move(binds))
+	{ }
 
-void BindingPass::BindAll(Graphics & graphics) const noexcept
-{
-	for(auto& bind : binds)
+	void BindingPass::AddBind(std::shared_ptr<Bind::Bindable> bind) noexcept
 	{
-		bind->Bind(graphics);
+		binds.push_back(std::move(bind));
 	}
 
-	BindBufferResources(graphics);
+	void BindingPass::BindAll(Graphics& graphics) const noexcept
+	{
+		BindBufferResources(graphics);
+
+		for(auto& bind : binds)
+		{
+			bind->Bind(graphics);
+		}
+	}
+
+	void BindingPass::Finalize()
+	{
+		Pass::Finalize();
+		if(!renderTarget && !depthStencil)
+		{
+			throw RGC_EXCEPTION("Binding Pass [" + GetName() + "] needs at least one of RenderTarget or DepthStencil");
+		}
+	}
+
+	void BindingPass::BindBufferResources(Graphics& graphics) const NOXND
+	{
+		if(renderTarget)
+		{
+			renderTarget->BindAsBuffer(graphics, depthStencil.get());
+		}
+		else
+		{
+			depthStencil->BindAsBuffer(graphics);
+		}
+	}
 }

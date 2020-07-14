@@ -2,6 +2,7 @@
 
 #include "Bindable.h"
 #include "BufferResource.h"
+#include "Surface.h"
 
 class Graphics;
 
@@ -14,14 +15,25 @@ namespace Bind
 		friend RenderTarget;
 	public:
 
-		void BindAsBuffer(Graphics& graphics) noexcept override;
-		void BindAsBuffer(Graphics& graphics, BufferResource* renderTarget) noexcept override;
-		void BindAsBuffer(Graphics& graphics, RenderTarget* renderTarget) noexcept;
-		void Clear(Graphics& graphics) noexcept override;
+		enum class Usage
+		{
+			DepthStencil,
+			ShadowDepth,
+		};
+
+		void BindAsBuffer(Graphics& graphics) NOXND override;
+		void BindAsBuffer(Graphics& graphics, BufferResource* renderTarget) NOXND override;
+		void BindAsBuffer(Graphics& graphics, RenderTarget* renderTarget) NOXND;
+		void Clear(Graphics& graphics) NOXND override;
+		Surface ToSurface(Graphics& graphics, bool linearize = true) const;
+		unsigned int GetWidth() const;
+		unsigned int GetHeight() const;
 	protected:
 
-		DepthStencil(Graphics& graphics, UINT width, UINT height, bool canBindShaderInput);
+		DepthStencil(Graphics& graphics, UINT width, UINT height, bool canBindShaderInput, Usage usage);
 
+		unsigned int width;
+		unsigned int height;
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 	};
 
@@ -29,9 +41,9 @@ namespace Bind
 	{
 	public:
 
-		ShaderInputDepthStencil(Graphics& graphics, UINT slot);
-		ShaderInputDepthStencil(Graphics& graphics, UINT width, UINT height, UINT slot);
-		void Bind(Graphics& graphics) noexcept override;
+		ShaderInputDepthStencil(Graphics& graphics, UINT slot, Usage usage = Usage::DepthStencil);
+		ShaderInputDepthStencil(Graphics& graphics, UINT width, UINT height, UINT slot, Usage usage = Usage::DepthStencil);
+		void Bind(Graphics& graphics) NOXND override;
 	private:
 
 		UINT slot;
@@ -44,6 +56,6 @@ namespace Bind
 
 		OutputOnlyDepthStencil(Graphics& graphics);
 		OutputOnlyDepthStencil(Graphics&, UINT width, UINT height);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 	};
 }

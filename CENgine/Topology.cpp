@@ -8,9 +8,10 @@ namespace Bind {
 		type(type)
 	{}
 
-	void Topology::Bind(Graphics& graphics) noexcept
+	void Topology::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->IASetPrimitiveTopology(type);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->IASetPrimitiveTopology(type));
 	}
 
 	std::shared_ptr<Topology> Topology::Resolve(Graphics& graphics, D3D11_PRIMITIVE_TOPOLOGY type)

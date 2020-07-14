@@ -12,14 +12,20 @@ struct aiMesh;
 struct aiMaterial;
 struct aiNode;
 
+namespace RGP
+{
+	class RenderGraph;
+};
+
 class Model
 {
 public:
 
 	Model(Graphics& graphics, const std::string& path, const float scale = 1.0f);
-	void Submit() const NOXND;
+	void Submit(size_t channels) const NOXND;
 	void SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept;
 	void Accept(class ModelProbe& probe);
+	void LinkTechniques(RGP::RenderGraph& renderGraph);
 	~Model() noexcept;	
 private:
 

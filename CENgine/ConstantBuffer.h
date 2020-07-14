@@ -74,13 +74,15 @@ namespace Bind
 	{
 		using ConstantBuffer<C>::pConstantBuffer;
 		using ConstantBuffer<C>::slot;
+		using ConstantBuffer<C>::GetInfoManager;
 		using Bindable::GetContext;
 
 	public:
 		using ConstantBuffer<C>::ConstantBuffer;
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
-			this->GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+			INFOMAN_NOHR(graphics);
+			GFX_THROW_INFO_ONLY(this->GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf()));
 		}
 
 		static std::shared_ptr<VertexConstantBuffer> Resolve(Graphics& graphics, const C& consts, UINT slot = 0)
@@ -115,13 +117,15 @@ namespace Bind
 	{
 		using ConstantBuffer<C>::pConstantBuffer;
 		using ConstantBuffer<C>::slot;
+		using ConstantBuffer<C>::GetInfoManager;
 		using Bindable::GetContext;
 
 	public:
 		using ConstantBuffer<C>::ConstantBuffer;
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
-			this->GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+			INFOMAN_NOHR(graphics);
+			GFX_THROW_INFO_ONLY(this->GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf()));
 		}
 
 		static std::shared_ptr<PixelConstantBuffer> Resolve(Graphics& graphics, const C& consts, UINT slot = 0)

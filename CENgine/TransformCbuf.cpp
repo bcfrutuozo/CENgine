@@ -10,9 +10,10 @@ namespace Bind
 		}
 	}
 
-	void TransformCbuf::Bind(Graphics& graphics) noexcept
+	void TransformCbuf::Bind(Graphics& graphics) NOXND
 	{
-		UpdateBindImpl(graphics, GetTransforms(graphics));
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(UpdateBindImpl(graphics, GetTransforms(graphics)));
 	}
 
 	void TransformCbuf::InitializeParentReference( const Drawable& parent ) noexcept
@@ -25,16 +26,18 @@ namespace Bind
 		return std::make_unique<TransformCbuf>( *this );
 	}
 
-	void TransformCbuf::UpdateBindImpl(Graphics& graphics, const Transforms& tf) noexcept
+	void TransformCbuf::UpdateBindImpl(Graphics& graphics, const Transforms& tf) NOXND
 	{
 		assert( pParent != nullptr );
+
 		pVertexConstantBuffer->Update(graphics, tf);
 		pVertexConstantBuffer->Bind(graphics);
 	}
 
-	TransformCbuf::Transforms TransformCbuf::GetTransforms(Graphics& graphics) noexcept
+	TransformCbuf::Transforms TransformCbuf::GetTransforms(Graphics& graphics) NOXND
 	{
 		assert( pParent != nullptr );
+
 		const auto modelView = pParent->GetTransformXM() * graphics.GetCamera();
 		return {
 			DirectX::XMMatrixTranspose(modelView),

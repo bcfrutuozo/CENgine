@@ -5,17 +5,19 @@
 
 #include <vector>
 
-class RenderQueuePass : public BindingPass
+namespace RGP
 {
-public:
+	class RenderQueuePass : public BindingPass
+	{
+	public:
 
-	using BindingPass::BindingPass;
-	
-	void Accept(Job job) noexcept;
-	void Execute(Graphics& graphics) const NOXND override;
-	void Reset() NOXND override;
-private:
+		using BindingPass::BindingPass;
 
-	std::vector<Job> jobs;
-};
+		void Accept(Job job) noexcept;
+		void Execute(Graphics& graphics) const NOXND override;
+		void Reset() NOXND override;
+	private:
 
+		std::vector<Job> jobs;
+	};
+}

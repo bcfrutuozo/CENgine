@@ -11,7 +11,8 @@ namespace Bind
 	VertexBuffer::VertexBuffer(Graphics& graphics,  const std::string& tag, const CENgineexp::VertexBuffer& vbuf)
 		:
 		tag(tag),
-		stride(static_cast<UINT>(vbuf.GetLayout().Size()))
+		stride(static_cast<UINT>(vbuf.GetLayout().Size())),
+		layout(vbuf.GetLayout())
 	{
 		INFOMAN(graphics);
 
@@ -27,10 +28,11 @@ namespace Bind
 		GFX_THROW_INFO( GetDevice( graphics )->CreateBuffer( &bd,&sd,&pVertexBuffer ) );
 	} 
 	
-	void VertexBuffer::Bind(Graphics& graphics) noexcept
+	void VertexBuffer::Bind(Graphics& graphics) NOXND
 	{
 		const UINT offset = 0u;
-		GetContext(graphics)->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset));
 	}
 
 	const CENgineexp::VertexLayout& VertexBuffer::GetLayout() const noexcept

@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Sphere.h"
 #include "Stencil.h"
+#include "Channels.h"
 
 SolidSphere::SolidSphere(Graphics& graphics, float radius)
 {
@@ -18,10 +19,10 @@ SolidSphere::SolidSphere(Graphics& graphics, float radius)
 	pTopology = Topology::Resolve(graphics, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	{
-		Technique solid;
+		Technique solid{ Channel::main };
 		Step only("lambertian");
 		auto pvs = VertexShader::Resolve(graphics, "Solid_VS.cso");
-		auto pvsbc = pvs->GetByteCode();
+		only.AddBindable(InputLayout::Resolve(graphics, model.vertices.GetLayout(), *pvs));
 		only.AddBindable(std::move(pvs));
 
 		only.AddBindable(PixelShader::Resolve(graphics, "Solid_PS.cso"));
@@ -33,9 +34,7 @@ SolidSphere::SolidSphere(Graphics& graphics, float radius)
 		} colorConst;
 
 		only.AddBindable(PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));
-		only.AddBindable(InputLayout::Resolve(graphics, model.vertices.GetLayout(), pvsbc));
 		only.AddBindable(std::make_shared<TransformCbuf>(graphics));
-		only.AddBindable(Blender::Resolve(graphics, false));
 		only.AddBindable(Rasterizer::Resolve(graphics, false));
 		solid.AddStep(std::move(only));
 		AddTechnique(std::move(solid));

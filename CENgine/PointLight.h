@@ -5,7 +5,12 @@
 #include "ConstantBuffer.h"
 #include "Conditional_noexcept.h"
 
-class RenderGraph;
+namespace RGP
+{
+	class RenderGraph;
+}
+
+class Camera;
 
 class PointLight
 {
@@ -14,9 +19,10 @@ public:
 	PointLight(Graphics& graphics, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
-	void Submit() const NOXND;
+	void Submit(size_t channels) const NOXND;
 	void Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept;
-	void LinkTechniques(RenderGraph& renderGraph);
+	void LinkTechniques(RGP::RenderGraph& renderGraph);
+	std::shared_ptr<Camera> ShareCamera() const noexcept;
 private:
 
 	struct PointLightCBuf
@@ -34,5 +40,6 @@ private:
 	PointLightCBuf cbData;
 	mutable SolidSphere mesh;
 	mutable Bind::PixelConstantBuffer<PointLightCBuf> constantBuffer;
+	std::shared_ptr<Camera> pCamera;
 };
 

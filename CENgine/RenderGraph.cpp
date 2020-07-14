@@ -5,177 +5,217 @@
 #include "BindableCommon.h"
 #include "RenderGraphCompileException.h"
 #include "RenderQueuePass.h"
-#include "PassInput.h"
-#include "PassOutput.h"
+#include "Sink.h"
+#include "Source.h"
 
 #include <sstream>
 
-
-RenderGraph::RenderGraph(Graphics& graphics)
-	:
-	backBufferTarget(graphics.GetTarget()),
-	masterDepth(std::make_shared<Bind::OutputOnlyDepthStencil>(graphics))
+namespace RGP
 {
-	// Setup global sinks and sources
-	globalSources.push_back(BufferOutput<Bind::RenderTarget>::Make("backbuffer", backBufferTarget));
-	globalSources.push_back(BufferOutput<Bind::DepthStencil>::Make("masterDepth", masterDepth));
-	globalSinks.push_back(BufferInput<Bind::RenderTarget>::Make("backbuffer", backBufferTarget));
-}
-
-RenderGraph::~RenderGraph()
-{ }
-
-void RenderGraph::SetSinkTarget(const std::string& sinkName, const std::string& target)
-{
-	const auto finder = [&sinkName](const std::unique_ptr<PassInput>& p)
+	RenderGraph::RenderGraph(Graphics& graphics)
+		:
+		backBufferTarget(graphics.GetTarget()),
+		masterDepth(std::make_shared<Bind::OutputOnlyDepthStencil>(graphics))
 	{
-		return p->GetRegisteredName() == sinkName;
-	};
-
-	const auto i = std::find_if(globalSinks.begin(), globalSinks.end(), finder);
-	if(i == globalSinks.end())
-	{
-		throw RGC_EXCEPTION("Global sink does not exist: " + sinkName);
+		// Setup global sinks and sources
+		AddGlobalSource(DirectBufferSource<Bind::RenderTarget>::Make("backbuffer", backBufferTarget));
+		AddGlobalSource(DirectBufferSource<Bind::DepthStencil>::Make("masterDepth", masterDepth));
+		AddGlobalSink(DirectBufferSink<Bind::RenderTarget>::Make("backbuffer", backBufferTarget));
 	}
 
-	auto targetSplit = SplitString(target, ".");
-	if(targetSplit.size() != 2u)
+	RenderGraph::~RenderGraph()
+	{ }
+
+	void RenderGraph::SetSinkTarget(const std::string& sinkName, const std::string& target)
 	{
-		throw RGC_EXCEPTION("Input target has incorrect format");
-	}
-
-	(*i)->SetTarget(targetSplit[0], targetSplit[1]);
-}
-
-void RenderGraph::AppendPass(std::unique_ptr<Pass> pass)
-{
-	assert(!finalized);
-
-	// Validate name uniqueness
-	for(const auto& p : passes)
-	{
-		if(pass->GetName() == p->GetName())
+		const auto finder = [&sinkName](const std::unique_ptr<Sink>& p)
 		{
-			throw RGC_EXCEPTION("Pass name already exists: " + pass->GetName());
+			return p->GetRegisteredName() == sinkName;
+		};
+
+		const auto i = std::find_if(globalSinks.begin(), globalSinks.end(), finder);
+		if(i == globalSinks.end())
+		{
+			throw RGC_EXCEPTION("Global sink does not exist: " + sinkName);
 		}
+
+		auto targetSplit = SplitString(target, ".");
+		if(targetSplit.size() != 2u)
+		{
+			throw RGC_EXCEPTION("Input target has incorrect format");
+		}
+
+		(*i)->SetTarget(targetSplit[0], targetSplit[1]);
 	}
 
-	// Link outputs from passes (and global outputs) to pass inputs
-	LinkPassInputs(*pass);
-
-	// Add to container of passes
-	passes.push_back(std::move(pass));
-}
-
-void RenderGraph::Execute(Graphics& graphics) NOXND
-{
-	assert(finalized);
-
-	for(auto& p : passes)
+	void RenderGraph::AddGlobalSource(std::unique_ptr<Source> source)
 	{
-		p->Execute(graphics);
-	}
-}
-
-void RenderGraph::Reset() noexcept
-{
-	assert(finalized);
-
-	for(auto& p : passes)
-	{
-		p->Reset();
-	}
-}
-
-void RenderGraph::Finalize()
-{
-	assert(!finalized);
-
-	for(const auto& p : passes)
-	{
-		p->Finalize();
+		globalSources.push_back(std::move(source));
 	}
 
-	LinkGlobalSinks();
-	finalized = true;
-}
-
-RenderQueuePass& RenderGraph::GetRenderQueue(const std::string& passName)
-{
-	try
+	void RenderGraph::AddGlobalSink(std::unique_ptr<Sink> sink)
 	{
+		globalSinks.push_back(std::move(sink));
+	}
+
+	void RenderGraph::AppendPass(std::unique_ptr<Pass> pass)
+	{
+		assert(!finalized);
+
+		// Validate name uniqueness
 		for(const auto& p : passes)
 		{
-			if(p->GetName() == passName)
+			if(pass->GetName() == p->GetName())
 			{
-				return dynamic_cast<RenderQueuePass&>(*p);
+				throw RGC_EXCEPTION("Pass name already exists: " + pass->GetName());
 			}
 		}
+
+		// Link outputs from passes (and global outputs) to pass inputs
+		LinkSinks(*pass);
+
+		// Add to container of passes
+		passes.push_back(std::move(pass));
 	}
-	catch(std::bad_cast&)
+
+	void RenderGraph::Execute(Graphics& graphics) NOXND
 	{
-		throw RGC_EXCEPTION("In RenderGraph::GetRenderQueue, pass was not RenderQueuePass: " + passName);
-	}
+		assert(finalized);
 
-	throw RGC_EXCEPTION("In RenderGraph::GetRenderQueue, pass not found: " + passName);
-}
-
-void RenderGraph::LinkPassInputs(Pass& pass)
-{
-	for(auto& in : pass.GetInputs())
-	{
-		const auto& inputSourcePassName = in->GetPassName();
-
-		// check check whether target source is global
-		if(inputSourcePassName == "$")
+		for(auto& p : passes)
 		{
-			bool bound = false;
+			p->Execute(graphics);
+		}
+	}
 
-			for(auto& source : globalSources)
+	void RenderGraph::Reset() noexcept
+	{
+		assert(finalized);
+
+		for(auto& p : passes)
+		{
+			p->Reset();
+		}
+	}
+
+	void RenderGraph::Finalize()
+	{
+		assert(!finalized);
+
+		for(const auto& p : passes)
+		{
+			p->Finalize();
+		}
+
+		LinkGlobalSinks();
+		finalized = true;
+	}
+
+	Pass& RGP::RenderGraph::FindPassByName(const std::string& name)
+	{
+		const auto i = std::find_if(passes.begin(), passes.end(), [&name](auto& p)
 			{
-				if(source->GetName() == in->GetOutputName())
+				return p->GetName() == name;
+			});
+
+		if(i == passes.end())
+		{
+			throw std::runtime_error{ "Failed to find pass by name" };
+		}
+
+		return **i;
+	}
+
+	RenderQueuePass& RenderGraph::GetRenderQueue(const std::string& passName)
+	{
+		try
+		{
+			for(const auto& p : passes)
+			{
+				if(p->GetName() == passName)
 				{
-					in->Bind(*source);
-					bound = true;
-					break;
+					return dynamic_cast<RenderQueuePass&>(*p);
 				}
 			}
+		}
+		catch(std::bad_cast&)
+		{
+			throw RGC_EXCEPTION("In RenderGraph::GetRenderQueue, pass was not RenderQueuePass: " + passName);
+		}
 
-			if(!bound)
+		throw RGC_EXCEPTION("In RenderGraph::GetRenderQueue, pass not found: " + passName);
+	}
+
+	void RGP::RenderGraph::StoreDepth(Graphics& graphics, const std::string& path)
+	{
+		masterDepth->ToSurface(graphics).Save(path);
+	}
+
+	void RenderGraph::LinkSinks(Pass& pass)
+	{
+		for(auto& si : pass.GetSinks())
+		{
+			const auto& inputSourcePassName = si->GetPassName();
+
+			// Check whether target source is global
+			if(inputSourcePassName == "$")
 			{
-				std::ostringstream oss;
-				oss << "Output named [" << in->GetOutputName() << "] not found in globals";
-				throw RGC_EXCEPTION(oss.str());
+				bool bound = false;
+
+				for(auto& source : globalSources)
+				{
+					if(source->GetName() == si->GetOutputName())
+					{
+						si->Bind(*source);
+						bound = true;
+						break;
+					}
+				}
+
+				if(!bound)
+				{
+					std::ostringstream oss;
+					oss << "Output named [" << si->GetOutputName() << "] not found in globals";
+					throw RGC_EXCEPTION(oss.str());
+				}
+			}
+			else
+			{
+				bool bound = false;
+				for(auto& existingPass : passes)
+				{
+					if(existingPass->GetName() == inputSourcePassName)
+					{
+						auto& source = existingPass->GetSource(si->GetOutputName());
+						si->Bind(source);
+						bound = true;
+						break;
+					}
+				}
+				if(!bound)
+				{
+					std::ostringstream oss;
+					oss << "Pass named [" << inputSourcePassName << "] not found";
+					throw RGC_EXCEPTION(oss.str());
+				}
 			}
 		}
-		else
+	}
+
+	void RenderGraph::LinkGlobalSinks()
+	{
+		for(auto& sink : globalSinks)
 		{
+			const auto& inputSourcePassName = sink->GetPassName();
+
 			for(auto& existingPass : passes)
 			{
 				if(existingPass->GetName() == inputSourcePassName)
 				{
-					auto& source = existingPass->GetOutput(in->GetOutputName());
-					in->Bind(source);
+					auto& source = existingPass->GetSource(sink->GetOutputName());
+					sink->Bind(source);
 					break;
 				}
-			}
-		}
-	}
-}
-
-void RenderGraph::LinkGlobalSinks()
-{
-	for(auto& sink : globalSinks)
-	{
-		const auto& inputSourcePassName = sink->GetPassName();
-
-		for(auto& existingPass : passes)
-		{
-			if(existingPass->GetName() == inputSourcePassName)
-			{
-				auto& source = existingPass->GetOutput(sink->GetOutputName());
-				sink->Bind(source);
-				break;
 			}
 		}
 	}

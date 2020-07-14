@@ -50,9 +50,10 @@ namespace Bind {
 		GetContext(graphics)->GenerateMips(pTextureView.Get());
 	}
 
-	void Texture::Bind(Graphics& graphics) noexcept
+	void Texture::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->PSSetShaderResources(slot, 1u, pTextureView.GetAddressOf());
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->PSSetShaderResources(slot, 1u, pTextureView.GetAddressOf()));
 	}
 
 	std::shared_ptr<Texture> Texture::Resolve(Graphics& graphics, const std::string& path, UINT slot)

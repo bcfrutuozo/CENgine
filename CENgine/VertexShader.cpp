@@ -13,7 +13,7 @@ namespace Bind {
 	{
 		INFOMAN(graphics);
 
-		GFX_THROW_INFO(D3DReadFileToBlob(ToWide(path).c_str(), &pByteCodeBlob));
+		GFX_THROW_INFO(D3DReadFileToBlob(ToWide("Shaders\\" + path).c_str(), &pByteCodeBlob));
 		GFX_THROW_INFO(GetDevice(graphics)->CreateVertexShader(
 			pByteCodeBlob->GetBufferPointer(),
 			pByteCodeBlob->GetBufferSize(),
@@ -21,9 +21,10 @@ namespace Bind {
 			&pVertexShader));
 	}
 
-	void VertexShader::Bind(Graphics& graphics) noexcept
+	void VertexShader::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->VSSetShader(pVertexShader.Get(), nullptr, 0u);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->VSSetShader(pVertexShader.Get(), nullptr, 0u));
 	}
 
 	ID3DBlob* VertexShader::GetByteCode() const noexcept

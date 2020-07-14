@@ -10,8 +10,6 @@
 #include <assimp\postprocess.h>
 
 Model::Model(Graphics& graphics, const std::string& path, const float scale)
-	//:
-	//pWindow(std::make_unique<ModelWindow>())
 {
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(path.c_str(),
@@ -47,9 +45,9 @@ Model::Model(Graphics& graphics, const std::string& path, const float scale)
 Model::~Model() noexcept
 { }
 
-void Model::Submit() const NOXND
+void Model::Submit(size_t channels) const NOXND
 {
-	pRoot->Submit(DirectX::XMMatrixIdentity());
+	pRoot->Submit(channels, DirectX::XMMatrixIdentity());
 }
 
 void Model::SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept
@@ -60,6 +58,14 @@ void Model::SetRootTransform(DirectX::FXMMATRIX transformMatrix) noexcept
 void Model::Accept(ModelProbe& probe)
 {
 	pRoot->Accept(probe);
+}
+
+void Model::LinkTechniques(RGP::RenderGraph& renderGraph)
+{
+	for(auto& pMesh : psMeshes)
+	{
+		pMesh->LinkTechniques(renderGraph);
+	}
 }
 
 std::unique_ptr<Node> Model::ParseNode(int& nextId, const aiNode& node, float scale) noexcept

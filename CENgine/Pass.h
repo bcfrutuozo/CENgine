@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Conditional_noexcept.h"
-#include "PassInput.h"
-#include "PassOutput.h"
 
 #include <vector>
 #include <array>
 #include <string>
+#include <memory>
 
 class Graphics;
 
@@ -16,32 +15,33 @@ namespace Bind
 	class DepthStencil;
 }
 
-class Pass
+namespace RGP
 {
-public:
+	class Sink;
+	class Source;
 
-	Pass(std::string name) noexcept;
-	virtual void Execute(Graphics& graphics) const NOXND = 0;
-	virtual void Reset() NOXND;
-	const std::string& GetName() const noexcept;
-	const std::vector<std::unique_ptr<PassInput>>& GetInputs() const;
-	PassOutput& GetOutput(const std::string& registeredName) const;
-	PassInput& GetInput(const std::string& registeredName) const;
-	void SetInputSource(const std::string& registeredName, const std::string& target);
-	virtual void Finalize();
-	virtual ~Pass() = default;
-protected:
+	class Pass
+	{
+	public:
 
-	void RegisterInput(std::unique_ptr<PassInput> input);
-	void RegisterOutput(std::unique_ptr<PassOutput> output);
-	void BindBufferResources(Graphics& graphics) const NOXND;
-	
-	std::shared_ptr<Bind::RenderTarget> renderTarget;
-	std::shared_ptr<Bind::DepthStencil> depthStencil;
-private:
+		Pass(std::string name) noexcept;
+		virtual ~Pass();
+		virtual void Execute(Graphics& graphics) const NOXND = 0;
+		virtual void Reset() NOXND;
+		const std::string& GetName() const noexcept;
+		const std::vector<std::unique_ptr<Sink>>& GetSinks() const;
+		Source& GetSource(const std::string& registeredName) const;
+		Sink& GetSink(const std::string& registeredName) const;
+		void SetSinkLinkage(const std::string& registeredName, const std::string& target);
+		virtual void Finalize();
+	protected:
 
-	std::vector<std::unique_ptr<PassInput>> inputs;
-	std::vector<std::unique_ptr<PassOutput>> outputs;
-	std::string name;
-};
+		void RegisterSink(std::unique_ptr<Sink> sink);
+		void RegisterSource(std::unique_ptr<Source> source);
+	private:
 
+		std::vector<std::unique_ptr<Sink>> sinks;
+		std::vector<std::unique_ptr<Source>> sources;
+		std::string name;
+	};
+}

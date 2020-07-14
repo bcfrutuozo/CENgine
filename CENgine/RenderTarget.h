@@ -4,6 +4,7 @@
 #include "BufferResource.h"
 
 class Graphics;
+class Surface;
 
 namespace Bind
 {
@@ -13,11 +14,11 @@ namespace Bind
 	{
 	public:
 
-		void BindAsBuffer(Graphics& graphics) noexcept override;
-		void BindAsBuffer(Graphics& graphics, BufferResource* depthStencil) noexcept override;
-		void BindAsBuffer(Graphics& graphics, DepthStencil* depthStencil) noexcept;
-		void Clear(Graphics& graphics) noexcept override;
-		void Clear(Graphics& graphics, const std::array<float, 4>& color) noexcept;
+		void BindAsBuffer(Graphics& graphics) NOXND override;
+		void BindAsBuffer(Graphics& graphics, BufferResource* depthStencil) NOXND override;
+		void BindAsBuffer(Graphics& graphics, DepthStencil* depthStencil) NOXND;
+		void Clear(Graphics& graphics) NOXND override;
+		void Clear(Graphics& graphics, const std::array<float, 4>& color) NOXND;
 		UINT GetWidth() const noexcept;
 		UINT GetHeight() const noexcept;
 	protected:
@@ -30,7 +31,7 @@ namespace Bind
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> pTargetView;
 	private:
 
-		void BindAsBuffer(Graphics& graphics, ID3D11DepthStencilView* pDepthStencilView) noexcept;
+		void BindAsBuffer(Graphics& graphics, ID3D11DepthStencilView* pDepthStencilView) NOXND;
 	};
 
 	class ShaderInputRenderTarget : public RenderTarget
@@ -38,7 +39,8 @@ namespace Bind
 	public:
 
 		ShaderInputRenderTarget(Graphics& graphics, UINT width, UINT height, UINT slot);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
+		Surface ToSurface(Graphics& graphics) const;
 	private:
 
 		UINT slot;
@@ -52,7 +54,7 @@ namespace Bind
 
 	public:
 
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 	private:
 
 		OutputOnlyRenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture);

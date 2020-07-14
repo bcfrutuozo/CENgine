@@ -2,6 +2,7 @@
 
 #include "Bindable.h"
 #include "BindableCodex.h"
+#include "GraphicsThrowMacros.h"
 
 namespace Bind
 {
@@ -13,7 +14,9 @@ namespace Bind
 		{
 			Off,
 			Write,
-			Mask
+			Mask,
+			DepthOff,
+			DepthReversed
 		};
 
 		Stencil(Graphics& graphics, Mode mode)
@@ -40,13 +43,23 @@ namespace Bind
 				dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_NOT_EQUAL;
 				dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 			}
+			else if(mode == Mode::DepthOff)
+			{
+				dsDesc.DepthEnable = FALSE;
+				dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+			}
+			else if(mode == Mode::DepthReversed)
+			{
+				dsDesc.DepthFunc = D3D11_COMPARISON_GREATER;
+			}
 
 			GetDevice(graphics)->CreateDepthStencilState(&dsDesc, &pStencil);
 		}
 
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
-			GetContext(graphics)->OMSetDepthStencilState(pStencil.Get(), 0xFF);
+			INFOMAN_NOHR(graphics);
+			GFX_THROW_INFO_ONLY(GetContext(graphics)->OMSetDepthStencilState(pStencil.Get(), 0xFF));
 		}
 
 		static std::shared_ptr<Stencil> Resolve(Graphics& graphics, Mode mode)
@@ -63,11 +76,15 @@ namespace Bind
 				switch(mode)
 				{
 					case Mode::Off:
-						return "off"s;
+					return "off"s;
 					case Mode::Write:
-						return "write"s;
+					return "write"s;
 					case Mode::Mask:
-						return "mask"s;
+					return "mask"s;
+					case Mode::DepthOff:
+					return "depth-off"s;
+					case Mode::DepthReversed:
+					return "depth-reversed"s;
 
 				}
 				return "ERROR"s;

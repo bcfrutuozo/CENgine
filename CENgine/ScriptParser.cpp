@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 
 using namespace std::string_literals;
 
@@ -28,7 +29,7 @@ ScriptParser::ScriptParser(const std::vector<std::string>& args)
 		{
 			for(const auto& j : top)
 			{
-				const auto command = j.at("command").get<std::string>();
+				const auto command = j.at( "command" ).get<std::string>();
 				const auto params = j.at("params");
 				if(command == "flip-y")
 				{
@@ -47,6 +48,10 @@ ScriptParser::ScriptParser(const std::vector<std::string>& args)
 				{
 					TexturePreprocessor::MakeStripes(params.at("dest"), params.at("size"), params.at("stripeWidth"));
 				}
+				else if(command == "publish")
+				{
+					Publish(params.at("dest"));
+				}
 				else
 				{
 					throw SCRIPT_ERROR("Unknown command: "s + command);
@@ -54,6 +59,35 @@ ScriptParser::ScriptParser(const std::vector<std::string>& args)
 			}
 		}
 	}
+}
+
+void ScriptParser::Publish(std::string path) const
+{
+	std::filesystem::create_directory(path);
+	
+	// Copy executable
+	std::filesystem::copy_file(R"(..\x64\Release\CENgine.exe)", path + R"(\CEMgine.exe)", std::filesystem::copy_options::overwrite_existing);
+	
+	// Copy assimp ini
+	std::filesystem::copy_file("imgui_default.ini", path + R"(\imgui_default.ini)", std::filesystem::copy_options::overwrite_existing);
+	
+	// Copy all dlls
+	for(auto& p : std::filesystem::directory_iterator(""))
+	{
+		if(p.path().extension() == L".dll")
+		{
+			std::filesystem::copy_file(p.path(), path + "\\" + p.path().filename().string(),
+				std::filesystem::copy_options::overwrite_existing
+			);
+		}
+	}
+	
+	// Copy compiled shaders
+	std::filesystem::copy("Shaders", path + R"(\Shaders)", std::filesystem::copy_options::overwrite_existing);
+	
+	// Copy assets
+	std::filesystem::copy("Images", path + R"(\Images)", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive);
+	std::filesystem::copy("Models", path + R"(\Models)", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive);
 }
 
 ScriptParser::Exception::Exception(int line, const char* file, const std::string& script, const std::string& message) noexcept

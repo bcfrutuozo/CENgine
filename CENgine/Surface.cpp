@@ -11,7 +11,7 @@
 #include <filesystem>
 
 
-Surface::Surface(const unsigned width, const unsigned height)
+Surface::Surface(unsigned int width, unsigned int height)
 {
 	HRESULT hr = scratch.Initialize2D(format, width, height, 1u, 1u);
 

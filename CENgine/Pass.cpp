@@ -3,116 +3,112 @@
 #include "RenderTarget.h"
 #include "DepthStencil.h"
 #include "Utilities.h"
+#include "Sink.h"
+#include "Source.h"
 
 #include <sstream>
 
-Pass::Pass(std::string name) noexcept
-	:
-	name(std::move(name))
-{ }
-
-void Pass::Reset() NOXND
-{ }
-
-const std::string& Pass::GetName() const noexcept
+namespace RGP
 {
-	return name;
-}
+	Pass::Pass(std::string name) noexcept
+		:
+		name(std::move(name))
+	{ }
 
-void Pass::Finalize()
-{
-	for(auto& in : inputs)
+	Pass::~Pass()
+	{ }
+
+	void Pass::Reset() NOXND
+	{ }
+
+	const std::string& Pass::GetName() const noexcept
 	{
-		in->PostLinkValidate();
+		return name;
 	}
-	for(auto& out : outputs)
-	{
-		out->PostLinkValidate();
-	}
-}
 
-const std::vector<std::unique_ptr<PassInput>>& Pass::GetInputs() const
-{
-	return inputs;
-}
-
-PassOutput& Pass::GetOutput(const std::string& name) const
-{
-	for(auto& out : outputs)
+	void Pass::Finalize()
 	{
-		if(out->GetName() == name)
+		for(auto& in : sinks)
 		{
-			return *out;
+			in->PostLinkValidate();
+		}
+		for(auto& out : sources)
+		{
+			out->PostLinkValidate();
 		}
 	}
 
-	std::ostringstream oss;
-	oss << "Ouput named [" << name << "] not found in pass: " << GetName();
-	throw RGC_EXCEPTION(oss.str());
-}
-
-PassInput& Pass::GetInput(const std::string& registeredName) const
-{
-	for(auto& in : inputs)
+	const std::vector<std::unique_ptr<Sink>>& Pass::GetSinks() const
 	{
-		if(in->GetRegisteredName() == registeredName)
+		return sinks;
+	}
+
+	Source& Pass::GetSource(const std::string& name) const
+	{
+		for(auto& src : sources)
 		{
-			return *in;
+			if(src->GetName() == name)
+			{
+				return *src;
+			}
 		}
+
+		std::ostringstream oss;
+		oss << "Ouput named [" << name << "] not found in pass: " << GetName();
+		throw RGC_EXCEPTION(oss.str());
 	}
 
-	std::ostringstream oss;
-	oss << "Input named [" << registeredName << "] not found in pass: " << GetName();
-	throw RGC_EXCEPTION(oss.str());
-}
-
-void Pass::RegisterInput(std::unique_ptr<PassInput> input)
-{
-	// Check for overlap of input names
-	for(auto& in : inputs)
+	Sink& Pass::GetSink(const std::string& registeredName) const
 	{
-		if(in->GetRegisteredName() == input->GetRegisteredName())
+		for(auto& sk : sinks)
 		{
-			throw RGC_EXCEPTION("Registered input overlaps with existing: " + input->GetRegisteredName());
+			if(sk->GetRegisteredName() == registeredName)
+			{
+				return *sk;
+			}
 		}
+
+		std::ostringstream oss;
+		oss << "Input named [" << registeredName << "] not found in pass: " << GetName();
+		throw RGC_EXCEPTION(oss.str());
 	}
 
-	inputs.push_back(std::move(input));
-}
-
-void Pass::RegisterOutput(std::unique_ptr<PassOutput> output)
-{
-	// check for overlap of output names
-	for(auto& out : outputs)
+	void Pass::RegisterSink(std::unique_ptr<Sink> sink)
 	{
-		if(out->GetName() == output->GetName())
+		// Check for overlap of input names
+		for(auto& sk : sinks)
 		{
-			throw RGC_EXCEPTION("Registered output overlaps with existing: " + output->GetName());
+			if(sk->GetRegisteredName() == sink->GetRegisteredName())
+			{
+				throw RGC_EXCEPTION("Registered input overlaps with existing: " + sink->GetRegisteredName());
+			}
 		}
+
+		sinks.push_back(std::move(sink));
 	}
 
-	outputs.push_back(std::move(output));
-}
+	void Pass::RegisterSource(std::unique_ptr<Source> source)
+	{
+		// check for overlap of output names
+		for(auto& src : sources)
+		{
+			if(src->GetName() == source->GetName())
+			{
+				throw RGC_EXCEPTION("Registered output overlaps with existing: " + src->GetName());
+			}
+		}
 
-void Pass::SetInputSource(const std::string& registeredName, const std::string& target)
-{
-	auto& input = GetInput(registeredName);
-	auto targetSplit = SplitString(target, ".");
-	if(targetSplit.size() != 2u)
-	{
-		throw RGC_EXCEPTION("Input target has incorrect format");
+		sources.push_back(std::move(source));
 	}
-	input.SetTarget(std::move(targetSplit[0]), std::move(targetSplit[1]));
-}
 
-void Pass::BindBufferResources(Graphics& graphics) const NOXND
-{
-	if(renderTarget)
+	void Pass::SetSinkLinkage(const std::string& registeredName, const std::string& target)
 	{
-		renderTarget->BindAsBuffer(graphics, depthStencil.get());
-	}
-	else
-	{
-		depthStencil->BindAsBuffer(graphics);
+		auto& sink = GetSink(registeredName);
+		auto targetSplit = SplitString(target, ".");
+		if(targetSplit.size() != 2u)
+		{
+			throw RGC_EXCEPTION("Input target has incorrect format");
+		}
+		sink.SetTarget(std::move(targetSplit[0]), std::move(targetSplit[1]));
 	}
 }

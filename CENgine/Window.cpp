@@ -102,7 +102,7 @@ Window::~Window()
 	DestroyWindow(handleWindow);
 }
 
-void Window::SetTitle(const std::string& t_Title) noexcept
+void Window::SetTitle(const std::string& t_Title)
 {
 	if (SetWindowText(handleWindow, t_Title.c_str()) == 0)
 	{

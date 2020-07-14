@@ -6,7 +6,7 @@
 
 void Step::Submit(const Drawable& drawable) const
 {
-	pTargetPass->Accept(Job{ this, &drawable });
+	pTargetPass->Accept(RGP::Job{ this, &drawable });
 }
 
 void Step::InitializeParentReferences(const class Drawable& parent) noexcept
@@ -45,7 +45,7 @@ void Step::AddBindable(std::shared_ptr<Bind::Bindable> bindables_in) noexcept
 	bindables.push_back(std::move(bindables_in));
 }
 
-void Step::Bind(Graphics& graphics) const
+void Step::Bind(Graphics& graphics) const NOXND
 {
 	for(const auto& b : bindables)
 	{
@@ -62,7 +62,7 @@ void Step::Accept(TechniqueProbe& probe)
 	}
 }
 
-void Step::Link(RenderGraph& renderGraph)
+void Step::Link(RGP::RenderGraph& renderGraph)
 {
 	assert(pTargetPass == nullptr);
 	pTargetPass = &renderGraph.GetRenderQueue(targetPassName);

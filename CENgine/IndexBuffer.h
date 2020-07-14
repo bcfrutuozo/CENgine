@@ -10,7 +10,7 @@ namespace Bind
 
 		IndexBuffer(Graphics& graphics, const std::vector<unsigned short>& indices);
 		IndexBuffer(Graphics& graphics, std::string tag, const std::vector<unsigned short>& indices);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 		UINT GetCount() const noexcept;
 		static std::shared_ptr<IndexBuffer> Resolve(Graphics& graphics, const std::string& tag, const std::vector<unsigned short>& indices);
 

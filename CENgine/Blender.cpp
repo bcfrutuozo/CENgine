@@ -38,10 +38,12 @@ namespace Bind
 		GFX_THROW_INFO(GetDevice(graphics)->CreateBlendState(&blendDesc, &pBlender));
 	}
 
-	void Blender::Bind(Graphics& graphics) noexcept
+	void Blender::Bind(Graphics& graphics) NOXND
 	{
+		INFOMAN_NOHR(graphics);
+
 		const float* data = factors ? factors->data() : nullptr;
-		GetContext(graphics)->OMSetBlendState(pBlender.Get(), nullptr, 0xFFFFFFFFu);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->OMSetBlendState(pBlender.Get(), nullptr, 0xFFFFFFFFu));
 	}
 
 	void Blender::SetFactor(const float factor) NOXND

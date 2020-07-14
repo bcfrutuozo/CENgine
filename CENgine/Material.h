@@ -1,14 +1,20 @@
 #pragma once
 
 #include "Graphics.h"
-#include "BindableCommon.h"
 #include "Technique.h"
+#include "Vertex.h"
 
 #include <vector>
 #include <filesystem>
 
 struct aiMaterial;
 struct aiMesh;
+
+namespace Bind
+{
+	class VertexBuffer;
+	class IndexBuffer;
+}
 
 class Material
 {

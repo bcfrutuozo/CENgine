@@ -12,7 +12,7 @@ namespace Bind
 
 		VertexBuffer(Graphics& graphics, const CENgineexp::VertexBuffer& vbuf);
 		VertexBuffer(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 		const CENgineexp::VertexLayout& GetLayout() const noexcept;
 		static std::shared_ptr<VertexBuffer> Resolve(Graphics& graphics, const std::string& tag, const CENgineexp::VertexBuffer& vbuf);
 

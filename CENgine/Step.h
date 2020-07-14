@@ -8,8 +8,12 @@
 
 class TechniqueProbe;
 class Drawable;
-class RenderQueuePass;
-class RenderGraph;
+
+namespace RGP
+{
+	class RenderQueuePass;
+	class RenderGraph;
+}
 
 class Step
 {
@@ -22,14 +26,14 @@ public:
 	Step& operator=(const Step&&) = delete;
 	void AddBindable(std::shared_ptr<Bind::Bindable> bindables_in) noexcept;
 	void Submit(const Drawable& drawable) const;
-	void Bind(Graphics& graphics) const;
+	void Bind(Graphics& graphics) const NOXND;
 	void InitializeParentReferences(const Drawable& parent) noexcept;
 	void Accept(TechniqueProbe& probe);
-	void Link(RenderGraph& renderGraph);
+	void Link(RGP::RenderGraph& renderGraph);
 private:
 
 	std::vector<std::shared_ptr<Bind::Bindable>> bindables;
-	RenderQueuePass* pTargetPass;
+	RGP::RenderQueuePass* pTargetPass = nullptr;
 	std::string targetPassName;
 };
 

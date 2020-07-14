@@ -1,6 +1,7 @@
 #include "RenderTarget.h"
 #include "GraphicsThrowMacros.h"
 #include "DepthStencil.h"
+#include "Surface.h"
 
 #include <array>
 
@@ -59,26 +60,27 @@ namespace Bind
 			pTexture, &rtvDesc, &pTargetView));
 	}
 
-	void RenderTarget::BindAsBuffer(Graphics& graphics) noexcept
+	void RenderTarget::BindAsBuffer(Graphics& graphics) NOXND
 	{
 		ID3D11DepthStencilView* const null = nullptr;
 		BindAsBuffer(graphics, null);
 	}
 
-	void RenderTarget::BindAsBuffer(Graphics& graphics, BufferResource* depthStencil) noexcept
+	void RenderTarget::BindAsBuffer(Graphics& graphics, BufferResource* depthStencil) NOXND
 	{
 		assert(dynamic_cast<DepthStencil*>(depthStencil) != nullptr);
 		BindAsBuffer(graphics, static_cast<DepthStencil*>(depthStencil));
 	}
 
-	void RenderTarget::BindAsBuffer(Graphics& graphics, DepthStencil* depthStencil) noexcept
+	void RenderTarget::BindAsBuffer(Graphics& graphics, DepthStencil* depthStencil) NOXND
 	{
 		BindAsBuffer(graphics, depthStencil ? depthStencil->pDepthStencilView.Get() : nullptr);
 	}
 
-	void RenderTarget::BindAsBuffer(Graphics& graphics, ID3D11DepthStencilView* pDepthStencilView) noexcept
+	void RenderTarget::BindAsBuffer(Graphics& graphics, ID3D11DepthStencilView* pDepthStencilView) NOXND
 	{
-		GetContext(graphics)->OMSetRenderTargets(1, pTargetView.GetAddressOf(), pDepthStencilView);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->OMSetRenderTargets(1, pTargetView.GetAddressOf(), pDepthStencilView));
 
 		// Configure viewport
 		D3D11_VIEWPORT vp;
@@ -88,15 +90,16 @@ namespace Bind
 		vp.MaxDepth = 1.0f;
 		vp.TopLeftX = 0.0f;
 		vp.TopLeftY = 0.0f;
-		GetContext(graphics)->RSSetViewports(1u, &vp);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->RSSetViewports(1u, &vp));
 	}
 
-	void RenderTarget::Clear(Graphics& graphics, const std::array<float, 4>& color) noexcept
+	void RenderTarget::Clear(Graphics& graphics, const std::array<float, 4>& color) NOXND
 	{
-		GetContext(graphics)->ClearRenderTargetView(pTargetView.Get(), color.data());
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->ClearRenderTargetView(pTargetView.Get(), color.data()));
 	}
 
-	void RenderTarget::Clear(Graphics& graphics) noexcept
+	void RenderTarget::Clear(Graphics& graphics) NOXND
 	{
 		Clear(graphics, { 0.0f, 0.0f, 0.0f, 0.0f });
 	}
@@ -132,12 +135,58 @@ namespace Bind
 		) );
 	}
 
-	void ShaderInputRenderTarget::Bind(Graphics& graphics) noexcept
+	void ShaderInputRenderTarget::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->PSSetShaderResources(slot, 1, pShaderResourceView.GetAddressOf());
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->PSSetShaderResources(slot, 1, pShaderResourceView.GetAddressOf()));
 	}
 
-	void OutputOnlyRenderTarget::Bind(Graphics& graphics) noexcept
+	Surface Bind::ShaderInputRenderTarget::ToSurface(Graphics& graphics) const
+	{
+		INFOMAN(graphics);
+
+		// Creating a temp texture compatible with the source but with CPU read access
+		Microsoft::WRL::ComPtr<ID3D11Resource> pResource;
+		pShaderResourceView->GetResource(&pResource);
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTextureSource;
+		pResource.As(&pTextureSource);
+
+		D3D11_TEXTURE2D_DESC tDesc;
+		pTextureSource->GetDesc(&tDesc);
+		tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+		tDesc.Usage = D3D11_USAGE_STAGING;
+		tDesc.BindFlags = 0;
+
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> pTextureTemp;
+		GFX_THROW_INFO(GetDevice(graphics)->CreateTexture2D(&tDesc, nullptr, &pTextureTemp));
+
+		// Copy texture contents
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->CopyResource(pTextureTemp.Get(), pTextureSource.Get()));
+
+		// Create surface and copy from temp texture to it
+		const auto width = GetWidth();
+		const auto height = GetHeight();
+
+		Surface s{width, height};
+		D3D11_MAPPED_SUBRESOURCE msr = { };
+		GFX_THROW_INFO(GetContext(graphics)->Map(pTextureTemp.Get(), 0, D3D11_MAP::D3D11_MAP_READ, 0, &msr));
+
+		auto pSourceBytes = static_cast<const char*>(msr.pData);
+		for(unsigned int y = 0; y < height; y++)
+		{
+			auto pSourceRow = reinterpret_cast<const Surface::Color*>(pSourceBytes + (msr.RowPitch * size_t(y)));
+			for(unsigned int x = 0; x < width; x++)
+			{
+				s.PutPixel(x, y, *(pSourceRow + x));
+			}
+		}
+
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->Unmap(pTextureTemp.Get(), 0));
+
+		return s;
+	}
+
+	void OutputOnlyRenderTarget::Bind(Graphics& graphics) NOXND
 	{
 		assert("Cannot bind OutputOnlyRenderTarget as shader input" && false);
 	}

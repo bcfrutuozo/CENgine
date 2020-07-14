@@ -13,7 +13,7 @@ class Node
 public:
 
 	Node(int id, const std::string& name, std::vector<Mesh*> psMeshes, const DirectX::XMMATRIX& transformMatrix) NOXND;
-	void Submit(DirectX::FXMMATRIX accumulatedTransform) const NOXND;
+	void Submit(size_t channels, DirectX::FXMMATRIX accumulatedTransform) const NOXND;
 	void SetAppliedTransform(DirectX::FXMMATRIX transform) noexcept;
 	const DirectX::XMFLOAT4X4& GetAppliedTransform() const noexcept;
 	int GetId() const noexcept;

@@ -2,7 +2,10 @@
 
 #include "TechniqueProbe.h"
 
-class RenderGraph;
+namespace RGP
+{
+	class RenderGraph;
+}
 
 class StepLinkingProbe : public TechniqueProbe
 {
@@ -11,6 +14,6 @@ protected:
 	void OnSetStep() override;
 private:
 
-	RenderGraph& renderGraph;
+	RGP::RenderGraph& renderGraph;
 };
 

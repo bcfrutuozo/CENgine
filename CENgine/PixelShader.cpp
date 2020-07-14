@@ -12,13 +12,14 @@ namespace Bind
 		INFOMAN(graphics);
 
 		Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
-		GFX_THROW_INFO(D3DReadFileToBlob(ToWide(path).c_str(), &pBlob));
+		GFX_THROW_INFO(D3DReadFileToBlob(ToWide("Shaders\\" + path).c_str(), &pBlob));
 		GFX_THROW_INFO(GetDevice(graphics)->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader));
 	}
 
-	void PixelShader::Bind(Graphics& graphics) noexcept
+	void PixelShader::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->PSSetShader(pPixelShader.Get(), nullptr, 0u);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->PSSetShader(pPixelShader.Get(), nullptr, 0u));
 	}
 
 	std::shared_ptr<PixelShader> PixelShader::Resolve(Graphics& graphics, const std::string& path)

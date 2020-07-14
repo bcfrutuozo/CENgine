@@ -68,9 +68,10 @@ namespace Bind
 
 		using DynamicConstantBuffer::DynamicConstantBuffer;
 		
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
-			GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+			INFOMAN_NOHR(graphics);
+			GFX_THROW_INFO_ONLY(GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf()));
 		}
 	};
 
@@ -80,9 +81,10 @@ namespace Bind
 
 		using DynamicConstantBuffer::DynamicConstantBuffer;
 
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
-			GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+			INFOMAN_NOHR(graphics);
+			GFX_THROW_INFO_ONLY(GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf()));
 		}
 
 	};
@@ -120,7 +122,7 @@ namespace Bind
 			dirty = true;
 		}
 
-		void Bind(Graphics& graphics) noexcept override
+		void Bind(Graphics& graphics) NOXND override
 		{
 			if(dirty)
 			{

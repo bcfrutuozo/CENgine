@@ -1,18 +1,15 @@
 #pragma once
 
-#include "Window.h";
+#include "Window.h"
 #include "Timer.h"
 #include "ImGuiManager.h"
-#include "Camera.h"
+#include "CameraContainer.h"
 #include "PointLight.h"
 #include "Model.h"
 #include "ScriptParser.h"
-#include "Stencil.h"
-#include "Material.h"
 #include "TestCube.h"
-#include "RenderGraph.h"
-
-#include <set>
+#include "BlurOutlineRenderGraph.h"
+#include "Math.h"
 
 class App
 {
@@ -21,9 +18,10 @@ public:
 	~App();
 
 	int Start();
-	void ShowImGuiDemoWindow();
 private:
-	void Run();
+	void Run(float dt);
+	void HandleInput(float dt);
+	void ShowImGuiDemoWindow();
 private:
 
 	std::string commandLine;
@@ -31,16 +29,16 @@ private:
 	ImGuiManager imgui;
 	ScriptParser scriptParser;
 	Window window;
-	RenderGraph renderGraph{ window.Gfx() };
+	RGP::BlurOutlineRenderGraph renderGraph{ window.Gfx() };
 	Timer timer;
-	Camera camera;
-	PointLight light;
 	float speed_factor = 1.0f;
-
+	CameraContainer cameras;
+	PointLight light;
 	TestCube cube{ window.Gfx(),4.0f };
 	TestCube cube2{ window.Gfx(),4.0f };
-	//Model sponza{ window.Gfx(), "Models\\sponza\\sponza.obj", 1.0f / 20.0f };
-	//Model nano { window.Gfx(), "Models\\nano_textured\\nanosuit.obj", 2.0f };
-	//Model gobber{ window.Gfx(), "Models\\gobber\\GoblinX.obj", 1.0f };
+	Model sponza{ window.Gfx(), "Models\\sponza\\sponza.obj", 1.0f / 20.0f };
+	Model nano{ window.Gfx(), "Models\\nano_textured\\nanosuit.obj", 2.0f };
+	Model gobber{ window.Gfx(), "Models\\gobber\\GoblinX.obj", 4.0f };
 	//Model stripey{ window.Gfx(), "Models\\brick_wall\\brick_wall.obj", 2.0f };
+	bool savingDepth = false;
 };

@@ -2,23 +2,25 @@
 #include "GraphicsThrowMacros.h"
 #include "BindableCodex.h"
 #include "Vertex.h"
+#include "VertexShader.h"
 
 namespace Bind
 {
 	InputLayout::InputLayout(Graphics& graphics,
 		CENgineexp::VertexLayout layout_in,
-		ID3DBlob* pVertexShaderByteCode)
+		const VertexShader& vertexShader)
 		:
 		layout(std::move(layout_in))
 	{
 		INFOMAN(graphics);
 
 		const auto d3dLayout = layout.GetD3DLayout();
+		const auto pByteCode = vertexShader.GetByteCode();
 
 		GFX_THROW_INFO(GetDevice(graphics)->CreateInputLayout(
 			d3dLayout.data(), static_cast<UINT>(d3dLayout.size()),
-			pVertexShaderByteCode->GetBufferPointer(),
-			pVertexShaderByteCode->GetBufferSize(),
+			pByteCode->GetBufferPointer(),
+			pByteCode->GetBufferSize(),
 			&pInputLayout));
 	}
 
@@ -27,24 +29,26 @@ namespace Bind
 		return layout;
 	}
 
-	void InputLayout::Bind(Graphics& graphics) noexcept
+	void InputLayout::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->IASetInputLayout(pInputLayout.Get());
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->IASetInputLayout(pInputLayout.Get()));
 	}
 
-	std::shared_ptr<InputLayout> InputLayout::Resolve(Graphics& graphics, const CENgineexp::VertexLayout& layout, ID3DBlob* pVertexShaderByteCode)
+	std::shared_ptr<InputLayout> InputLayout::Resolve(Graphics& graphics, const CENgineexp::VertexLayout& layout, const VertexShader& vertexShader)
 	{
-		return Codex::Resolve<InputLayout>(graphics, layout, pVertexShaderByteCode);
+		return Codex::Resolve<InputLayout>(graphics, layout, vertexShader);
 	}
 
-	std::string InputLayout::GenerateUID(const CENgineexp::VertexLayout& layout, ID3DBlob* pVertexShaderByteCode)
+	std::string InputLayout::GenerateUID(const CENgineexp::VertexLayout& layout, const VertexShader& vertexShader)
 	{
 		using namespace std::string_literals;
-		return typeid(InputLayout).name() + "#"s + layout.GetCode();
+		return typeid(InputLayout).name() + "#"s + layout.GetCode() + "#"s + vertexShader.GetUID();
 	}
 
 	std::string InputLayout::GetUID() const noexcept
 	{
-		return GenerateUID(layout);
+		using namespace std::string_literals;
+		return typeid(InputLayout).name() + "#"s + layout.GetCode() + "#"s + vertexShaderUID;
 	}
 }

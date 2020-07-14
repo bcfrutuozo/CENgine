@@ -24,15 +24,15 @@ void Drawable::AddTechnique(Technique tech_in) noexcept
 	techniques.push_back( std::move( tech_in ) );
 }
 
-void Drawable::Submit() const noexcept
+void Drawable::Submit(size_t channelFilter) const noexcept
 {
 	for(const auto& tech : techniques)
 	{
-		tech.Submit(*this);
+		tech.Submit(*this, channelFilter);
 	}
 }
 
-void Drawable::Bind(Graphics& graphics) const noexcept
+void Drawable::Bind(Graphics& graphics) const NOXND
 {
 	pTopology->Bind(graphics);
 	pIndices->Bind(graphics);
@@ -52,7 +52,7 @@ UINT Drawable::GetIndexCount() const NOXND
 	return pIndices->GetCount();
 }
 
-void Drawable::LinkTechniques(RenderGraph& renderGraph)
+void Drawable::LinkTechniques(RGP::RenderGraph& renderGraph)
 {
 	for(auto& tech : techniques)
 	{

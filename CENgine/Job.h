@@ -2,15 +2,21 @@
 
 #include "Conditional_noexcept.h"
 
-class Job
+class Drawable;
+class Graphics;
+class Step;
+
+namespace RGP
 {
-public:
+	class Job
+	{
+	public:
 
-	Job(const class Step* pStep, const class Drawable* pDrawable);
-	void Execute(class Graphics& graphics) const NOXND;
-private:
+		Job(const Step* pStep, const Drawable* pDrawable);
+		void Execute(Graphics& graphics) const NOXND;
+	private:
 
-	const class Drawable* pDrawable;
-	const class Step* pStep;
-};
-
+		const class Drawable* pDrawable;
+		const class Step* pStep;
+	};
+}

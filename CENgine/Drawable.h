@@ -9,8 +9,12 @@
 
 class TechniqueProbe;
 class Material;
-class RenderGraph;
 struct aiMesh;
+
+namespace RGP
+{
+	class RenderGraph;
+}
 
 namespace Bind
 {
@@ -29,11 +33,11 @@ public:
 	Drawable(const Drawable&) = delete;
 	void AddTechnique(Technique tech_in) noexcept;
  	virtual DirectX::XMMATRIX GetTransformXM() const noexcept = 0;
-	void Submit() const noexcept;
-	void Bind( Graphics& graphics ) const noexcept;
+	void Submit(size_t channelFilter) const noexcept;
+	void Bind( Graphics& graphics ) const NOXND;
 	void Accept(TechniqueProbe& probe);
 	UINT GetIndexCount() const NOXND;
-	void LinkTechniques(RenderGraph& renderGraph);
+	void LinkTechniques(RGP::RenderGraph& renderGraph);
 	virtual ~Drawable();
 
 protected:

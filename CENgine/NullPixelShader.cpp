@@ -8,9 +8,10 @@ namespace Bind
 	NullPixelShader::NullPixelShader(Graphics& graphics)
 	{ }
 
-	void NullPixelShader::Bind(Graphics& graphics) noexcept
+	void NullPixelShader::Bind(Graphics& graphics) NOXND
 	{
-		GetContext(graphics)->PSSetShader(nullptr, nullptr, 0u);
+		INFOMAN_NOHR(graphics);
+		GFX_THROW_INFO_ONLY(GetContext(graphics)->PSSetShader(nullptr, nullptr, 0u));
 	}
 
 	std::shared_ptr<NullPixelShader> NullPixelShader::Resolve(Graphics& graphics)

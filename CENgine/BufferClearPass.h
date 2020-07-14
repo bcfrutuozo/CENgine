@@ -2,11 +2,21 @@
 
 #include "Pass.h"
 
-class BufferClearPass : public Pass
+namespace Bind
 {
-public:
+	class BufferResource;
+}
 
-	BufferClearPass(std::string name);
-	void Execute(Graphics& graphics) const NOXND override;
-};
+namespace RGP
+{
+	class BufferClearPass : public Pass
+	{
+	public:
 
+		BufferClearPass(std::string name);
+		void Execute(Graphics& graphics) const NOXND override;
+	private:
+
+		std::shared_ptr<Bind::BufferResource> buffer;
+	};
+}

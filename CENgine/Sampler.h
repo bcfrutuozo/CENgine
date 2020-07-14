@@ -8,14 +8,21 @@ namespace Bind
 	{
 	public:
 
-		Sampler(Graphics& graphics, bool isAnisoEnabled, bool isReflect);
-		void Bind(Graphics& graphics) noexcept override;
-		static std::shared_ptr<Sampler> Resolve(Graphics& graphics, bool isAnisoEnabled = true, bool isReflect = false);
-		static std::string GenerateUID(bool isAnisoEnabled, bool isReflect);
+		enum class Type
+		{
+			Anisotropic,
+			Bilinear,
+			Point,
+		};
+
+		Sampler(Graphics& graphics, Type type, bool isReflect);
+		void Bind(Graphics& graphics) NOXND override;
+		static std::shared_ptr<Sampler> Resolve(Graphics& graphics, Type type = Type::Anisotropic, bool isReflect = false);
+		static std::string GenerateUID(Type type, bool isReflect);
 		std::string GetUID() const noexcept override;
 	protected:
 
-		bool isAnisoEnabled;
+		Type type;
 		bool isReflect;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> pSampler;
 	};

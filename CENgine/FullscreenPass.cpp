@@ -1,12 +1,11 @@
 #include "FullscreenPass.h"
 #include "BindableCommon.h"
 
-FullscreenPass::FullscreenPass(const std::string name, Graphics& graphics) NOXND
-	:
-BindingPass(std::move(name))
+namespace RGP
 {
-	// Do a static initialization if required
-	if(!pIndexBuffer)
+	FullscreenPass::FullscreenPass(const std::string name, Graphics& graphics) NOXND
+		:
+	BindingPass(std::move(name))
 	{
 		// Setup fullscreen geometry
 		CENgineexp::VertexLayout layout;
@@ -16,28 +15,21 @@ BindingPass(std::move(name))
 		vBuf.EmplaceBack(DirectX::XMFLOAT2{ 1, 1 });
 		vBuf.EmplaceBack(DirectX::XMFLOAT2{ -1, -1 });
 		vBuf.EmplaceBack(DirectX::XMFLOAT2{ 1, -1 });
-		pVertexBuffer = Bind::VertexBuffer::Resolve(graphics, "$Full", std::move(vBuf));
+		AddBind(Bind::VertexBuffer::Resolve(graphics, "$Full", std::move(vBuf)));
 		std::vector<unsigned short> indices = { 0, 1, 2, 1, 3, 2 };
-		pIndexBuffer = Bind::IndexBuffer::Resolve(graphics, "$Full", std::move(indices));
+		AddBind(Bind::IndexBuffer::Resolve(graphics, "$Full", std::move(indices)));
 
-		// Setup fullscreen shaders
-		pVertexShader = Bind::VertexShader::Resolve(graphics, "Fullscreen_VS.cso");
-		pInputLayout = Bind::InputLayout::Resolve(graphics, layout, pVertexShader->GetByteCode());
+		// Setup other common fullscreen bindables
+		auto vs = Bind::VertexShader::Resolve(graphics, "Fullscreen_VS.cso");
+		AddBind(Bind::InputLayout::Resolve(graphics, layout, *vs));
+		AddBind(std::move(vs));
+		AddBind(Bind::Topology::Resolve(graphics));
+		AddBind(Bind::Rasterizer::Resolve(graphics, false));
+	}
+
+	void FullscreenPass::Execute(Graphics& graphics) const NOXND
+	{
+		BindAll(graphics);
+		graphics.DrawIndexed(6u);
 	}
 }
-
-void FullscreenPass::Execute(Graphics& graphics) const noexcept
-{
-	BindAll(graphics);
-	pVertexBuffer->Bind(graphics);
-	pIndexBuffer->Bind(graphics);
-	pVertexShader->Bind(graphics);
-	pInputLayout->Bind(graphics);
-
-	graphics.DrawIndexed(pIndexBuffer->GetCount());
-}
-
-std::shared_ptr<Bind::VertexBuffer> FullscreenPass::pVertexBuffer;
-std::shared_ptr<Bind::IndexBuffer> FullscreenPass::pIndexBuffer;
-std::shared_ptr<Bind::VertexShader> FullscreenPass::pVertexShader;
-std::shared_ptr<Bind::InputLayout> FullscreenPass::pInputLayout;

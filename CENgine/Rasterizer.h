@@ -11,7 +11,7 @@ namespace Bind
 	public:
 
 		Rasterizer(Graphics& graphics, const bool isTwoSided);
-		void Bind(Graphics& graphics) noexcept override;
+		void Bind(Graphics& graphics) NOXND override;
 		static std::shared_ptr<Rasterizer> Resolve(Graphics& graphics, const bool isTwoSided);
 		static std::string GenerateUID(const bool isTwoSided);
 		std::string GetUID() const noexcept override;
