@@ -45,6 +45,11 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 	return DirectX::XMMatrixLookAtLH(camPosition, camTarget, DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
 }
 
+DirectX::XMMATRIX Camera::GetProjection() const noexcept
+{
+	return projection.GetMatrix();
+}
+
 void Camera::SpawnControlWidgets(Graphics& graphics) noexcept
 {
 	bool rotDirty = false;

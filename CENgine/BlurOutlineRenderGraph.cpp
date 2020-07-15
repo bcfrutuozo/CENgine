@@ -8,6 +8,7 @@
 #include "VerticalBlurPass.h"
 #include "BlurOutlineDrawingPass.h"
 #include "WireframePass.h"
+#include "ShadowMappingPass.h"
 #include "RenderTarget.h"
 #include "DynamicConstant.h"
 #include "Math.h"
@@ -30,7 +31,12 @@ namespace RGP
 			AppendPass(std::move(pass));
 		}
 		{
+			auto pass = std::make_unique<ShadowMappingPass>(graphics, "shadowMap");
+			AppendPass(std::move(pass));
+		}
+		{
 			auto pass = std::make_unique<LambertianPass>(graphics, "lambertian");
+			pass->SetSinkLinkage("shadowMap", "shadowMap.map");
 			pass->SetSinkLinkage("renderTarget", "clearRT.buffer");
 			pass->SetSinkLinkage("depthStencil", "clearDS.buffer");
 			AppendPass(std::move(pass));
@@ -188,8 +194,19 @@ namespace RGP
 		ImGui::End();
 	}
 
+	void BlurOutlineRenderGraph::DumpShadowMap(Graphics& graphics, const std::string& path)
+	{
+		dynamic_cast<ShadowMappingPass&>(FindPassByName("shadowMap")).DumpShadowMap(graphics, path);
+	}
+
 	void BlurOutlineRenderGraph::BindMainCamera(Camera& camera)
 	{
 		dynamic_cast<LambertianPass&>(FindPassByName("lambertian")).BindMainCamera(camera);
+	}
+
+	void BlurOutlineRenderGraph::BindShadowCamera(Camera& camera)
+	{
+		dynamic_cast<ShadowMappingPass&>(FindPassByName("shadowMap")).BindShadowCamera(camera);
+		dynamic_cast<LambertianPass&>(FindPassByName("lambertian")).BindShadowCamera(camera);
 	}
 }

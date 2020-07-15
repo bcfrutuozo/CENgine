@@ -30,11 +30,11 @@ TestCube::TestCube(Graphics& graphics, float size)
 			only.AddBindable(Bind::Texture::Resolve(graphics, "Images\\brickwall.jpg"));
 			only.AddBindable(Bind::Sampler::Resolve(graphics));
 
-			auto pvs = Bind::VertexShader::Resolve(graphics, "PhongDif_VS.cso");
+			auto pvs = Bind::VertexShader::Resolve(graphics, "ShadowTest_VS.cso");
 			only.AddBindable(Bind::InputLayout::Resolve(graphics, model.vertices.GetLayout(), *pvs));
 			only.AddBindable(std::move(pvs));
 
-			only.AddBindable(Bind::PixelShader::Resolve(graphics, "PhongDif_PS.cso"));
+			only.AddBindable(Bind::PixelShader::Resolve(graphics, "ShadowTest_PS.cso"));
 
 			DRR::IncompleteLayout lay;
 			lay.Add<DRR::Float3>("specularColor");
@@ -87,6 +87,24 @@ TestCube::TestCube(Graphics& graphics, float size)
 			outline.AddStep(std::move(draw));
 		}
 		AddTechnique(std::move(outline));
+	}
+
+	// Shadow map technique
+	{
+		Technique map{ "ShadowMap",Channel::shadow,true };
+		{
+			Step draw("shadowMap");
+
+			// TODO: better sub-layout generation tech for future consideration maybe
+			draw.AddBindable(Bind::InputLayout::Resolve(graphics, model.vertices.GetLayout(), *Bind::VertexShader::Resolve(graphics, "Solid_VS.cso")));
+
+			draw.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
+
+			// TODO: might need to specify rasterizer when doubled-sided models start being used
+
+			map.AddStep(std::move(draw));
+		}
+		AddTechnique(std::move(map));
 	}
 }
 

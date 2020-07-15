@@ -76,7 +76,7 @@ Graphics::Graphics(HWND handle, int width, int height)
 	// Gain access to texture resource in swap chain (back buffer)
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = nullptr;
 	GFX_THROW_INFO(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBuffer));
-	pTarget = std::shared_ptr<Bind::RenderTarget> { new Bind::OutputOnlyRenderTarget(*this, pBackBuffer.Get()) };
+	pTarget = std::shared_ptr<Bind::RenderTarget>{ new Bind::OutputOnlyRenderTarget(*this, pBackBuffer.Get()) };
 
 	// Viewport always fullscreen (for now)
 	D3D11_VIEWPORT vp;
@@ -86,7 +86,7 @@ Graphics::Graphics(HWND handle, int width, int height)
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;
 	vp.TopLeftY = 0.0f;
-	pContext->RSSetViewports( 1u,&vp );
+	pContext->RSSetViewports(1u, &vp);
 
 	// Init ImGui D3D implementation
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
@@ -106,6 +106,11 @@ void Graphics::BeginFrame(float red, float green, float blue) const noexcept
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
+
+	// Clearing shader inputs to prevent simultaneous in/out bind carried over from previous frame
+	ID3D11ShaderResourceView* const pNullTex = nullptr;
+	pContext->PSSetShaderResources(0, 1, &pNullTex); // fullscreen input texture
+	pContext->PSSetShaderResources(3, 1, &pNullTex); // shadow map texture
 }
 
 void Graphics::EndFrame()
@@ -134,7 +139,7 @@ void Graphics::EndFrame()
 			GFX_EXCEPT(hr);
 		}
 	}
-}
+	}
 
 void Graphics::DrawIndexed(UINT count) NOXND
 {

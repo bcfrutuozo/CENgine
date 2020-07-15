@@ -4,16 +4,15 @@
 #include "PointLight.hlsli"
 #include "PShadow.hlsli"
 
-cbuffer ObjectCBuf : register(b1)
+cbuffer ObjectCBuf : register(b1) // Bind to register slot 1
 {
     float3 specularColor;
     float specularWeight;
     float specularGloss;
 };
 
-Texture2D tex : register(t0);
-
-SamplerState splr : register(s0);
+Texture2D tex : register(t0);     // Bind to register slot 0
+SamplerState splr : register(s0); // Bind to register slot 0
 
 float4 main(float3 viewFragPos : Position, float3 viewNormal : Normal, float2 tc : Texcoord, float4 spos : ShadowPosition) : SV_Target
 {

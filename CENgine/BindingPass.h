@@ -16,7 +16,7 @@ namespace RGP
 
 		BindingPass(std::string name, std::vector<std::shared_ptr<Bind::Bindable>> binds = { });
 		void AddBind(std::shared_ptr<Bind::Bindable> bind) noexcept;
-		void BindAll(Graphics& graphics) const noexcept;
+		void BindAll(Graphics& graphics) const NOXND;
 		void Finalize() override;
 	protected:
 

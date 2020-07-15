@@ -176,6 +176,24 @@ modelPath(modelPath.string())
 
 		techniques.push_back(std::move(outline));
 	}
+
+	// Shadow map technique
+	{
+		Technique map{ "ShadowMap",Channel::shadow,true };
+		{
+			Step draw("shadowMap");
+
+			// TODO: better sub-layout generation tech for future consideration maybe
+			draw.AddBindable(Bind::InputLayout::Resolve(graphics, vtxLayout, *Bind::VertexShader::Resolve(graphics, "Solid_VS.cso")));
+
+			draw.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
+
+			// TODO: might need to specify rasterizer when doubled-sided models start being used
+
+			map.AddStep(std::move(draw));
+		}
+		techniques.push_back(std::move(map));
+	}
 }
 
 CENgineexp::VertexBuffer Material::ExtractVertices(const aiMesh& mesh) const noexcept

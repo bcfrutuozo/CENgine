@@ -306,6 +306,12 @@
     <ClCompile Include="BlurOutlineRenderGraph.cpp">
       <Filter>Source Files\Jobber\Graphlib</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowCameraCbuf.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowSampler.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -776,9 +782,6 @@
     <ClInclude Include="GraphicsResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DepthStencil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Geometry</Filter>
     </ClInclude>
@@ -875,6 +878,18 @@
     <ClInclude Include="BufferResource.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="ShadowMappingPass.h">
+      <Filter>Header Files\Jobber\Passlib</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowCameraCbuf.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowSampler.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthStencil.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="cengine.ico">
@@ -882,15 +897,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="LightVectorData.hlsl">
-      <Filter>Source Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Transform.hlsl">
-      <Filter>Source Files\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="PointLight.hlsl">
-      <Filter>Source Files\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="PhongDifMskSpcNrm_PS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
@@ -933,9 +939,6 @@
     <FxCompile Include="Solid_VS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Offset_VS.hlsl">
-      <Filter>Source Files\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Fullscreen_VS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
@@ -951,13 +954,25 @@
     <FxCompile Include="PhongDifMskSpc_PS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Test1_VS.hlsl">
+    <FxCompile Include="ShadowTest_VS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Test2_VS.hlsl">
+    <FxCompile Include="ShadowTest_PS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Test_PS.hlsl">
+    <FxCompile Include="PointLight.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ShaderOps.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Transform.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="LightVectorData.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Offset_VS_deprecated.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
@@ -996,6 +1011,12 @@
     <None Include="HLSL.props" />
     <None Include="imgui_default.ini" />
     <None Include="process.json" />
+    <None Include="VShadow.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="PShadow.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="assimp\bin\x64\assimp-vc142-mt.lib" />

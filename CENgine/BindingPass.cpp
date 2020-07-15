@@ -17,7 +17,7 @@ namespace RGP
 		binds.push_back(std::move(bind));
 	}
 
-	void BindingPass::BindAll(Graphics& graphics) const noexcept
+	void BindingPass::BindAll(Graphics& graphics) const NOXND
 	{
 		BindBufferResources(graphics);
 

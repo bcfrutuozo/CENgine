@@ -15,14 +15,15 @@ App::App(const std::string& commandLine)
 	commandLine(commandLine),
 	window(1920, 1080, "CENgine"),
 	scriptParser(TokenizedQuoted(commandLine)),
-	light(window.Gfx())
+	light(window.Gfx(), { 10.0f,5.0f,0.0f })
 {
 	cameras.AddCamera(std::make_unique<Camera>(window.Gfx(), "A", DirectX::XMFLOAT3{ -13.5f,6.0f,3.5f }, 0.0f, PI / 2.0f));
 	cameras.AddCamera(std::make_unique<Camera>(window.Gfx(), "B", DirectX::XMFLOAT3{ -13.5f,28.8f,-6.4f }, PI / 180.0f * 13.0f, PI / 180.0f * 61.0f));
 	cameras.AddCamera(light.ShareCamera());
 
-	cube.SetPos({ 4.0f,0.0f,0.0f });
-	cube2.SetPos({ 0.0f,4.0f,0.0f });
+	cube.SetPos({ 10.0f,5.0f,6.0f });
+	cube2.SetPos({ 10.0f,5.0f,14.0f });
+
 	nano.SetRootTransform(
 		DirectX::XMMatrixRotationY(PI / 2.f) *
 		DirectX::XMMatrixTranslation(27.f, -0.56f, 1.7f)
@@ -39,6 +40,8 @@ App::App(const std::string& commandLine)
 	gobber.LinkTechniques(renderGraph);
 	nano.LinkTechniques(renderGraph);
 	cameras.LinkTechniques(renderGraph);
+
+	renderGraph.BindShadowCamera(*light.ShareCamera());
 }
 
 App::~App()
@@ -146,15 +149,28 @@ void App::Run(float dt)
 	renderGraph.BindMainCamera(cameras.GetActiveCamera());
 
 	// Render geometry
-	nano.Submit(Channel::main);
-	gobber.Submit(Channel::main);
 	light.Submit(Channel::main);
 	cube.Submit(Channel::main);
 	sponza.Submit(Channel::main);
 	cube2.Submit(Channel::main);
+	gobber.Submit(Channel::main);
+	nano.Submit(Channel::main);
 	cameras.Submit(Channel::main);
 
+	sponza.Submit(Channel::shadow);
+	cube.Submit(Channel::shadow);
+	sponza.Submit(Channel::shadow);
+	cube2.Submit(Channel::shadow);
+	gobber.Submit(Channel::shadow);
+	nano.Submit(Channel::shadow);
+
 	renderGraph.Execute(window.Gfx());
+
+	if(savingDepth)
+	{
+		renderGraph.DumpShadowMap(window.Gfx(), "shadow.png");
+		savingDepth = false;
+	}
 
 	static MP sponzeProbe{ "Sponza" };
 	static MP gobberProbe{ "Gobber" };
@@ -168,7 +184,6 @@ void App::Run(float dt)
 	cameras.SpawnWindow(window.Gfx());
 	light.SpawnControlWindow();
 	renderGraph.RenderWidgets(window.Gfx());
-
 	ShowImGuiDemoWindow();
 	cube.SpawnControlWindow(window.Gfx(), "Cube 1");
 	cube2.SpawnControlWindow(window.Gfx(), "Cube 2");
@@ -176,12 +191,6 @@ void App::Run(float dt)
 	// Present the frame
 	window.Gfx().EndFrame();
 	renderGraph.Reset();
-
-	if(savingDepth)
-	{
-		renderGraph.StoreDepth(window.Gfx(), "depth.png");
-		savingDepth = false;
-	}
 }
 
 void App::ShowImGuiDemoWindow()

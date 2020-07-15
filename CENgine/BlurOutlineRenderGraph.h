@@ -22,6 +22,7 @@ namespace RGP
 
 		BlurOutlineRenderGraph(Graphics& graphics);
 		void RenderWidgets(Graphics& graphics);
+		void DumpShadowMap(Graphics& graphics, const std::string& path);
 		void BindMainCamera(Camera& camera);
 		void BindShadowCamera(Camera& camera);
 	private:

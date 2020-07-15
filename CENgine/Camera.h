@@ -20,6 +20,7 @@ public:
 	Camera(Graphics& graphics, std::string name, DirectX::XMFLOAT3 homePosition = { 0.0f, 0.0f, 0.0f }, float homePitch = 0.0f, float homeYaw = 0.0f, bool isTethered = false) noexcept;
 	void BindToGraphics(Graphics& graphics) const;
 	DirectX::XMMATRIX GetMatrix() const noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
 	void SpawnControlWidgets(Graphics& graphics) noexcept;
 	void Reset(Graphics& graphics) noexcept;
 	void Rotate(float dx, float dy) noexcept;

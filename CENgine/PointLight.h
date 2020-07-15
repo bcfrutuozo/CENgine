@@ -16,7 +16,7 @@ class PointLight
 {
 public:
 
-	PointLight(Graphics& graphics, float radius = 0.5f);
+	PointLight(Graphics& graphics, DirectX::XMFLOAT3 position = { 10.0f,9.0f,2.5f }, float radius = 0.5f);
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
 	void Submit(size_t channels) const NOXND;
@@ -37,6 +37,7 @@ private:
 		float attQuad;
 	};
 
+	PointLightCBuf home;
 	PointLightCBuf cbData;
 	mutable SolidSphere mesh;
 	mutable Bind::PixelConstantBuffer<PointLightCBuf> constantBuffer;

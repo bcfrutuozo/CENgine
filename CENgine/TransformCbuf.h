@@ -18,6 +18,7 @@ namespace Bind
 
 		struct Transforms
 		{
+			DirectX::XMMATRIX model;
 			DirectX::XMMATRIX modelView;
 			DirectX::XMMATRIX modelViewProj;
 		};

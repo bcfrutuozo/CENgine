@@ -1,4 +1,4 @@
-cbuffer PointLightCBuf
+cbuffer PointLightCBuf : register(b0)   // Bind to register slot 0
 {
     float3 viewLightPos;
     float3 ambient;
