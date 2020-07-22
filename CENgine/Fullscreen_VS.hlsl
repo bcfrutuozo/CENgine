@@ -1,6 +1,6 @@
 struct VSOut
 {
-    float2 uv : Texcood;
+    float2 uv : Texcoord;
     float4 pos : SV_Position;
 };
 

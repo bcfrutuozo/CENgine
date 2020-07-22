@@ -1,6 +1,7 @@
 #include "PointLight.h"
 #include "imgui/imgui.h"
 #include "Camera.h"
+#include "Math.h"
 
 PointLight::PointLight(Graphics& graphics, DirectX::XMFLOAT3 position, float radius)
 	:
@@ -18,7 +19,7 @@ PointLight::PointLight(Graphics& graphics, DirectX::XMFLOAT3 position, float rad
 	};
 
 	Reset();
-	pCamera = std::make_shared<Camera>(graphics, "Light", cbData.pos, 0.0f, 0.0f, true);
+	pCamera = std::make_shared<Camera>(graphics, "Light", cbData.viewLightPos, 0, -PI / 2, true);
 }
 
 void PointLight::SpawnControlWindow() noexcept
@@ -29,13 +30,13 @@ void PointLight::SpawnControlWindow() noexcept
 		const auto dcheck = [&dirtyPos](bool dirty) { dirtyPos = dirtyPos || dirty; };
 
 		ImGui::Text("Position");
-		dcheck(ImGui::SliderFloat("X", &cbData.pos.x, -60.f, 60.0f, "%.f%"));
-		dcheck(ImGui::SliderFloat("Y", &cbData.pos.y, -60.f, 60.0f, "%.1f"));
-		dcheck(ImGui::SliderFloat("Z", &cbData.pos.z, -60.0f, 60.0f, "%.1f"));
+		dcheck(ImGui::SliderFloat("X", &cbData.viewLightPos.x, -60.f, 60.0f, "%.f%"));
+		dcheck(ImGui::SliderFloat("Y", &cbData.viewLightPos.y, -60.f, 60.0f, "%.1f"));
+		dcheck(ImGui::SliderFloat("Z", &cbData.viewLightPos.z, -60.0f, 60.0f, "%.1f"));
 
 		if(dirtyPos)
 		{
-			pCamera->SetPosition(cbData.pos);
+			pCamera->SetPosition(cbData.viewLightPos);
 		}
 
 		ImGui::Text("Intensity/Color");
@@ -63,15 +64,15 @@ void PointLight::Reset() noexcept
 
 void PointLight::Submit(size_t channels) const NOXND
 {
-	mesh.SetPos(cbData.pos);
+	mesh.SetPos(cbData.viewLightPos);
 	mesh.Submit(channels);
 }
 
 void PointLight::Bind(Graphics& graphics, DirectX::FXMMATRIX view) const noexcept
 {
 	auto dataCopy = cbData;
-	const auto& pos = DirectX::XMLoadFloat3(&cbData.pos);
-	DirectX::XMStoreFloat3(&dataCopy.pos, DirectX::XMVector3Transform(pos, view));
+	const auto& pos = DirectX::XMLoadFloat3(&cbData.viewLightPos);
+	DirectX::XMStoreFloat3(&dataCopy.viewLightPos, DirectX::XMVector3Transform(pos, view));
 	constantBuffer.Update(graphics, dataCopy);
 	constantBuffer.Bind(graphics);
 }

@@ -68,11 +68,18 @@ public:
 	};
 public:
 
-	Graphics(HWND handle, int width, int height);
+	enum class Type
+	{
+		Windowed,
+		Fullscreen
+	};
+
+	Graphics(HWND handle, int width, int height, Type windowType = Type::Windowed);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
-
+	void SetFullscreenState(Type type);
+	Type GetFullscreenState() const noexcept;
 	void BeginFrame(float red, float green, float blue) const noexcept;
 	void EndFrame();
 	void DrawIndexed(UINT count) NOXND;
@@ -91,6 +98,8 @@ private:
 	UINT width;
 	UINT height;
 	bool isImGuiEnabled;
+	bool hasWindowTypeSwitched = false;
+	Type windowType;
 	DirectX::XMMATRIX camera;
 	DirectX::XMMATRIX projection;
 	

@@ -13,6 +13,7 @@
 #include "DynamicConstant.h"
 #include "Math.h"
 #include "imgui/imgui.h"
+#include "SkyboxPass.h"
 
 namespace RGP
 {
@@ -34,6 +35,7 @@ namespace RGP
 			auto pass = std::make_unique<ShadowMappingPass>(graphics, "shadowMap");
 			AppendPass(std::move(pass));
 		}
+
 		{
 			auto pass = std::make_unique<LambertianPass>(graphics, "lambertian");
 			pass->SetSinkLinkage("shadowMap", "shadowMap.map");
@@ -42,8 +44,14 @@ namespace RGP
 			AppendPass(std::move(pass));
 		}
 		{
-			auto pass = std::make_unique<OutlineMaskGenerationPass>(graphics, "outlineMask");
+			auto pass = std::make_unique<SkyboxPass>(graphics, "skybox");
+			pass->SetSinkLinkage("renderTarget", "lambertian.renderTarget");
 			pass->SetSinkLinkage("depthStencil", "lambertian.depthStencil");
+			AppendPass(std::move(pass));
+		}
+		{
+			auto pass = std::make_unique<OutlineMaskGenerationPass>(graphics, "outlineMask");
+			pass->SetSinkLinkage("depthStencil", "skybox.depthStencil");
 			AppendPass(std::move(pass));
 		}
 
@@ -81,7 +89,7 @@ namespace RGP
 		}
 		{
 			auto pass = std::make_unique<VerticalBlurPass>("vertical", graphics);
-			pass->SetSinkLinkage("renderTarget", "lambertian.renderTarget");
+			pass->SetSinkLinkage("renderTarget", "skybox.renderTarget");
 			pass->SetSinkLinkage("depthStencil", "outlineMask.depthStencil");
 			pass->SetSinkLinkage("scratchIn", "horizontal.scratchOut");
 			pass->SetSinkLinkage("kernel", "$.blurKernel");
@@ -144,6 +152,12 @@ namespace RGP
 
 	void BlurOutlineRenderGraph::RenderWidgets(Graphics& graphics)
 	{
+		RenderKernelWidget(graphics);
+		dynamic_cast<SkyboxPass&>(FindPassByName("skybox")).RenderWidget();
+	}
+
+	void BlurOutlineRenderGraph::RenderKernelWidget(Graphics& graphics)
+	{
 		if(ImGui::Begin("Kernel"))
 		{
 			bool filterChanged = false;
@@ -202,6 +216,7 @@ namespace RGP
 	void BlurOutlineRenderGraph::BindMainCamera(Camera& camera)
 	{
 		dynamic_cast<LambertianPass&>(FindPassByName("lambertian")).BindMainCamera(camera);
+		dynamic_cast<SkyboxPass&>(FindPassByName("skybox")).BindMainCamera(camera);
 	}
 
 	void BlurOutlineRenderGraph::BindShadowCamera(Camera& camera)

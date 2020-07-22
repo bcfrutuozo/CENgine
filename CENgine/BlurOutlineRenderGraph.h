@@ -33,6 +33,7 @@ namespace RGP
 			Box,
 		} kernelType = KernelType::Gauss;
 
+		void RenderKernelWidget(Graphics& graphics);
 		void SetKernelGauss(int radius, float sigma) NOXND;
 		void SetKernelBox(int radius) NOXND;
 

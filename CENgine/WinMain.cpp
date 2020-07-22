@@ -1,4 +1,4 @@
-#include "App.h"
+#include "Application.h"
 
 int CALLBACK WinMain(
 	HINSTANCE currentInstance,
@@ -8,8 +8,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
-		//std::string x("--commands process.json");
-		return App{ commandLine }.Start();
+		return Application{ commandLine }.Start();
 	}
 	catch(const CENgineException& e)
 	{

@@ -43,6 +43,7 @@ public:
 	};
 
 private:
+
 	// Singleton manages registration/cleanup of window class
 	class WindowClass
 	{
@@ -69,8 +70,9 @@ public:
 	void SetTitle(const std::string& title);
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
-	//void ShowConsole() noexcept;
+	void SwitchWindowType() noexcept;
 	bool IsCursorEnabled() const noexcept;
+	void CreateChild(int width, int height, const char* name);
 	static std::optional<int> ProcessMessages();
 	Graphics& Gfx() const;
 	
@@ -89,12 +91,13 @@ private:
 	static LRESULT CALLBACK HandleMessageThunk(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT CALLBACK HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
 
+	bool hasGraphics;
 	bool isCursorEnabled;
 	int width;
 	int height;
 	HWND handleWindow;
-	FILE* consoleWindow;
 	std::unique_ptr<Graphics> pGraphics;
+	std::vector<HWND> children;
 	std::vector<BYTE> rawBuffer;
 	std::string commandLine;
 };

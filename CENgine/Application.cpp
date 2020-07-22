@@ -1,4 +1,4 @@
-#include "App.h"
+#include "Application.h"
 #include "Math.h"
 #include "imgui/imgui.h"
 #include "Utilities.h"
@@ -10,15 +10,17 @@
 
 #include <algorithm>
 
-App::App(const std::string& commandLine)
+Application::Application(const std::string& commandLine)
 	:
 	commandLine(commandLine),
-	window(1920, 1080, "CENgine"),
+	window(3840, 2160, "CENgine"),
 	scriptParser(TokenizedQuoted(commandLine)),
-	light(window.Gfx(), { 10.0f,5.0f,0.0f })
+	light(window.Gfx(), { 10.0f,5.0f,0.0f }),
+	perf(timer)
 {
+	perf.Initialize();
+	//window.CreateChild(100, 100, "Debugger");
 	cameras.AddCamera(std::make_unique<Camera>(window.Gfx(), "A", DirectX::XMFLOAT3{ -13.5f,6.0f,3.5f }, 0.0f, PI / 2.0f));
-	cameras.AddCamera(std::make_unique<Camera>(window.Gfx(), "B", DirectX::XMFLOAT3{ -13.5f,28.8f,-6.4f }, PI / 180.0f * 13.0f, PI / 180.0f * 61.0f));
 	cameras.AddCamera(light.ShareCamera());
 
 	cube.SetPos({ 10.0f,5.0f,6.0f });
@@ -44,12 +46,12 @@ App::App(const std::string& commandLine)
 	renderGraph.BindShadowCamera(*light.ShareCamera());
 }
 
-App::~App()
+Application::~Application()
 {
-
+	perf.Shutdown();
 }
 
-int App::Start()
+int Application::Start()
 {
 	while(true)
 	{
@@ -68,7 +70,7 @@ int App::Start()
 	}
 }
 
-void App::HandleInput(float dt)
+void Application::HandleInput(float dt)
 {
 	while(const auto e = window.keyboard.ReadKey())
 	{
@@ -124,6 +126,10 @@ void App::HandleInput(float dt)
 		{
 			cameras->Translate({ 0.0f, -dt, 0.0f });
 		}
+		if(window.keyboard.IsKeyPressed('G'))
+		{
+			window.SwitchWindowType();
+		}
 	}
 
 
@@ -136,7 +142,7 @@ void App::HandleInput(float dt)
 	}
 }
 
-void App::Run(float dt)
+void Application::Run(float dt)
 {
 	/* Time elapse on window title
 	const float t = m_timer.Peek();
@@ -159,7 +165,6 @@ void App::Run(float dt)
 
 	sponza.Submit(Channel::shadow);
 	cube.Submit(Channel::shadow);
-	sponza.Submit(Channel::shadow);
 	cube2.Submit(Channel::shadow);
 	gobber.Submit(Channel::shadow);
 	nano.Submit(Channel::shadow);
@@ -178,22 +183,21 @@ void App::Run(float dt)
 
 	// imgui windows
 	sponzeProbe.SpawnWindow(sponza);
-	//stripeyProbe.SpawnWindow(stripey);
 	gobberProbe.SpawnWindow(gobber);
 	nanoProbe.SpawnWindow(nano);
 	cameras.SpawnWindow(window.Gfx());
 	light.SpawnControlWindow();
 	renderGraph.RenderWidgets(window.Gfx());
-	ShowImGuiDemoWindow();
 	cube.SpawnControlWindow(window.Gfx(), "Cube 1");
 	cube2.SpawnControlWindow(window.Gfx(), "Cube 2");
+	perf.ShowWidget();
 
 	// Present the frame
 	window.Gfx().EndFrame();
 	renderGraph.Reset();
 }
 
-void App::ShowImGuiDemoWindow()
+void Application::ShowImGuiDemoWindow()
 {
 	if(showDemoWindow)
 	{

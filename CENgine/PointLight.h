@@ -28,7 +28,7 @@ private:
 	struct PointLightCBuf
 	{
 		/* alignas is used to pad bytes for the pixel shader */
-		alignas(16) DirectX::XMFLOAT3 pos;
+		alignas(16) DirectX::XMFLOAT3 viewLightPos;
 		alignas(16) DirectX::XMFLOAT3 ambient;
 		alignas(16) DirectX::XMFLOAT3 diffuseColor;
 		float diffuseIntensity;

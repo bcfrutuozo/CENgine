@@ -10,12 +10,13 @@
 #include "TestCube.h"
 #include "BlurOutlineRenderGraph.h"
 #include "Math.h"
+#include "Performance.h"
 
-class App
+class Application
 {
 public:
-	App(const std::string& commandLine = "");
-	~App();
+	Application(const std::string& commandLine = "");
+	~Application();
 
 	int Start();
 private:
@@ -33,6 +34,7 @@ private:
 	Timer timer;
 	float speed_factor = 1.0f;
 	CameraContainer cameras;
+	Performance perf;
 	PointLight light;
 	TestCube cube{ window.Gfx(),4.0f };
 	TestCube cube2{ window.Gfx(),4.0f };

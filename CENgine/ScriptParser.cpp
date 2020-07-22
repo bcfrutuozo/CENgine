@@ -27,7 +27,7 @@ ScriptParser::ScriptParser(const std::vector<std::string>& args)
 
 		if(top.at("enabled"))
 		{
-			for(const auto& j : top)
+			for(const auto& j : top.at("commands"))
 			{
 				const auto command = j.at( "command" ).get<std::string>();
 				const auto params = j.at("params");
@@ -63,16 +63,19 @@ ScriptParser::ScriptParser(const std::vector<std::string>& args)
 
 void ScriptParser::Publish(std::string path) const
 {
-	std::filesystem::create_directory(path);
-	
+	if(!std::filesystem::exists(path))
+	{
+		std::filesystem::create_directory(path);
+	}
+
 	// Copy executable
-	std::filesystem::copy_file(R"(..\x64\Release\CENgine.exe)", path + R"(\CEMgine.exe)", std::filesystem::copy_options::overwrite_existing);
+	std::filesystem::copy_file(R"(C:\Users\bcfru\source\repos\CENgine\bin\x64\Release\CENgine.exe)", path + R"(\CENgine.exe)", std::filesystem::copy_options::overwrite_existing);
 	
 	// Copy assimp ini
 	std::filesystem::copy_file("imgui_default.ini", path + R"(\imgui_default.ini)", std::filesystem::copy_options::overwrite_existing);
 	
 	// Copy all dlls
-	for(auto& p : std::filesystem::directory_iterator(""))
+	for(auto& p : std::filesystem::directory_iterator(R"(C:\Users\bcfru\source\repos\CENgine\bin\x64\Release)"))
 	{
 		if(p.path().extension() == L".dll")
 		{
@@ -88,6 +91,7 @@ void ScriptParser::Publish(std::string path) const
 	// Copy assets
 	std::filesystem::copy("Images", path + R"(\Images)", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive);
 	std::filesystem::copy("Models", path + R"(\Models)", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive);
+	std::filesystem::copy("Fonts", path + R"(\Fonts)", std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive);
 }
 
 ScriptParser::Exception::Exception(int line, const char* file, const std::string& script, const std::string& message) noexcept

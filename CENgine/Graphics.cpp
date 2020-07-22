@@ -16,11 +16,12 @@
 // For Shader loading functions real time compilation
 #pragma comment(lib, "D3DCompiler.lib")
 
-Graphics::Graphics(HWND handle, int width, int height)
+Graphics::Graphics(HWND handle, int width, int height, Type windowType)
 	:
 	width(width),
 	height(height),
-	isImGuiEnabled(true)
+	isImGuiEnabled(true),
+	windowType(windowType)
 {
 	DXGI_SWAP_CHAIN_DESC swapDescriptor = {};
 
@@ -44,7 +45,7 @@ Graphics::Graphics(HWND handle, int width, int height)
 	// Window Handle
 	swapDescriptor.OutputWindow = handle;
 	// Windowed Mode
-	swapDescriptor.Windowed = TRUE;
+	swapDescriptor.Windowed = windowType == Type::Windowed ? TRUE : FALSE;
 	swapDescriptor.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	swapDescriptor.Flags = 0;
 
@@ -73,6 +74,15 @@ Graphics::Graphics(HWND handle, int width, int height)
 		&pContext
 	));
 
+	DEVMODE dm;
+	ZeroMemory(&dm, sizeof(dm));
+	dm.dmSize = sizeof(dm);
+	if (0 != EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm))
+	{
+		int x;
+		x = 4;
+	}
+
 	// Gain access to texture resource in swap chain (back buffer)
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = nullptr;
 	GFX_THROW_INFO(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBuffer));
@@ -97,6 +107,25 @@ Graphics::~Graphics()
 	ImGui_ImplDX11_Shutdown();
 }
 
+void Graphics::SetFullscreenState(Type type)
+{
+	if(type == Type::Windowed && windowType != Type::Windowed)
+	{
+		hasWindowTypeSwitched = true;
+		windowType = Type::Windowed;
+	}
+	else if(type == Type::Fullscreen && windowType != Type::Fullscreen)
+	{
+		hasWindowTypeSwitched = true;
+		windowType = Type::Fullscreen;
+	}
+}
+
+Graphics::Type Graphics::GetFullscreenState() const noexcept
+{
+	return windowType;
+}
+
 void Graphics::BeginFrame(float red, float green, float blue) const noexcept
 {
 	// ImGui begin frame
@@ -107,10 +136,29 @@ void Graphics::BeginFrame(float red, float green, float blue) const noexcept
 		ImGui::NewFrame();
 	}
 
+	// Sets to windowed if the window is
+	if(hasWindowTypeSwitched)
+	{
+		switch(windowType)
+		{
+			case Type::Windowed:
+			if(FAILED(pSwapChain->SetFullscreenState(false, nullptr)))
+			{
+				throw std::runtime_error("Unable to switch to windowed mode!");
+			}
+			case Type::Fullscreen:
+			if(FAILED(pSwapChain->SetFullscreenState(true, nullptr)))
+			{
+				throw std::runtime_error("Unable to switch to fullscreen mode!");
+			}
+			break;
+		}
+	}
+
 	// Clearing shader inputs to prevent simultaneous in/out bind carried over from previous frame
 	ID3D11ShaderResourceView* const pNullTex = nullptr;
-	pContext->PSSetShaderResources(0, 1, &pNullTex); // fullscreen input texture
-	pContext->PSSetShaderResources(3, 1, &pNullTex); // shadow map texture
+		pContext->PSSetShaderResources(0, 1, &pNullTex); // fullscreen input texture
+		pContext->PSSetShaderResources(3, 1, &pNullTex); // shadow map texture
 }
 
 void Graphics::EndFrame()
@@ -139,7 +187,7 @@ void Graphics::EndFrame()
 			GFX_EXCEPT(hr);
 		}
 	}
-	}
+}
 
 void Graphics::DrawIndexed(UINT count) NOXND
 {

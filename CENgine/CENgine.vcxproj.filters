@@ -102,9 +102,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>Source Files\Libraries\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -312,6 +309,21 @@
     <ClCompile Include="ShadowSampler.cpp">
       <Filter>Source Files\Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowRasterizer.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeTexture.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxTransformCbuf.cpp">
+      <Filter>Source Files\Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Performance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -337,9 +349,6 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>Header Files\Libraries\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
       <Filter>Header Files\Bindable</Filter>
@@ -890,6 +899,24 @@
     <ClInclude Include="DepthStencil.h">
       <Filter>Header Files\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="ShadowRasterizer.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeTexture.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxTransformCbuf.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxPass.h">
+      <Filter>Header Files\Jobber\Passlib</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Performance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="cengine.ico">
@@ -975,6 +1002,24 @@
     <FxCompile Include="Offset_VS_deprecated.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="PShadow.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VShadow.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Skybox_VS.hlsl">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Skybox_PS.hlsl">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="_PShadow_Dynamic.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="_PShadow_Static.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc142-mt.dll" />
@@ -1008,13 +1053,8 @@
     </None>
     <None Include="dxtex\bin\Debug\DirectXTex.pdb" />
     <None Include="dxtex\bin\Release\DirectXTex.pdb" />
-    <None Include="HLSL.props" />
-    <None Include="imgui_default.ini" />
     <None Include="process.json" />
-    <None Include="VShadow.hlsli">
-      <Filter>Source Files\Shaders</Filter>
-    </None>
-    <None Include="PShadow.hlsli">
+    <None Include="HLSL.props">
       <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -1027,5 +1067,8 @@
     <ResourceCompile Include="CENgine.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="imgui_default.ini" />
   </ItemGroup>
 </Project>

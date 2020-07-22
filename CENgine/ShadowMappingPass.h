@@ -10,6 +10,7 @@
 #include "RenderTarget.h"
 #include "Blender.h"
 #include "NullPixelShader.h"
+#include "ShadowRasterizer.h"
 
 #include <vector>
 
@@ -30,6 +31,7 @@ namespace RGP
 			AddBind(Bind::NullPixelShader::Resolve(graphics));
 			AddBind(Bind::Stencil::Resolve(graphics, Bind::Stencil::Mode::Off));
 			AddBind(Bind::Blender::Resolve(graphics, false));
+			AddBind(std::make_shared<Bind::ShadowRasterizer>(graphics, 50, 2.0f, 0.1f));
 			RegisterSource(DirectBindableSource<Bind::DepthStencil>::Make("map", depthStencil));
 		}
 
