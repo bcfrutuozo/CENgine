@@ -82,6 +82,18 @@
     <Filter Include="Source Files\Jobber\Graphlib">
       <UniqueIdentifier>{10426979-6396-40f7-9f80-e2ac5c715439}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Hardware">
+      <UniqueIdentifier>{e14d3e30-09cd-4633-9ef4-351e337fbf2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware">
+      <UniqueIdentifier>{54e37f5d-c680-4e46-9666-19b3338f35b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\NVIDIA">
+      <UniqueIdentifier>{db18e486-e0e4-44ed-a20d-d6cdf3497846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\AMD">
+      <UniqueIdentifier>{1ef2e2af-e3c8-4580-a9af-7ddd03c5c349}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -323,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="Performance.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GPU.cpp">
+      <Filter>Source Files\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -916,6 +931,21 @@
     </ClInclude>
     <ClInclude Include="Performance.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Peripheral.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="GPU.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="NVIDIA_Functions.h">
+      <Filter>Header Files\Hardware\NVIDIA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

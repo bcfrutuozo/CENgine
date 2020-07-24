@@ -22,6 +22,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -29,6 +30,7 @@
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -108,6 +110,7 @@
     <ClCompile Include="BufferClearPass.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="CameraIndicator.cpp" />
+    <ClCompile Include="GPU.cpp" />
     <ClCompile Include="Performance.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="DepthStencil.cpp" />
@@ -272,6 +275,10 @@
     <ClInclude Include="Channels.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Conditional_noexcept.h" />
+    <ClInclude Include="Device.h" />
+    <ClInclude Include="NVIDIA_Functions.h" />
+    <ClInclude Include="GPU.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="Performance.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -305,6 +312,7 @@
     <ClInclude Include="NullPixelShader.h" />
     <ClInclude Include="OutlineDrawingPass.h" />
     <ClInclude Include="OutlineMaskGenerationPass.h" />
+    <ClInclude Include="Peripheral.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="ShadowCameraCbuf.h" />
     <ClInclude Include="ShadowMappingPass.h" />

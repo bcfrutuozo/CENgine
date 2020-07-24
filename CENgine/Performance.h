@@ -1,12 +1,13 @@
 #pragma once
 
+#include "GPU.h"
 #include "Timer.h"
 
-#include <iostream>
 #include <Pdh.h>
 #include <Psapi.h>
 
 #pragma comment(lib, "pdh.lib")
+
 
 class Performance
 {
@@ -25,7 +26,6 @@ private:
 	void GetMemorySizeInformation();
 	void GetMemoryTotalUsage();
 	void GetMemoryEngineUsage();
-	void GetGPUWorkload();
 
 	static constexpr float updatePeriod = 0.5f;
 
@@ -48,25 +48,11 @@ private:
 	MEMORYSTATUSEX memInfo;
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 
-	// Defined numbers and function pointers for GPU
-	#define NVAPI_MAX_PHYSICAL_GPUS   64
-	#define NVAPI_MAX_USAGES_PER_GPU  34
-	typedef int* (*NvAPI_QueryInterface_t)(unsigned int offset);
-	typedef int (*NvAPI_Initialize_t)();
-	typedef int (*NvAPI_EnumPhysicalGPUs_t)(int** handles, int* count);
-	typedef int (*NvAPI_GPU_GetUsages_t)(int* handle, unsigned int* usages);
-	// nvapi64.dll internal function pointers
-	NvAPI_QueryInterface_t      NvAPI_QueryInterface;
-	NvAPI_Initialize_t          NvAPI_Initialize;
-	NvAPI_EnumPhysicalGPUs_t    NvAPI_EnumPhysicalGPUs;
-	NvAPI_GPU_GetUsages_t       NvAPI_GPU_GetUsages;
-
-
+	std::unique_ptr<GPU> m_GPU;
 	float m_CPUTotalWorkload;
 	float m_CPUEngineWorkload;
 	long m_CPUTemperature;
 	long m_MemoryLoad;
-	int m_GPUWorkload;
 	unsigned long m_TotalPhysicalMemory;
 	unsigned long m_TotalVirtualMemory;
 	unsigned long m_VirtualMemoryTotalWorkload;

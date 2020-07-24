@@ -13,16 +13,13 @@ Performance::Performance(Timer& timer)
 	m_PhysicalMemoryEngineWorkload(0),
 	m_VirtualMemoryTotalWorkload(0),
 	m_VirtualMemoryEngineWorkload(0),
-	m_GPUWorkload(0),
 	canReadCpu(true),					// Initialize the flag indicating whether this object can read the system CPU usage or not
 	queryHandle(nullptr),
 	counterHandle(nullptr),
-	lastSampleTime(0.0f),
-	NvAPI_QueryInterface(nullptr),
-	NvAPI_Initialize(nullptr),
-	NvAPI_EnumPhysicalGPUs(nullptr),
-	NvAPI_GPU_GetUsages(nullptr)
-{ }
+	lastSampleTime(0.0f)
+{
+	m_GPU = Peripheral::GetPeripheral<GPU>();
+}
 
 void Performance::Initialize()
 {
@@ -66,35 +63,9 @@ void Performance::Initialize()
 	memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
 	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
 
-	HMODULE hmod = LoadLibraryA("nvapi64.dll");
-	if(hmod == NULL)
-	{
-		std::cerr << "Couldn't find nvapi.dll" << std::endl;
-		return;
-	}
-
-	// nvapi_QueryInterface is a function used to retrieve other internal functions in nvapi.dll
-	NvAPI_QueryInterface = (NvAPI_QueryInterface_t)GetProcAddress(hmod, "nvapi_QueryInterface");
-
-	// some useful internal functions that aren't exported by nvapi.dll
-	NvAPI_Initialize = (NvAPI_Initialize_t)(*NvAPI_QueryInterface)(0x0150E828);
-	NvAPI_EnumPhysicalGPUs = (NvAPI_EnumPhysicalGPUs_t)(*NvAPI_QueryInterface)(0xE5AC921F);
-	NvAPI_GPU_GetUsages = (NvAPI_GPU_GetUsages_t)(*NvAPI_QueryInterface)(0x189A1FDF);
-
-	if(NvAPI_Initialize == NULL || NvAPI_EnumPhysicalGPUs == NULL ||
-		NvAPI_EnumPhysicalGPUs == NULL || NvAPI_GPU_GetUsages == NULL)
-	{
-		std::cerr << "Couldn't get functions in nvapi.dll" << std::endl;
-		return;
-	}
-
-	// initialize NvAPI library, call it once before calling any other NvAPI functions
-	if((*NvAPI_Initialize)() != 0)
-	{
-		std::cerr << "Could not initialize nvapi!" << std::endl;
-	}
-
 	lastSampleTime = timer.Peek();
+
+	m_GPU->Initialize();
 }
 
 void Performance::Shutdown()
@@ -124,7 +95,7 @@ void Performance::ShowWidget()
 		ImGui::Text("VM Total Workload: %d/%d MB", m_VirtualMemoryTotalWorkload, m_TotalVirtualMemory);
 		ImGui::Text("VMEngine Workload: %d/%d MB", m_VirtualMemoryEngineWorkload, m_TotalVirtualMemory);
 		ImGui::Separator();
-		ImGui::Text("GPU Workload: %d%%", m_GPUWorkload);
+		ImGui::Text("GPU Workload: %d%%", m_GPU->GetWorkload());
 	}
 
 	ImGui::End();
@@ -142,7 +113,6 @@ void Performance::Calculate()
 		GetCPUTemperature();
 		GetMemoryTotalUsage();
 		GetMemoryEngineUsage();
-		GetGPUWorkload();
 	}
 }
 
@@ -214,19 +184,4 @@ void Performance::GetMemoryEngineUsage()
 	GetProcessMemoryInfo(GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
 	m_PhysicalMemoryEngineWorkload = (pmc.WorkingSetSize / 1024 / 1024);												// Formats the value to MB
 	m_VirtualMemoryEngineWorkload = (pmc.PrivateUsage / 1024 / 1024);													// Formats the value to MB
-}
-
-void Performance::GetGPUWorkload()
-{
-	int gpuCount = 0;
-	int* gpuHandles[NVAPI_MAX_PHYSICAL_GPUS] = { nullptr };
-	unsigned int gpuUsages[NVAPI_MAX_USAGES_PER_GPU] = { 0 };
-
-	// gpuUsages[0] must be this value, otherwise NvAPI_GPU_GetUsages won't work
-	gpuUsages[0] = (NVAPI_MAX_USAGES_PER_GPU * 4) | 0x10000;
-
-	(*NvAPI_EnumPhysicalGPUs)(gpuHandles, &gpuCount);
-	(*NvAPI_GPU_GetUsages)(gpuHandles[0], gpuUsages);
-
-	m_GPUWorkload = gpuUsages[3];
 }
