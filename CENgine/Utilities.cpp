@@ -44,7 +44,7 @@ bool StringContains(const std::string_view haystack, const std::string_view need
 	return std::search(haystack.begin(), haystack.end(), needle.begin(), needle.end()) != haystack.end();
 }
 
-bool StringContainsInsensitive(const std::string& haystack, const std::string& needle)
+bool StringContainsInsensitive(const std::wstring& haystack, const std::wstring& needle)
 {
 	auto it = std::search(
 		haystack.begin(), haystack.end(),

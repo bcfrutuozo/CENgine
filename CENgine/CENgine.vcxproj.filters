@@ -94,6 +94,9 @@
     <Filter Include="Header Files\Hardware\AMD">
       <UniqueIdentifier>{1ef2e2af-e3c8-4580-a9af-7ddd03c5c349}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Registry">
+      <UniqueIdentifier>{9de5589b-1fb4-4b85-a007-ef49de26cd97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -337,6 +340,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GPU.cpp">
+      <Filter>Source Files\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Disk.cpp">
       <Filter>Source Files\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
@@ -941,11 +947,17 @@
     <ClInclude Include="Device.h">
       <Filter>Header Files\Hardware</Filter>
     </ClInclude>
-    <ClInclude Include="Factory.h">
-      <Filter>Header Files\Hardware</Filter>
-    </ClInclude>
     <ClInclude Include="NVIDIA_Functions.h">
       <Filter>Header Files\Hardware\NVIDIA</Filter>
+    </ClInclude>
+    <ClInclude Include="Disk.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Hardware.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="WinReg.h">
+      <Filter>Header Files\Registry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

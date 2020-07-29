@@ -2,9 +2,9 @@
 #include "NVIDIA_Functions.h"
 
 GPU::GPU(Device device)
-	:
-	Peripheral(device)
-{ }
+{
+	m_Device = device;
+}
 
 NvidiaGPU::NvidiaGPU(Device device)
 	:
@@ -78,6 +78,24 @@ void AmdGPU::Shutdown()
 }
 
 const long AmdGPU::GetWorkload()
+{
+	return 0;
+}
+
+IntelGPU::IntelGPU(Device device)
+	:
+	GPU(device)
+{ }
+
+void IntelGPU::Initialize()
+{ }
+
+void IntelGPU::Shutdown()
+{
+
+}
+
+const long IntelGPU::GetWorkload()
 {
 	return 0;
 }

@@ -16,9 +16,11 @@ Performance::Performance(Timer& timer)
 	canReadCpu(true),					// Initialize the flag indicating whether this object can read the system CPU usage or not
 	queryHandle(nullptr),
 	counterHandle(nullptr),
-	lastSampleTime(0.0f)
+	lastSampleTime(0.0f),
+	m_GPUs(Hardware::GetDevices<GPU>()),
+	m_Disks(Hardware::GetDevices<Disk>())
 {
-	m_GPU = Peripheral::GetPeripheral<GPU>();
+
 }
 
 void Performance::Initialize()
@@ -65,7 +67,15 @@ void Performance::Initialize()
 
 	lastSampleTime = timer.Peek();
 
-	m_GPU->Initialize();
+	for(const auto& gpu : m_GPUs)
+	{
+		gpu ->Initialize();
+	}
+
+	for(const auto& disk : m_Disks)
+	{
+		disk->Initialize();
+	}
 }
 
 void Performance::Shutdown()
@@ -95,7 +105,16 @@ void Performance::ShowWidget()
 		ImGui::Text("VM Total Workload: %d/%d MB", m_VirtualMemoryTotalWorkload, m_TotalVirtualMemory);
 		ImGui::Text("VMEngine Workload: %d/%d MB", m_VirtualMemoryEngineWorkload, m_TotalVirtualMemory);
 		ImGui::Separator();
-		ImGui::Text("GPU Workload: %d%%", m_GPU->GetWorkload());
+		for(const auto& gpu : m_GPUs)
+		{
+			ImGui::Text("TESTE");
+			ImGui::Text("GPU Workload: %d%%", gpu->GetWorkload());
+		}
+		for(const auto& disk : m_Disks)
+		{
+			ImGui::Text("TESTE DISK");
+			ImGui::Text("Disk Workload: %d%%", disk->GetWorkload());
+		}
 	}
 
 	ImGui::End();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GPU.h"
+#include "Hardware.h"
 #include "Timer.h"
 
 #include <Pdh.h>
@@ -48,7 +48,8 @@ private:
 	MEMORYSTATUSEX memInfo;
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 
-	std::unique_ptr<GPU> m_GPU;
+	std::vector<std::unique_ptr<Disk>> m_Disks;
+	std::vector<std::unique_ptr<GPU>> m_GPUs;
 	float m_CPUTotalWorkload;
 	float m_CPUEngineWorkload;
 	long m_CPUTemperature;

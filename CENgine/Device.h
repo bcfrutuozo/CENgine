@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <stdexcept>
 #include <typeinfo>
 
@@ -10,18 +11,21 @@
 	X(unsigned long, ConfigFlags, 4) \
 
 #define DEVICE_MEMBERS_STRING \
-	X(std::string, ClassGUID, 2) \
-	X(std::string, CompatibleIDs, 3) \
-	X(std::string, ContainerID, 5) \
-	X(std::string, DeviceDesc, 6) \
-	X(std::string, Driver, 7) \
-	X(std::string, FriendlyName, 8) \
-	X(std::string, HardwareID, 9) \
-	X(std::string, LocationInformation, 10) \
-	X(std::string, Mfg, 11) \
-	X(std::string, ParentIdPrefix, 12) \
-	X(std::string, Service, 13) \
-	X(std::string, UINumberDescFormat, 14)
+	X(std::wstring, ClassGUID, 2) \
+	X(std::wstring, ContainerID, 5) \
+	X(std::wstring, DeviceDesc, 6) \
+	X(std::wstring, Driver, 7) \
+	X(std::wstring, FriendlyName, 8) \
+	X(std::wstring, LocationInformation, 10) \
+	X(std::wstring, Mfg, 11) \
+	X(std::wstring, ParentIdPrefix, 12) \
+	X(std::wstring, Service, 13) \
+	X(std::wstring, UINumberDescFormat, 14) \
+
+#define DEVICE_MEMBERS_MULTIPLE_STRINGS \
+	X(std::vector<std::wstring>, CompatibleIDs, 3) \
+	X(std::vector<std::wstring>, HardwareID, 9) \
+
 
 struct Device
 {
@@ -31,25 +35,27 @@ struct Device
 	#define X(type, member) type member;
 	DEVICE_MEMBERS_UNSIGNED_LONG
 		DEVICE_MEMBERS_STRING
+		DEVICE_MEMBERS_MULTIPLE_STRINGS
 		#undef X
 
 private:
 	static unsigned int MembersCount()
 	{
 		#define X(_, __) +1
-		static const unsigned int count = DEVICE_MEMBERS_UNSIGNED_LONG + DEVICE_MEMBERS_STRING;
+		static const unsigned int count = DEVICE_MEMBERS_UNSIGNED_LONG + DEVICE_MEMBERS_STRING + DEVICE_MEMBERS_MULTIPLE_STRINGS;
 		#undef X
 
 		return count;
 	}
 
-	static const char* GetMemberName(int i)
+	static const std::wstring GetMemberName(int i)
 	{
 		switch(i)
 		{
-			#define X(type, member, index) case index: return #member;
+			#define X(type, member, index) case index: return std::wstring(L#member);
 			DEVICE_MEMBERS_UNSIGNED_LONG
 				DEVICE_MEMBERS_STRING
+				DEVICE_MEMBERS_MULTIPLE_STRINGS
 				#undef X
 		}
 
@@ -63,6 +69,7 @@ private:
 			#define X(type, member, index) case index: return typeid(type);
 			DEVICE_MEMBERS_UNSIGNED_LONG
 				DEVICE_MEMBERS_STRING
+				DEVICE_MEMBERS_MULTIPLE_STRINGS
 				#undef X
 		}
 
@@ -85,7 +92,7 @@ private:
 		}
 	};
 
-	template<> void SetMemberValue<std::string>(int i, std::string value)
+	template<> void SetMemberValue<std::wstring>(int i, std::wstring value)
 	{
 		switch(i)
 		{
@@ -94,11 +101,20 @@ private:
 				#undef X
 		}
 	};
+
+	template<> void SetMemberValue<std::vector<std::wstring>>(int i, std::vector<std::wstring> value)
+	{
+		switch(i)
+		{
+			#define X(type, member, index)  case index: member = value; break;
+			DEVICE_MEMBERS_MULTIPLE_STRINGS
+				#undef X
+		}
+	};
 };
 
-enum class Manufacturer
-{
-	UNSPECIFIED,
-	AMD,
-	NVIDIA,
-};
+#ifndef DVC_IMPL_SOURCE
+#undef DEVICE_MEMBERS_UNSIGNED_LONG
+#undef DEVICE_MEMBERS_STRING
+#undef DEVICE_MEMBERS_MULTIPLE_STRINGS
+#endif

@@ -110,6 +110,7 @@
     <ClCompile Include="BufferClearPass.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="CameraIndicator.cpp" />
+    <ClCompile Include="Disk.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="Performance.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
@@ -276,9 +277,10 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Conditional_noexcept.h" />
     <ClInclude Include="Device.h" />
+    <ClInclude Include="Disk.h" />
+    <ClInclude Include="Hardware.h" />
     <ClInclude Include="NVIDIA_Functions.h" />
     <ClInclude Include="GPU.h" />
-    <ClInclude Include="Factory.h" />
     <ClInclude Include="Performance.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeTexture.h" />
@@ -388,6 +390,7 @@
     <ClInclude Include="TransformCbuf.h" />
     <ClInclude Include="Surface.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="WinReg.h" />
     <ClInclude Include="WireframePass.h" />
   </ItemGroup>
   <ItemGroup>

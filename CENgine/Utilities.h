@@ -31,4 +31,4 @@ std::vector<std::string> SplitString(const std::string& s, const std::string& de
 
 bool StringContains(const std::string_view haystack, const std::string_view needle);
 
-bool StringContainsInsensitive(const std::string & haystack, const std::string & needle);
+bool StringContainsInsensitive(const std::wstring & haystack, const std::wstring & needle);

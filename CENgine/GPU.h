@@ -14,19 +14,21 @@ class GPU : public Peripheral
 {
 public:
 
-	GPU(Device driver);
-	~GPU() = default;
+	GPU(Device device);
+	void Initialize() override { }
+	void Shutdown() override { }
+	const long GetWorkload() override { return 0; }
 };
 
 class NvidiaGPU : public GPU
 {
 public:
 
-	NvidiaGPU(Device driver);
-	~NvidiaGPU() = default;
+	NvidiaGPU(Device device);
 	void Initialize() override;
 	void Shutdown() override;
 	const long GetWorkload() override;
+	
 private:
 
 	// Defined numbers and function pointers for GPU
@@ -47,10 +49,22 @@ class AmdGPU : public GPU
 {
 public:
 
-	AmdGPU(Device driver);
-	~AmdGPU() = default;
+	AmdGPU(Device device);
 	void Initialize() override;
 	void Shutdown() override;
 	const long GetWorkload() override;
+	
+private:
+};
+
+class IntelGPU : public GPU
+{
+public:
+
+	IntelGPU(Device device);
+	void Initialize() override;
+	void Shutdown() override;
+	const long GetWorkload() override;
+	
 private:
 };
