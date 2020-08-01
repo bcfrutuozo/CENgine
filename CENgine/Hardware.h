@@ -1,8 +1,13 @@
 #pragma once
 
 #include "Peripheral.h"
+#include "Core.h"
+#include "CPU.h"
 #include "Disk.h"
 #include "GPU.h"
+#include "NvidiaGPU.h"
+#include "AmdGPU.h"
+#include "IntelGPU.h"
 
 #include <unordered_map>
 #include <memory>
@@ -12,53 +17,36 @@ class Hardware
 public:
 
 	template<typename T>
-	static const std::unique_ptr<T> GetDevice(int index)
+	static const std::unique_ptr<T> GetDevice(int index = 0)
 	{
-		if(typeid(T) == typeid(Disk))
-		{
-			return std::make_unique<T>(Peripheral::GetDeviceInformation<T>()[index]);
-		}
-		else if(typeid(T) == typeid(GPU))
-		{
-			return CreateGPU(Peripheral::GetDeviceInformation<T>()[index]);
-		}
-
-		throw std::runtime_error("Unsupported device type");
+		return std::make_unique<T>(Peripheral::GetDeviceInformation<T>()[index]);
 	}
 
-	/*template<typename T>
-	static const std::vector<std::unique_ptr<T>> GetDevices()
+	template<>
+	static const std::unique_ptr<CPU> GetDevice(int index)
 	{
-		std::vector<std::unique_ptr<T>> c;
-		if(typeid(T) == typeid(Disk))
+		std::vector<std::unique_ptr<Core>> cores;
+
+		const auto& dvcCores = Peripheral::GetDeviceInformation<Core>();
+		for(const auto& core : dvcCores)
 		{
-			std::vector<Device> dvc = Peripheral::GetDeviceInformation<T>();
-			for(const auto& d : dvc)
-			{
-				c.push_back(std::make_unique<T>(d));
-			}
-
-			return c;
-		}
-		else if(typeid(T) == typeid(GPU))
-		{
-
-			std::vector<Device> dvc = Peripheral::GetDeviceInformation<T>();
-			for(const auto& d : dvc)
-			{
-				c.push_back(CreateGPU(d));
-			}
-
-			return c;
+			cores.emplace_back(std::make_unique<Core>(core));
 		}
 
-		throw std::runtime_error("Unsupported device type");
-	}*/
+		return std::make_unique<CPU>(std::move(cores));
+	}
+
+	template<>
+	static const std::unique_ptr<GPU> GetDevice(int index)
+	{
+		return std::unique_ptr<GPU>(CreateGPU(Peripheral::GetDeviceInformation<GPU>()[index]));
+	}
 
 	template<typename T>
 	static const std::vector<std::unique_ptr<T>> GetDevices()
 	{
 		std::vector<std::unique_ptr<T>> c;
+
 		std::vector<Device> dvc = Peripheral::GetDeviceInformation<T>();
 		for(const auto& d : dvc)
 		{
@@ -69,10 +57,16 @@ public:
 	}
 
 	template<>
+	static const std::vector<std::unique_ptr<CPU>> GetDevices()
+	{
+		throw std::runtime_error("Function GetDevices() not yet implemented for multiple CPUs");
+	}
+
+	template<>
 	static const std::vector<std::unique_ptr<GPU>> GetDevices()
 	{
 		std::vector<std::unique_ptr<GPU>> c;
-		
+
 		std::vector<Device> dvc = Peripheral::GetDeviceInformation<GPU>();
 		for(const auto& d : dvc)
 		{
@@ -87,7 +81,7 @@ public:
 	{
 		unsigned long count = 0;
 		const auto& registryInformation = Peripheral::GetDeviceCount<T>();
-		
+
 		for(const auto& info : registryInformation)
 		{
 			count += info.second;

@@ -8,6 +8,8 @@
 std::vector<std::string> TokenizedQuoted(const std::string& input);
 std::wstring ToWide(const std::string& s);
 std::string ToNarrow(const std::wstring& s);
+std::string GetLastSubstring(const std::string& s, const std::string& separator);
+std::wstring GetLastWSubstring(const std::wstring& s, const std::wstring& separator);
 
 template<class Iter>
 void SplitStringIter(const std::string& s, const std::string& delim, Iter out)

@@ -1,5 +1,6 @@
 #include "Performance.h"
 #include "imgui/imgui.h"
+#include "Utilities.h"
 
 Performance::Performance(Timer& timer)
 	:
@@ -13,10 +14,8 @@ Performance::Performance(Timer& timer)
 	m_PhysicalMemoryEngineWorkload(0),
 	m_VirtualMemoryTotalWorkload(0),
 	m_VirtualMemoryEngineWorkload(0),
-	canReadCpu(true),					// Initialize the flag indicating whether this object can read the system CPU usage or not
-	queryHandle(nullptr),
-	counterHandle(nullptr),
 	lastSampleTime(0.0f),
+	m_CPU(Hardware::GetDevice<CPU>()),
 	m_GPUs(Hardware::GetDevices<GPU>()),
 	m_Disks(Hardware::GetDevices<Disk>())
 {
@@ -29,47 +28,12 @@ void Performance::Initialize()
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GetMemorySizeInformation();
 
-	PDH_STATUS status;
-
-	// Create a query object to poll CPU usage
-	status = PdhOpenQuery(NULL, 0, &queryHandle);
-	if(status != ERROR_SUCCESS)
-	{
-		canReadCpu = false;
-	}
-
-	// Set query object to poll all CPUs in the system
-	status = PdhAddEnglishCounter(queryHandle, TEXT("\\Processor(_Total)\\% Processor Time"), 0, &counterHandle);
-	if(status != ERROR_SUCCESS)
-	{
-		canReadCpu = false;
-	}
-
-	status = PdhCollectQueryData(queryHandle);
-	if(status != ERROR_SUCCESS)
-	{
-		canReadCpu = false;
-	}
-
-	SYSTEM_INFO sysInfo;
-	FILETIME ftime, fsys, fuser;
-
-	GetSystemInfo(&sysInfo);
-	numberOfProcessors = sysInfo.dwNumberOfProcessors;
-
-	GetSystemTimeAsFileTime(&ftime);
-	memcpy(&lastCPU, &ftime, sizeof(FILETIME));
-
-	self = GetCurrentProcess();
-	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-	memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
-	memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
-
 	lastSampleTime = timer.Peek();
 
+	m_CPU->Initialize();
 	for(const auto& gpu : m_GPUs)
 	{
-		gpu ->Initialize();
+		gpu->Initialize();
 	}
 
 	for(const auto& disk : m_Disks)
@@ -78,104 +42,66 @@ void Performance::Initialize()
 	}
 }
 
-void Performance::Shutdown()
-{
-	if(canReadCpu)
-	{
-		PdhCloseQuery(queryHandle);
-	}
-}
-
 void Performance::ShowWidget()
 {
-	// THIS MUST GET OUT HERE!
-	Calculate();
-
 	if(ImGui::Begin("Performance"))
 	{
-		//ImGui::SetWindowFontScale(4.0f);
 		ImGui::Separator();
-		ImGui::Text("CPU Total Workload: %.0f%%", m_CPUTotalWorkload);
-		ImGui::Text("CPU Engine Workload: %.0f%%", m_CPUEngineWorkload);
-		ImGui::Text("CPU Temperature: %.0f°C", m_CPUTemperature);
+		m_CPU->ShowWidget();
+		
 		ImGui::Separator();
 		ImGui::Text("System Memory Load: %d%%", m_MemoryLoad);
 		ImGui::Text("Physical Memory Total Workload: %d/%d MB", m_PhysicalMemoryTotalWorkload, m_TotalPhysicalMemory);
 		ImGui::Text("Physical Memory Engine Workload: %d/%d MB", m_PhysicalMemoryEngineWorkload, m_TotalPhysicalMemory);
 		ImGui::Text("VM Total Workload: %d/%d MB", m_VirtualMemoryTotalWorkload, m_TotalVirtualMemory);
 		ImGui::Text("VMEngine Workload: %d/%d MB", m_VirtualMemoryEngineWorkload, m_TotalVirtualMemory);
+		
 		ImGui::Separator();
 		for(const auto& gpu : m_GPUs)
 		{
-			ImGui::Text("TESTE");
-			ImGui::Text("GPU Workload: %d%%", gpu->GetWorkload());
+			gpu->ShowWidget();
 		}
+		
+		ImGui::Separator();
 		for(const auto& disk : m_Disks)
 		{
-			ImGui::Text("TESTE DISK");
-			ImGui::Text("Disk Workload: %d%%", disk->GetWorkload());
+			disk->ShowWidget();
 		}
 	}
 
 	ImGui::End();
 }
 
-void Performance::Calculate()
+void Performance::GetWorkload()
 {
 	const auto now = timer.Peek();
 
 	if(now > (lastSampleTime + updatePeriod))
 	{
 		lastSampleTime = now;
-		GetCPUTotalWorkload();
-		GetCPUEngineWorkload();
-		GetCPUTemperature();
 		GetMemoryTotalUsage();
 		GetMemoryEngineUsage();
+		m_CPU->GetWorkload();
+		for(const auto& gpu : m_GPUs)
+		{
+			gpu->GetWorkload();
+		}
+
+		for(const auto& disk : m_Disks)
+		{
+			disk->GetWorkload();
+		}
 	}
 }
 
 void Performance::GetCPUTotalWorkload()
 {
-	PDH_FMT_COUNTERVALUE v;
 
-	if(canReadCpu)
-	{
-		PDH_STATUS status;
-		status = PdhCollectQueryData(queryHandle);
-
-		if(status == ERROR_SUCCESS)
-		{
-			status = PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &v);
-			if(status == ERROR_SUCCESS)
-			{
-				m_CPUTotalWorkload = v.doubleValue;
-			}
-		}
-	}
 }
 
 void Performance::GetCPUEngineWorkload()
 {
-	FILETIME ftime, fsys, fuser;
-	ULARGE_INTEGER now, sys, user;
-	double percent;
 
-	GetSystemTimeAsFileTime(&ftime);
-	memcpy(&now, &ftime, sizeof(FILETIME));
-
-	GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
-	memcpy(&sys, &fsys, sizeof(FILETIME));
-	memcpy(&user, &fuser, sizeof(FILETIME));
-	percent = (sys.QuadPart - lastSysCPU.QuadPart) +
-		(user.QuadPart - lastUserCPU.QuadPart);
-	percent /= (now.QuadPart - lastCPU.QuadPart);
-	percent /= numberOfProcessors;
-	lastCPU = now;
-	lastUserCPU = user;
-	lastSysCPU = sys;
-
-	m_CPUEngineWorkload = percent * 100;
 }
 
 void Performance::GetCPUTemperature()

@@ -38,7 +38,11 @@ struct Device
 		DEVICE_MEMBERS_MULTIPLE_STRINGS
 		#undef X
 
+	unsigned int Index;
+	bool IsLoaded = false;
+
 private:
+
 	static unsigned int MembersCount()
 	{
 		#define X(_, __) +1
@@ -111,6 +115,12 @@ private:
 				#undef X
 		}
 	};
+};
+
+struct DeviceEnumerator
+{
+	std::wstring path;
+	unsigned int index;
 };
 
 #ifndef DVC_IMPL_SOURCE

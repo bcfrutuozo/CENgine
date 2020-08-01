@@ -97,6 +97,30 @@
     <Filter Include="Header Files\Registry">
       <UniqueIdentifier>{9de5589b-1fb4-4b85-a007-ef49de26cd97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Libraries\nvapi">
+      <UniqueIdentifier>{ced677e7-147c-46cd-8fa4-2276ec7293c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\AMD">
+      <UniqueIdentifier>{d226770e-12b4-490c-a82c-af8811746893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\NVIDIA">
+      <UniqueIdentifier>{2fe8148f-5b35-4db0-af06-5000ede1871f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\INTEL">
+      <UniqueIdentifier>{db54a731-cfc5-4077-8837-3f0b4c314657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\INTEL">
+      <UniqueIdentifier>{d65e0121-8ca1-46d3-901d-15faccff36d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Libraries\cuda">
+      <UniqueIdentifier>{2fb6096b-085f-4b9b-8202-0b344112df97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\NVIDIA\Wrappers">
+      <UniqueIdentifier>{1eca7fc1-cd36-4392-8cec-7cfb1b81dc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\NVIDIA\Wrappers">
+      <UniqueIdentifier>{978ff957-7986-4a5a-9084-1cb4644fd492}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -343,6 +367,33 @@
       <Filter>Source Files\Hardware</Filter>
     </ClCompile>
     <ClCompile Include="Disk.cpp">
+      <Filter>Source Files\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="AmdGPU.cpp">
+      <Filter>Source Files\Hardware\AMD</Filter>
+    </ClCompile>
+    <ClCompile Include="IntelGPU.cpp">
+      <Filter>Source Files\Hardware\INTEL</Filter>
+    </ClCompile>
+    <ClCompile Include="nvml.cpp">
+      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="monitor.cpp">
+      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="dlib_windows.cpp">
+      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="NvidiaGPU.cpp">
+      <Filter>Source Files\Hardware\NVIDIA</Filter>
+    </ClCompile>
+    <ClCompile Include="CPU.cpp">
+      <Filter>Source Files\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
       <Filter>Source Files\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
@@ -959,6 +1010,2712 @@
     <ClInclude Include="WinReg.h">
       <Filter>Header Files\Registry</Filter>
     </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_common.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_d3dext.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_salend.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_salstart.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_sli.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_stereo.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvapi_lite_surround.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\NvApiDriverSettings.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvHLSLExtns.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvHLSLExtnsInternal.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="nvapi\include\nvShaderExtnEnums.h">
+      <Filter>Header Files\Libraries\nvapi</Filter>
+    </ClInclude>
+    <ClInclude Include="NvidiaGPU.h">
+      <Filter>Header Files\Hardware\NVIDIA</Filter>
+    </ClInclude>
+    <ClInclude Include="AmdGPU.h">
+      <Filter>Header Files\Hardware\AMD</Filter>
+    </ClInclude>
+    <ClInclude Include="IntelGPU.h">
+      <Filter>Header Files\Hardware\INTEL</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\__bsd_locale_defaults.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\__bsd_locale_fallbacks.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\xlocale\__nop_locale_mgmt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\xlocale\__posix_l_fallback.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\xlocale\__strtonum_fallback.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\actor.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\addressof.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\adjacent_difference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\advance.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\advance.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\core\agent_launcher.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\util\align.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\core\alignment.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\alignment.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\allocate_unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator_aware_execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\allocator_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\any_assign.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\any_system_tag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\argument.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\arithmetic.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\arithmetic_operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\assign_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\assignment_operator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\async.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\bad_alloc.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\scalar\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\binary_search.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\bitwise_operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\builtin_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\c99math.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\catrig.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\catrigf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\ccosh.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\ccoshf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\cexp.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\cexpf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\channel_descriptor.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_d3d9_ext.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_d3d10.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_d3d10_ext.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_d3d11.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_d3d11_ext.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_dx9_media_sharing.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_egl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_ext.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_gl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_gl_ext.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\cl_platform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\clog.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\clogf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\coalesced_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\common_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\common_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\compiler.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\compiler_fence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\complex.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\complex.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\composite.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\compound_assignment_operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\detail\config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\constant_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\constant_iterator_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\contiguous_storage.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\async\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\async\copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\copy_backward.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\copy_construct_range.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\internal\copy_cross_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\internal\copy_device_to_device.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\copy_if.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\count.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\counting_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\cpow.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\cpp_compatibility.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\cpp_dialect.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\cpp11_required.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\cproj.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\cross_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\csinh.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\csinhf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\csqrt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\csqrtf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\cstdint.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\ctanh.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\ctanhf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\ctype.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cublas.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cublas_api.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cublas_v2.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cublasLt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cublasXt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuComplex.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_awbarrier.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_awbarrier_helpers.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_awbarrier_primitives.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_bf16.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_bf16.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_d3d9_interop.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_d3d10_interop.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_d3d11_interop.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_device_runtime_api.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_egl_interop.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_fp16.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_fp16.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_gl_interop.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_occupancy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_pipeline.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_pipeline_helpers.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_pipeline_primitives.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_profiler_api.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_runtime.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_runtime_api.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_surface_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda_texture_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudaD3D9.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudaD3D10.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudaD3D11.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudaGL.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudalibxt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudaProfiler.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cudart_platform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cufft.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cufftw.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cufftXt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_discrete.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_discrete2.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_globals.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_kernel.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_lognormal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_mrg32k3a.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_mtgp32.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_mtgp32_host.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_mtgp32_kernel.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_mtgp32dc_p_11213.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_normal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_normal_static.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_philox4x32_x.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_poisson.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_precalc.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\curand_uniform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolver_common.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolverDn.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolverMg.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolverRf.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolverSp.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusolverSp_LOWLEVEL_PREVIEW.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusparse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cusparse_v2.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\customization.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\debug.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\internal\decompose.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\default_construct_range.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\default_decomposition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\dependencies_aware_execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\deprecated.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\destroy_range.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_atomic_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_atomic_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_delete.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_double_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\device_double_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\device_double_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\device_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\device_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_launch_parameters.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_make_unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_malloc.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_malloc_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_new.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_new_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_ptr.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_reference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\device_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\memory\detail\device_system_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\device_system_tag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\device_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\device_vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\discard_block_engine.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\discard_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\discard_iterator_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\disjoint_pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\disjoint_sync_pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\disjoint_tls_pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\dispatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\distance.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\distance.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\distance_from_result.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\driver_abi.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\driver_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\driver_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\equal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\errno.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\errno.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\error.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\error_code.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\event.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\event_error.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\exec_check_disable.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\execute_with_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\execute_with_allocator_fwd.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\execute_with_dependencies.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\extrema.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\fancy_pointer_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\fatbinary.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\fatbinary_section.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\fatBinaryCtl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\fenv.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\fill_construct_range.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\find.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\float.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\solaris\floatingpoint.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\async\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\async\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\for_each.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\forceinline.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\func_macro.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\function.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\function_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\functional.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\functional.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\future.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\future.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\gather.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\general_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\generate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\get_iterator_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\get_value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\global_workarounds.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\guarded_cuda_runtime_api.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\guarded_driver_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\has_member_function.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\has_nested_type.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\has_trivial_assign.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\range\head_flags.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\helpers.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\host_config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\host_config.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\host_defines.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\host_defines.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\host_device.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\host_runtime.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\host_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\memory\detail\host_system_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\host_system_tag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\host_vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\info.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\inner_product.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\insertion_sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\integer_math.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\integer_sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\integer_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\algorithm\intermediate_type_from_function_and_iterators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\internal_functional.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\inttypes.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\is_call_possible.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\is_contiguous_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\iterator\is_discard_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\is_execution_policy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\is_iterator_category.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\is_metafunction_defined.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\is_operator_less_or_greater_function_object.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\is_operator_plus_function_object.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\iterator\is_output_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\is_trivially_relocatable.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\iter_swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\iterator_adaptor.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_adaptor_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\iterator_categories.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_category_to_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_category_to_traversal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_category_with_system_and_traversal.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\iterator_facade.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_facade_category.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\iterator_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\iterator_traversal_tags.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\join_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\library_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\limits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\ibm\limits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\limits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\win32\limits_msvc_win32.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\linear_congruential_engine.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\linear_congruential_engine_discard.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\linear_feedback_shift_engine.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\linear_feedback_shift_engine_wordmask.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\locale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\android\locale_bionic.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\ibm\locale_mgmt_aix.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\win32\locale_win32.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\logical.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\logical_metafunctions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\logical_operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\make_unsigned_special.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\malloc_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\malloc_and_free.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\managed_memory_pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\math.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\mpl\math.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\math_constants.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\math_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\math_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\math_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\math_private.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\memcpy_async.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\memory.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\memory_algorithms.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\memory_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\memory_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\memory_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\memory_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\memory_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\merge.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\minimum_category.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\minimum_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\minimum_type.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\minmax.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\mismatch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\mma.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\mma.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\mma.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\mod.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\modern_gcc_required.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\new.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\no_throw_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\normal_distribution.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\normal_distribution_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\normal_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npp.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppcore.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppdefs.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_arithmetic_and_logical_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_color_conversion.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_data_exchange_and_initialization.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_filtering_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_geometry_transforms.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_linear_transforms.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_morphological_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_statistics_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_support_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nppi_threshold_and_compare_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_arithmetic_and_logical_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_conversion_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_filtering_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_initialization.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_statistics_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\npps_support_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\numeric_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvblas.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvjpeg.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvml.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvrtc.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvToolsExt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvToolsExtCuda.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvToolsExtCudaRt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvToolsExtOpenCL.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvToolsExtSync.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImpl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImplCore.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImplCuda_v3.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImplCudaRt_v3.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImplOpenCL_v3.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxImplSync_v3.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxInit.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxInitDecls.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxInitDefs.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxLinkOnce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\nvtx3\nvtxDetail\nvtxTypes.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\CL\opencl.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\operator_adaptors.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\optional.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\overlapped_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\pair.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\par.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\par.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\par.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\par.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\par_to_seq.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\parallel_for.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\partition.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\partitioning.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\per_device_resource.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\permutation_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\permutation_iterator_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\experimental\pinned_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\placeholder.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\pointer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\pointer_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\polymorphic_adaptor.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\pool_options.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\preprocessor.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\random_core_access.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\raw_pointer_cast.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\raw_reference_cast.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\async\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\async\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\reduce_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\reduce_intervals.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\reduce_intervals.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\reference.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\reference_forward_declaration.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\operators\relational_operators.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\remove.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\remove_cvref.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\replace.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits\result_of_adaptable_function.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\retag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\retag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\reverse.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\reverse_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\reverse_iterator_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\scan_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\scatter.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\select_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\select_system.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\select_system_exists.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\seq.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\set_operations.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\setjmp.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\shuffle.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\shuffle.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\config\simple_defines.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_20_atomic_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_20_atomic_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_20_intrinsics.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_20_intrinsics.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_30_intrinsics.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_30_intrinsics.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_32_atomic_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_32_atomic_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_32_intrinsics.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_32_intrinsics.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_35_atomic_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_35_intrinsics.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_60_atomic_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_60_atomic_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_61_intrinsics.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\sm_61_intrinsics.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\sm_70_rt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\sm_70_rt.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\sm_80_rt.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\sm_80_rt.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\async\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\async\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\stable_merge_sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\stable_primitive_sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\stable_radix_sort.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\static_assert.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\static_map.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\stdbool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\stddef.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\stdint.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\stdio.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\stdlib.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\crt\storage_class.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\complex\stream.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\string.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\subtract_with_carry_engine.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\ibm\support.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\surface_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\surface_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\surface_indirect_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\surface_indirect_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\surface_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\swap.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\swap_ranges.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cooperative_groups\details\sync.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\sync_pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system_error.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\system_error.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\tabulate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\tag.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\tagged_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\tagged_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\range\tail_flags.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\allocator\temporary_allocator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\temporary_array.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\temporary_buffer.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\terminate.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\texture_fetch_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\texture_fetch_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\texture_indirect_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\texture_indirect_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\texture_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\tgmath.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\tls_pool.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\async\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\async\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\async\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\transform_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\transform_output_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\transform_reduce.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\transform_scan.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\core\triple_chevron_launch.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\trivial_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\trivial_sequence.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\tuple.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\tuple_algorithms.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\tuple_meta_transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\tuple_of_iterator_references.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\tuple_transform.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_deduction.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\type_traits.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\uniform_int_distribution.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\uniform_real_distribution.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\uninitialized_copy.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\uninitialized_fill.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\unique.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\detail\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\generic\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\detail\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\detail\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\sequential\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\detail\adl\unique_by_key.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\universal_categories.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\use_default.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\core\util.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\detail\util.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\mr\validator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\functional\value.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cuda\vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\cpp\vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\omp\vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\system\tbb\vector.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\detail\vector_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\vector_functions.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\vector_functions.hpp">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\vector_types.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\version.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\type_traits\void_t.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\wchar.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\solaris\wchar.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\wctype.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\newlib\xlocale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\musl\xlocale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\solaris\xlocale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\ibm\xlocale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\support\fuchsia\xlocale.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\xor_combine_engine.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\random\detail\xor_combine_engine_max.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\zip_function.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\zip_iterator.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda\include\cuda\thrust\iterator\detail\zip_iterator_base.h">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </ClInclude>
+    <ClInclude Include="dlib.h">
+      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="dlib_windows.h">
+      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="monitor.h">
+      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="nvml.h">
+      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="CPU.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Header Files\Hardware</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="cengine.ico">
@@ -1099,11 +3856,513 @@
     <None Include="HLSL.props">
       <Filter>Source Files\Shaders</Filter>
     </None>
+    <None Include="cuda\include\cuda\thrust\detail\functional\actor.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\adjacent_difference.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\adjacent_difference.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\advance.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\advance.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\allocator_traits.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\binary_search.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\scalar\binary_search.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\binary_search.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\complex\complex.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\contiguous_storage.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\copy_construct_range.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\copy_if.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\copy_if.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\copy_if.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\copy_if.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\count.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\count.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\counting_iterator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\default_construct_range.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\default_decomposition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\destroy_range.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_delete.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_free.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_malloc.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_new.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_ptr.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_reference.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\device_vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\discard_block_engine.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\distance.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\distance.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\equal.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\equal.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cuda\detail\error.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\error_category.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\error_code.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\error_condition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\extrema.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\extrema.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\fill.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\fill_construct_range.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\find.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\find.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\for_each.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\for_each.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\for_each.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\functional.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cuda\detail\future.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\gather.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\gather.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\generate.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\generate.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\host_vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\inner_product.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\inner_product.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\iterator_traits.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\linear_congruential_engine.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\linear_feedback_shift_engine.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\logical.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\malloc_allocator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\memory.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cpp\detail\memory.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\memory.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\memory.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cuda\detail\memory.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\merge.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\merge.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\merge.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\merge.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\mismatch.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\mismatch.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\normal_distribution.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\pair.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\partition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\partition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\partition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\partition.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\pointer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cpp\detail\pointer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cuda\detail\pointer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\pointer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\pointer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\reduce_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\reduce_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\reduce_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\reduce_intervals.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\reference.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\remove.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\remove.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\remove.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\remove.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\replace.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\replace.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\reverse.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\reverse.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\reverse_iterator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\scan.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\scan.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\scan.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\scan_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\scatter.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\scatter.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\select_system.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\sequence.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\sequence.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\set_operations.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\set_operations.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\shuffle.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\shuffle.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\stable_merge_sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\stable_primitive_sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\sequential\stable_radix_sort.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\subtract_with_carry_engine.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\swap.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\swap_ranges.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\swap_ranges.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\system_error.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\tabulate.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\tabulate.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\tagged_allocator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\allocator\temporary_allocator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\temporary_array.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\temporary_buffer.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\transform.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\transform.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\transform_iterator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\transform_output_iterator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\transform_reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\transform_reduce.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\transform_scan.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\transform_scan.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\tuple.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\uniform_int_distribution.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\uniform_real_distribution.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\uninitialized_copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\uninitialized_copy.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\uninitialized_fill.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\uninitialized_fill.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\unique.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\unique.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\unique.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\unique.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\unique_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\detail\generic\unique_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\unique_by_key.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cpp\detail\vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\omp\detail\vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\cuda\detail\vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\system\tbb\detail\vector.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\detail\vector_base.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\random\detail\xor_combine_engine.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
+    <None Include="cuda\include\cuda\thrust\iterator\detail\zip_iterator.inl">
+      <Filter>Header Files\Libraries\cuda</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="assimp\bin\x64\assimp-vc142-mt.lib" />
     <Library Include="dxtex\bin\Debug\DirectXTex.lib" />
     <Library Include="dxtex\bin\Release\DirectXTex.lib" />
+    <Library Include="assimp\bin\assimp-vc142-mt.lib" />
+    <Library Include="nvapi\bin\nvapi64.lib" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CENgine.rc">

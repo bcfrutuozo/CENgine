@@ -22,14 +22,26 @@ std::wstring ToWide(const std::string& s)
 {
 	wchar_t wide[512];
 	mbstowcs_s(nullptr, wide, s.c_str(), _TRUNCATE);
-	return wide;
+	return std::wstring(wide);
 }
 
 std::string ToNarrow(const std::wstring& s)
 {
 	char narrow[512];
 	wcstombs_s(nullptr, narrow, s.c_str(), _TRUNCATE);
-	return narrow;
+	return std::string(narrow);
+}
+
+std::string GetLastSubstring(const std::string& s, const std::string& separator)
+{
+	const auto& size = s.find_last_of(separator);
+	return s.substr(size + 1);
+}
+
+std::wstring GetLastWSubstring(const std::wstring& s, const std::wstring& separator)
+{
+	const auto& size = s.find_last_of(separator);
+	return s.substr(size + 1);
 }
 
 std::vector<std::string> SplitString(const std::string& s, const std::string& delim)

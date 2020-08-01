@@ -7,7 +7,8 @@ class Disk : public Peripheral
 public:
 
 	Disk(Device driver);
+	~Disk();
 	void Initialize() override { }
-	void Shutdown() override { }
-	const long GetWorkload() override { return 0; }
+	void ShowWidget() override { }
+	void GetWorkload() override { }
 };

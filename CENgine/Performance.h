@@ -3,23 +3,17 @@
 #include "Hardware.h"
 #include "Timer.h"
 
-#include <Pdh.h>
-#include <Psapi.h>
-
-#pragma comment(lib, "pdh.lib")
-
-
 class Performance
 {
 public:
 
 	Performance(Timer& timer);
+	~Performance() = default;
 	void Initialize();
-	void Shutdown();
 	void ShowWidget();
+	void GetWorkload();
 private:
 
-	void Calculate();
 	void GetCPUTotalWorkload();
 	void GetCPUEngineWorkload();
 	void GetCPUTemperature();
@@ -29,17 +23,6 @@ private:
 
 	static constexpr float updatePeriod = 0.5f;
 
-	// Variables to check total CPU workload
-	bool canReadCpu;
-	HQUERY queryHandle;
-	HCOUNTER counterHandle;
-
-	// Variables to check the engine workload on the CPU
-	ULARGE_INTEGER lastCPU, lastSysCPU, lastUserCPU;
-	int numProcessors;
-	DWORD numberOfProcessors;
-	HANDLE self;
-
 	// Timer to avoid performace retrieval on every frame
 	Timer timer;
 	float lastSampleTime;
@@ -48,6 +31,7 @@ private:
 	MEMORYSTATUSEX memInfo;
 	PROCESS_MEMORY_COUNTERS_EX pmc;
 
+	std::unique_ptr<CPU> m_CPU;
 	std::vector<std::unique_ptr<Disk>> m_Disks;
 	std::vector<std::unique_ptr<GPU>> m_GPUs;
 	float m_CPUTotalWorkload;

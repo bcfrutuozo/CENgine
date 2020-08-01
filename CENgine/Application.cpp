@@ -47,9 +47,7 @@ Application::Application(const std::string& commandLine)
 }
 
 Application::~Application()
-{
-	perf.Shutdown();
-}
+{ }
 
 int Application::Start()
 {
@@ -168,6 +166,8 @@ void Application::Run(float dt)
 	cube2.Submit(Channel::shadow);
 	gobber.Submit(Channel::shadow);
 	nano.Submit(Channel::shadow);
+
+	perf.GetWorkload();
 
 	renderGraph.Execute(window.Gfx());
 

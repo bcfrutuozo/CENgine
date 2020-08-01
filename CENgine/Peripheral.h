@@ -4,11 +4,14 @@
 #include "Utilities.h"
 #include "WinReg.h"
 
+#include <cassert>
 #include <unordered_map>
 #include <sstream>
 #include <memory>
 
 class Hardware;
+class Core;
+class CPU;
 class Disk;
 class GPU;
 
@@ -19,13 +22,18 @@ class Peripheral
 public:
 
 	virtual void Initialize() = 0;
-	virtual void Shutdown() = 0;
-	virtual const long GetWorkload() = 0;
+	virtual void GetWorkload() = 0;
+	virtual void ShowWidget() = 0;
 	virtual ~Peripheral() = default;
+	const Device& GetDevice()
+	{
+		return m_Device;
+	}
 
 protected:
 
 	Device m_Device;
+	std::string m_Name;
 	long m_Workload;
 
 private:
@@ -33,10 +41,16 @@ private:
 	template<typename T>
 	static const std::vector<std::wstring> GetEnumerator()
 	{
+		// Use ACPI/PPM to get the real number of cores
+		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM",L"intelppm" };
 		static std::vector<std::wstring> DisksEnumerator{ L"disk" };
 		static std::vector<std::wstring> GPUsEnumerator{ L"amdkmdag", L"nvlddmkm", L"iAlm" };
 
-		if(typeid(T) == typeid(Disk))
+		if(typeid(T) == typeid(Core))
+		{
+			return CoresEnumerator;
+		}
+		else if(typeid(T) == typeid(Disk))
 		{
 			return DisksEnumerator;
 		}
@@ -79,9 +93,9 @@ private:
 	}
 
 	template<typename T>
-	static const std::vector<std::wstring> QueryRegistryForEnum(const std::unordered_map<std::wstring, unsigned long> registryInformation)
+	static const std::vector<DeviceEnumerator> QueryRegistryForEnum(const std::unordered_map<std::wstring, unsigned long> registryInformation)
 	{
-		std::vector<std::wstring> paths;
+		std::vector<DeviceEnumerator> deviceEnumerator;
 
 		for(const auto& info : registryInformation)
 		{
@@ -92,15 +106,18 @@ private:
 				{
 					if(key.TryOpen(key.Get(), L"Enum", KEY_READ | KEY_WOW64_32KEY))
 					{
+						DeviceEnumerator dm;
 						std::wstringstream wss;
 						wss << RootDeviceEnumerator << L"\\" << key.GetStringValue(std::to_wstring(i));
-						paths.push_back(wss.str());
+						dm.index = i;
+						dm.path = wss.str();
+						deviceEnumerator.push_back(dm);
 					}
 				}
 			}
 		}
 
-		return paths;
+		return deviceEnumerator;
 	}
 
 	template<typename T>
@@ -109,16 +126,17 @@ private:
 		std::vector<Device> vec;
 
 		const auto& registryInformation = GetDeviceCount<T>();
-		std::vector<std::wstring> paths = QueryRegistryForEnum<T>(registryInformation);
+		const auto& deviceEnumerator = QueryRegistryForEnum<T>(registryInformation);
 
-		for(const auto& path : paths)
+		for(const auto& dm : deviceEnumerator)
 		{
 			RegKey key;
 
-			key = { HKEY_LOCAL_MACHINE, path, KEY_READ | KEY_WOW64_32KEY };
+			key = { HKEY_LOCAL_MACHINE, dm.path, KEY_READ | KEY_WOW64_32KEY };
 			if(key.IsValid())
 			{
 				Device d;
+
 				for(int m = 0; m < Device::MembersCount(); m++)
 				{
 					if(Device::GetMemberType(m) == typeid(unsigned long))
@@ -147,6 +165,8 @@ private:
 					}
 				}
 
+				d.Index = dm.index;
+				d.IsLoaded = true;
 				vec.push_back(d);
 			}
 		}
