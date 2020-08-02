@@ -3716,6 +3716,9 @@
     <ClInclude Include="Core.h">
       <Filter>Header Files\Hardware</Filter>
     </ClInclude>
+    <ClInclude Include="assimp\include\assimp\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="cengine.ico">

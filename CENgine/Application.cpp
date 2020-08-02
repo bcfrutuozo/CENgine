@@ -13,7 +13,7 @@
 Application::Application(const std::string& commandLine)
 	:
 	commandLine(commandLine),
-	window(3840, 2160, "CENgine"),
+	window(1920, 1080, "CENgine"),
 	scriptParser(TokenizedQuoted(commandLine)),
 	light(window.Gfx(), { 10.0f,5.0f,0.0f }),
 	perf(timer)
