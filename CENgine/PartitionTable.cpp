@@ -17,10 +17,6 @@ PartitionTable::PartitionTable(const Style p_Style, const unsigned int p_Partiti
 	}
 }
 
-PartitionTable::~PartitionTable()
-{
-}
-
 void PartitionTable::AddPartition(Partition* p_pPartition)
 {
 	m_pPartitions.push_back(std::unique_ptr<Partition>(p_pPartition));

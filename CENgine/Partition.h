@@ -5,7 +5,6 @@
 
 #include <Windows.h>
 #include <winioctl.h>
-#pragma pack(pop)
 
 static constexpr int MBRPARTITIONTYPES = 98;
 static constexpr int GPTPARTITIONTYPES = 138;

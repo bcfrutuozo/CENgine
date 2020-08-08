@@ -426,6 +426,12 @@
     <ClCompile Include="Partition.cpp">
       <Filter>Source Files\Hardware\Disk</Filter>
     </ClCompile>
+    <ClCompile Include="MBRPartitionTable.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="GPTPartitionTable.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -3762,6 +3768,12 @@
       <Filter>Header Files\Hardware\Disk</Filter>
     </ClInclude>
     <ClInclude Include="GPTPartition.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="MBRPartitionTable.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="GPTPartitionTable.h">
       <Filter>Header Files\Hardware\Disk</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,8 @@
 #include "Disk.h"
 #include "imgui/imgui.h"
 #include "Utilities.h"
+#include "MBRPartitionTable.h"
+#include "GPTPartitionTable.h"
 #include "MBRPartition.h"
 #include "GPTPartition.h"
 
@@ -78,7 +80,7 @@ void Disk::Initialize()
 	switch (layout->PartitionStyle)
 	{
 	case PARTITION_STYLE_MBR:
-		m_PartitionTable = std::unique_ptr<PartitionTable>(new PartitionTable(PartitionTable::Style::MBR, layout->PartitionCount, layout->Mbr.Signature == UEFI_SIGNATURE));
+		m_PartitionTable = std::unique_ptr<PartitionTable>(new MBRPartitionTable(layout->PartitionCount, layout->Mbr.Signature == UEFI_SIGNATURE));
 
 		for (int i = 0; i < layout->PartitionCount; ++i)
 		{
@@ -86,7 +88,7 @@ void Disk::Initialize()
 		}
 		break;
 	case PARTITION_STYLE_GPT:
-		m_PartitionTable = std::unique_ptr<PartitionTable>(new PartitionTable(PartitionTable::Style::GPT, layout->PartitionCount));
+		m_PartitionTable = std::unique_ptr<PartitionTable>(new GPTPartitionTable(layout->PartitionCount, GuidToString(layout->Gpt.DiskId), layout->Gpt.StartingUsableOffset.QuadPart, layout->Gpt.UsableLength.QuadPart));
 		for (int i = 0; i < layout->PartitionCount; ++i)
 		{
 			m_PartitionTable->AddPartition(new GPTPartition(layout->PartitionEntry[i]));

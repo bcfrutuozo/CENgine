@@ -16,15 +16,15 @@ public:
 		RAW = 99,
 	};
 
-	PartitionTable(const Style p_Style, const unsigned int p_PartitionCount, const bool p_HasUEFISignature = false);
-	~PartitionTable();
+	PartitionTable(const Style p_Style, const unsigned int p_PartitionCount, const bool p_HasUEFISignature);
+	virtual ~PartitionTable() = default;
 
 	void AddPartition(Partition* p_pPartition);
-	void ShowWidget();
+	virtual void ShowWidget() = 0;
 	const unsigned int GetPartitionCount() noexcept;
 	const unsigned int GetMaxPartition() noexcept;
 
-private:
+protected:
 
 	Style m_Style;
 	bool m_HasUEFISignature;

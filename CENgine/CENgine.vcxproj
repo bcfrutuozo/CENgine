@@ -117,9 +117,11 @@
     <ClCompile Include="Disk.cpp" />
     <ClCompile Include="dlib_windows.cpp" />
     <ClCompile Include="GPTPartition.cpp" />
+    <ClCompile Include="GPTPartitionTable.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="IntelGPU.cpp" />
     <ClCompile Include="MBRPartition.cpp" />
+    <ClCompile Include="MBRPartitionTable.cpp" />
     <ClCompile Include="monitor.cpp" />
     <ClCompile Include="NvidiaGPU.cpp" />
     <ClCompile Include="nvml.cpp" />
@@ -1179,9 +1181,11 @@
     <ClInclude Include="dlib.h" />
     <ClInclude Include="dlib_windows.h" />
     <ClInclude Include="GPTPartition.h" />
+    <ClInclude Include="GPTPartitionTable.h" />
     <ClInclude Include="Hardware.h" />
     <ClInclude Include="IntelGPU.h" />
     <ClInclude Include="MBRPartition.h" />
+    <ClInclude Include="MBRPartitionTable.h" />
     <ClInclude Include="monitor.h" />
     <ClInclude Include="nvapi\include\nvapi.h" />
     <ClInclude Include="nvapi\include\NvApiDriverSettings.h" />
