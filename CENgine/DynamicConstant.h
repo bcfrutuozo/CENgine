@@ -236,7 +236,7 @@ namespace DRR
 		// Each element stores its own offset. This makes lookup to find its position in the byte buffer
 		// fast. Special handling is required for situations where arrays are involved
 		std::optional<size_t> offset;
-		Type type = Empty;
+		Type type = DRR::Type::Empty;
 		std::unique_ptr<ExtraDataBase> pExtraData;
 	};
 

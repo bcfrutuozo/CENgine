@@ -34,9 +34,6 @@ private:
 	std::unique_ptr<CPU> m_CPU;
 	std::vector<std::unique_ptr<Disk>> m_Disks;
 	std::vector<std::unique_ptr<GPU>> m_GPUs;
-	float m_CPUTotalWorkload;
-	float m_CPUEngineWorkload;
-	long m_CPUTemperature;
 	long m_MemoryLoad;
 	unsigned long m_TotalPhysicalMemory;
 	unsigned long m_TotalVirtualMemory;

@@ -2,8 +2,6 @@
 
 #include "Peripheral.h"
 
-#include <memory>
-
 class GPU : public Peripheral
 {
 public:

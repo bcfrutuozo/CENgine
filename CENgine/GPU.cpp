@@ -2,9 +2,9 @@
 #include "imgui/imgui.h"
 
 GPU::GPU(Device device)
-{
-	m_Device = device;
-}
+	:
+	Peripheral(device)
+{}
 
 GPU::~GPU()
 { }

@@ -4,9 +4,16 @@
 #include <PdhMsg.h>
 
 Core::Core(Device device)
-{
-	m_Device = device;
-}
+	:
+	hQuery(nullptr),
+	hProcessorCounters(nullptr),
+	hPrivelegedCounters(nullptr),
+	hIdleCounters(nullptr),
+	m_Idle(0),
+	m_Kernel(0),
+	m_Processor(0),
+	Peripheral(device)
+{}
 
 void Core::Initialize()
 {
@@ -31,13 +38,13 @@ void Core::Initialize()
 		PERF_DETAIL_WIZARD,     // counter detail level
 		0);
 
-	if(pdhStatus == PDH_MORE_DATA)
+	if (pdhStatus == PDH_MORE_DATA)
 	{
 		// Allocate the buffers and try the call again.
 		szCounterListBuffer = (LPTSTR)malloc((dwCounterListSize * sizeof(TCHAR)));
 		szInstanceListBuffer = (LPTSTR)malloc((dwInstanceListSize * sizeof(TCHAR)));
 
-		if((szCounterListBuffer != NULL) && (szInstanceListBuffer != NULL))
+		if ((szCounterListBuffer != NULL) && (szInstanceListBuffer != NULL))
 		{
 			pdhStatus = PdhEnumObjectItems(
 				NULL,                 // real time source
@@ -52,16 +59,16 @@ void Core::Initialize()
 
 			pdhStatus = PdhOpenQuery(NULL, 0, &hQuery);
 
-			if(pdhStatus == ERROR_SUCCESS)
+			if (pdhStatus == ERROR_SUCCESS)
 			{
 				TCHAR szCounterPath[128];
-				
+
 				sprintf_s(szCounterPath, "\\Processor(%d)\\%% Processor Time", m_Device.Index);
 				pdhStatus = PdhAddEnglishCounter(hQuery, szCounterPath, 0, &hProcessorCounters);
-				
+
 				sprintf_s(szCounterPath, "\\Processor(%d)\\%% Idle Time", m_Device.Index);
 				pdhStatus = PdhAddEnglishCounter(hQuery, szCounterPath, 0, &hIdleCounters);
-				
+
 				sprintf_s(szCounterPath, "\\Processor(%d)\\%% Privileged Time", m_Device.Index);
 				pdhStatus = PdhAddEnglishCounter(hQuery, szCounterPath, 0, &hPrivelegedCounters);
 			}
@@ -87,19 +94,19 @@ void Core::GetWorkload()
 	PDH_FMT_COUNTERVALUE cvIdle, cvPriveleged, cvProcessor;
 	DWORD dwCounterType = 0;
 
-	if(PdhCollectQueryData(hQuery) == ERROR_SUCCESS)
+	if (PdhCollectQueryData(hQuery) == ERROR_SUCCESS)
 	{
-		if(PdhGetFormattedCounterValue(hIdleCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvIdle) == ERROR_SUCCESS)
+		if (PdhGetFormattedCounterValue(hIdleCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvIdle) == ERROR_SUCCESS)
 		{
 			m_Idle = cvIdle.doubleValue;
 		};
 
-		if(PdhGetFormattedCounterValue(hPrivelegedCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvPriveleged) == ERROR_SUCCESS)
+		if (PdhGetFormattedCounterValue(hPrivelegedCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvPriveleged) == ERROR_SUCCESS)
 		{
 			m_Kernel = cvPriveleged.doubleValue;
 		}
 
-		if(PdhGetFormattedCounterValue(hProcessorCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvProcessor) == ERROR_SUCCESS)
+		if (PdhGetFormattedCounterValue(hProcessorCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvProcessor) == ERROR_SUCCESS)
 		{
 			m_Processor = cvProcessor.doubleValue;
 		}

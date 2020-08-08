@@ -88,38 +88,56 @@
     <Filter Include="Source Files\Hardware">
       <UniqueIdentifier>{54e37f5d-c680-4e46-9666-19b3338f35b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Hardware\NVIDIA">
-      <UniqueIdentifier>{db18e486-e0e4-44ed-a20d-d6cdf3497846}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Hardware\AMD">
-      <UniqueIdentifier>{1ef2e2af-e3c8-4580-a9af-7ddd03c5c349}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Registry">
       <UniqueIdentifier>{9de5589b-1fb4-4b85-a007-ef49de26cd97}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Libraries\nvapi">
       <UniqueIdentifier>{ced677e7-147c-46cd-8fa4-2276ec7293c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Hardware\AMD">
-      <UniqueIdentifier>{d226770e-12b4-490c-a82c-af8811746893}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\NVIDIA">
-      <UniqueIdentifier>{2fe8148f-5b35-4db0-af06-5000ede1871f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\INTEL">
-      <UniqueIdentifier>{db54a731-cfc5-4077-8837-3f0b4c314657}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Hardware\INTEL">
-      <UniqueIdentifier>{d65e0121-8ca1-46d3-901d-15faccff36d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Libraries\cuda">
       <UniqueIdentifier>{2fb6096b-085f-4b9b-8202-0b344112df97}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Hardware\NVIDIA\Wrappers">
+    <Filter Include="Source Files\Hardware\Disk">
+      <UniqueIdentifier>{62902f7c-792d-4051-8a6c-4c0fb257a87b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\Disk">
+      <UniqueIdentifier>{3c320035-29fd-4d24-9310-781a6a15d242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\GPU">
+      <UniqueIdentifier>{ad777884-3f96-416c-834e-327012a631a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\GPU\NVIDIA">
+      <UniqueIdentifier>{db18e486-e0e4-44ed-a20d-d6cdf3497846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\GPU\NVIDIA\Wrappers">
       <UniqueIdentifier>{1eca7fc1-cd36-4392-8cec-7cfb1b81dc94}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Hardware\NVIDIA\Wrappers">
+    <Filter Include="Header Files\Hardware\GPU\AMD">
+      <UniqueIdentifier>{1ef2e2af-e3c8-4580-a9af-7ddd03c5c349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\GPU\INTEL">
+      <UniqueIdentifier>{d65e0121-8ca1-46d3-901d-15faccff36d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\CPU">
+      <UniqueIdentifier>{a2139616-e3eb-400a-8073-ff4597e6c55e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU">
+      <UniqueIdentifier>{7c657c5d-544a-474c-ad8d-c83d8013ccf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\NVIDIA">
+      <UniqueIdentifier>{2fe8148f-5b35-4db0-af06-5000ede1871f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\NVIDIA\Wrappers">
       <UniqueIdentifier>{978ff957-7986-4a5a-9084-1cb4644fd492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\INTEL">
+      <UniqueIdentifier>{db54a731-cfc5-4077-8837-3f0b4c314657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\AMD">
+      <UniqueIdentifier>{d226770e-12b4-490c-a82c-af8811746893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\CPU">
+      <UniqueIdentifier>{6326efce-88fc-4bec-96ff-4c50843396ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -363,38 +381,50 @@
     <ClCompile Include="Performance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GPU.cpp">
-      <Filter>Source Files\Hardware</Filter>
-    </ClCompile>
-    <ClCompile Include="Disk.cpp">
-      <Filter>Source Files\Hardware</Filter>
-    </ClCompile>
     <ClCompile Include="AmdGPU.cpp">
-      <Filter>Source Files\Hardware\AMD</Filter>
+      <Filter>Source Files\Hardware\GPU\AMD</Filter>
     </ClCompile>
     <ClCompile Include="IntelGPU.cpp">
-      <Filter>Source Files\Hardware\INTEL</Filter>
+      <Filter>Source Files\Hardware\GPU\INTEL</Filter>
     </ClCompile>
     <ClCompile Include="nvml.cpp">
-      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="monitor.cpp">
-      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="dlib_windows.cpp">
-      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>Source Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="NvidiaGPU.cpp">
-      <Filter>Source Files\Hardware\NVIDIA</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA</Filter>
     </ClCompile>
-    <ClCompile Include="CPU.cpp">
-      <Filter>Source Files\Hardware</Filter>
+    <ClCompile Include="PartitionTable.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="Disk.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="GPU.cpp">
+      <Filter>Source Files\Hardware\GPU</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
-      <Filter>Source Files\Hardware</Filter>
+      <Filter>Source Files\Hardware\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="CPU.cpp">
+      <Filter>Source Files\Hardware\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="MBRPartition.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="GPTPartition.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="Partition.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -992,17 +1022,11 @@
     <ClInclude Include="Peripheral.h">
       <Filter>Header Files\Hardware</Filter>
     </ClInclude>
-    <ClInclude Include="GPU.h">
-      <Filter>Header Files\Hardware</Filter>
-    </ClInclude>
     <ClInclude Include="Device.h">
       <Filter>Header Files\Hardware</Filter>
     </ClInclude>
     <ClInclude Include="NVIDIA_Functions.h">
-      <Filter>Header Files\Hardware\NVIDIA</Filter>
-    </ClInclude>
-    <ClInclude Include="Disk.h">
-      <Filter>Header Files\Hardware</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA</Filter>
     </ClInclude>
     <ClInclude Include="Hardware.h">
       <Filter>Header Files\Hardware</Filter>
@@ -1047,13 +1071,13 @@
       <Filter>Header Files\Libraries\nvapi</Filter>
     </ClInclude>
     <ClInclude Include="NvidiaGPU.h">
-      <Filter>Header Files\Hardware\NVIDIA</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA</Filter>
     </ClInclude>
     <ClInclude Include="AmdGPU.h">
-      <Filter>Header Files\Hardware\AMD</Filter>
+      <Filter>Header Files\Hardware\GPU\AMD</Filter>
     </ClInclude>
     <ClInclude Include="IntelGPU.h">
-      <Filter>Header Files\Hardware\INTEL</Filter>
+      <Filter>Header Files\Hardware\GPU\INTEL</Filter>
     </ClInclude>
     <ClInclude Include="cuda\include\cuda\cuda\std\detail\libcxx\include\__bsd_locale_defaults.h">
       <Filter>Header Files\Libraries\cuda</Filter>
@@ -3696,28 +3720,49 @@
       <Filter>Header Files\Libraries\cuda</Filter>
     </ClInclude>
     <ClInclude Include="dlib.h">
-      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="dlib_windows.h">
-      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
-      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="monitor.h">
-      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="nvml.h">
-      <Filter>Header Files\Hardware\NVIDIA\Wrappers</Filter>
-    </ClInclude>
-    <ClInclude Include="CPU.h">
-      <Filter>Header Files\Hardware</Filter>
-    </ClInclude>
-    <ClInclude Include="Core.h">
-      <Filter>Header Files\Hardware</Filter>
+      <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="assimp\include\assimp\config.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Disk.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="PartitionTable.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="GPU.h">
+      <Filter>Header Files\Hardware\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Header Files\Hardware\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="CPU.h">
+      <Filter>Header Files\Hardware\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Partition.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="PartitionType.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="MBRPartition.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="GPTPartition.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

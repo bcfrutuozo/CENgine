@@ -70,12 +70,13 @@
       <PreprocessorDefinitions>IS_DEBUG=true;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <AdditionalOptions>/w34265 %(AdditionalOptions)</AdditionalOptions>
+      <StructMemberAlignment>Default</StructMemberAlignment>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp-vc142-mt.lib;Debug\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pdh.lib;assimp-vc142-mt.lib;Debug\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,7 +101,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp-vc142-mt.lib;Release\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pdh.lib;assimp-vc142-mt.lib;Release\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -115,11 +116,15 @@
     <ClCompile Include="CPU.cpp" />
     <ClCompile Include="Disk.cpp" />
     <ClCompile Include="dlib_windows.cpp" />
+    <ClCompile Include="GPTPartition.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="IntelGPU.cpp" />
+    <ClCompile Include="MBRPartition.cpp" />
     <ClCompile Include="monitor.cpp" />
     <ClCompile Include="NvidiaGPU.cpp" />
     <ClCompile Include="nvml.cpp" />
+    <ClCompile Include="Partition.cpp" />
+    <ClCompile Include="PartitionTable.cpp" />
     <ClCompile Include="Performance.cpp" />
     <ClCompile Include="CubeTexture.cpp" />
     <ClCompile Include="DepthStencil.cpp" />
@@ -1173,8 +1178,10 @@
     <ClInclude Include="Disk.h" />
     <ClInclude Include="dlib.h" />
     <ClInclude Include="dlib_windows.h" />
+    <ClInclude Include="GPTPartition.h" />
     <ClInclude Include="Hardware.h" />
     <ClInclude Include="IntelGPU.h" />
+    <ClInclude Include="MBRPartition.h" />
     <ClInclude Include="monitor.h" />
     <ClInclude Include="nvapi\include\nvapi.h" />
     <ClInclude Include="nvapi\include\NvApiDriverSettings.h" />
@@ -1192,6 +1199,9 @@
     <ClInclude Include="NVIDIA_Functions.h" />
     <ClInclude Include="GPU.h" />
     <ClInclude Include="nvml.h" />
+    <ClInclude Include="Partition.h" />
+    <ClInclude Include="PartitionTable.h" />
+    <ClInclude Include="PartitionType.h" />
     <ClInclude Include="Performance.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeTexture.h" />

@@ -27,40 +27,39 @@
 	X(std::vector<std::wstring>, HardwareID, 9) \
 
 
-struct Device
+class Device
 {
-	// Allow peripheral to access private functions which set the device properties.
-	friend class Peripheral;
+public:
 
-	#define X(type, member) type member;
+	// Created 3 X Macro instances to avoid warnings during compilation
+
+#define X(type, member) type member;
 	DEVICE_MEMBERS_UNSIGNED_LONG
 		DEVICE_MEMBERS_STRING
 		DEVICE_MEMBERS_MULTIPLE_STRINGS
-		#undef X
+#undef X
 
-	unsigned int Index;
+		unsigned int Index;
 	bool IsLoaded = false;
-
-private:
 
 	static unsigned int MembersCount()
 	{
-		#define X(_, __) +1
+#define X(_, __) +1
 		static const unsigned int count = DEVICE_MEMBERS_UNSIGNED_LONG + DEVICE_MEMBERS_STRING + DEVICE_MEMBERS_MULTIPLE_STRINGS;
-		#undef X
+#undef X
 
 		return count;
 	}
 
 	static const std::wstring GetMemberName(int i)
 	{
-		switch(i)
+		switch (i)
 		{
-			#define X(type, member, index) case index: return std::wstring(L#member);
+#define X(type, member, index) case index: return std::wstring(L#member);
 			DEVICE_MEMBERS_UNSIGNED_LONG
 				DEVICE_MEMBERS_STRING
 				DEVICE_MEMBERS_MULTIPLE_STRINGS
-				#undef X
+#undef X
 		}
 
 		throw std::runtime_error("Invalid member driver type.");
@@ -68,13 +67,13 @@ private:
 
 	static const type_info& GetMemberType(int i)
 	{
-		switch(i)
+		switch (i)
 		{
-			#define X(type, member, index) case index: return typeid(type);
+#define X(type, member, index) case index: return typeid(type);
 			DEVICE_MEMBERS_UNSIGNED_LONG
 				DEVICE_MEMBERS_STRING
 				DEVICE_MEMBERS_MULTIPLE_STRINGS
-				#undef X
+#undef X
 		}
 
 		throw std::runtime_error("Invalid member driver type.");
@@ -88,31 +87,31 @@ private:
 
 	template<> void SetMemberValue<unsigned long>(int i, unsigned long value)
 	{
-		switch(i)
+		switch (i)
 		{
-			#define X(type, member, index)  case index: member = value; break;
+#define X(type, member, index)  case index: member = value; break;
 			DEVICE_MEMBERS_UNSIGNED_LONG
-				#undef X
+#undef X
 		}
 	};
 
 	template<> void SetMemberValue<std::wstring>(int i, std::wstring value)
 	{
-		switch(i)
+		switch (i)
 		{
-			#define X(type, member, index)  case index: member = value; break;
+#define X(type, member, index)  case index: member = value; break;
 			DEVICE_MEMBERS_STRING
-				#undef X
+#undef X
 		}
 	};
 
 	template<> void SetMemberValue<std::vector<std::wstring>>(int i, std::vector<std::wstring> value)
 	{
-		switch(i)
+		switch (i)
 		{
-			#define X(type, member, index)  case index: member = value; break;
+#define X(type, member, index)  case index: member = value; break;
 			DEVICE_MEMBERS_MULTIPLE_STRINGS
-				#undef X
+#undef X
 		}
 	};
 };

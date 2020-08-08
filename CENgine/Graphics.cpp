@@ -126,7 +126,7 @@ Graphics::Type Graphics::GetFullscreenState() const noexcept
 	return windowType;
 }
 
-void Graphics::BeginFrame(float red, float green, float blue) const noexcept
+void Graphics::BeginFrame(float red, float green, float blue) const
 {
 	// ImGui begin frame
 	if(isImGuiEnabled)

@@ -5,15 +5,15 @@
 Performance::Performance(Timer& timer)
 	:
 	timer(timer),
-	m_CPUTotalWorkload(0.0f),
-	m_CPUEngineWorkload(0.0f),
-	m_CPUTemperature(0),
 	m_TotalPhysicalMemory(0),
 	m_TotalVirtualMemory(0),
 	m_PhysicalMemoryTotalWorkload(0),
 	m_PhysicalMemoryEngineWorkload(0),
 	m_VirtualMemoryTotalWorkload(0),
 	m_VirtualMemoryEngineWorkload(0),
+	m_MemoryLoad(0),
+	memInfo({0}),
+	pmc({0}),
 	lastSampleTime(0.0f),
 	m_CPU(Hardware::GetDevice<CPU>()),
 	m_GPUs(Hardware::GetDevices<GPU>()),
@@ -81,7 +81,9 @@ void Performance::GetWorkload()
 		lastSampleTime = now;
 		GetMemoryTotalUsage();
 		GetMemoryEngineUsage();
+		
 		m_CPU->GetWorkload();
+		
 		for(const auto& gpu : m_GPUs)
 		{
 			gpu->GetWorkload();
@@ -112,21 +114,21 @@ void Performance::GetCPUTemperature()
 void Performance::GetMemorySizeInformation()
 {
 	GlobalMemoryStatusEx(&memInfo);
-	m_TotalPhysicalMemory = static_cast<unsigned long>(memInfo.ullTotalPhys / 1024 / 1024);								// Formats the value to MB
-	m_TotalVirtualMemory = static_cast<unsigned long>(memInfo.ullTotalPageFile / 1024 / 1024);							// Formats the value to MB
+	m_TotalPhysicalMemory = static_cast<unsigned long>(memInfo.ullTotalPhys / 1048576);								// Formats the value to MB
+	m_TotalVirtualMemory = static_cast<unsigned long>(memInfo.ullTotalPageFile / 1048576);							// Formats the value to MB
 }
 
 void Performance::GetMemoryTotalUsage()
 {
 	GlobalMemoryStatusEx(&memInfo);
 	m_MemoryLoad = (memInfo.dwMemoryLoad);
-	m_PhysicalMemoryTotalWorkload = (memInfo.ullTotalPhys / 1024 / 1024) - (memInfo.ullAvailPhys / 1024 / 1024);		// Formats the value to MB
-	m_VirtualMemoryTotalWorkload = (memInfo.ullTotalPageFile / 1024 / 1024) - (memInfo.ullAvailPageFile / 1024 / 1024);	// Formats the value to MB
+	m_PhysicalMemoryTotalWorkload = (memInfo.ullTotalPhys / 1048576) - (memInfo.ullAvailPhys / 1048576);		// Formats the value to MB
+	m_VirtualMemoryTotalWorkload = (memInfo.ullTotalPageFile / 1048576) - (memInfo.ullAvailPageFile / 1048576);	// Formats the value to MB
 }
 
 void Performance::GetMemoryEngineUsage()
 {
 	GetProcessMemoryInfo(GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
-	m_PhysicalMemoryEngineWorkload = (pmc.WorkingSetSize / 1024 / 1024);												// Formats the value to MB
-	m_VirtualMemoryEngineWorkload = (pmc.PrivateUsage / 1024 / 1024);													// Formats the value to MB
+	m_PhysicalMemoryEngineWorkload = (pmc.WorkingSetSize / 1048576);												// Formats the value to MB
+	m_VirtualMemoryEngineWorkload = (pmc.PrivateUsage / 1048576);													// Formats the value to MB
 }

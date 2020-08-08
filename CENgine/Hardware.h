@@ -10,7 +10,6 @@
 #include "IntelGPU.h"
 
 #include <unordered_map>
-#include <memory>
 
 class Hardware
 {
@@ -19,7 +18,7 @@ public:
 	template<typename T>
 	static const std::unique_ptr<T> GetDevice(int index = 0)
 	{
-		return std::make_unique<T>(Peripheral::GetDeviceInformation<T>()[index]);
+		return std::make_unique<T>(GetDeviceInformation<T>()[index]);
 	}
 
 	template<>
@@ -27,7 +26,7 @@ public:
 	{
 		std::vector<std::unique_ptr<Core>> cores;
 
-		const auto& dvcCores = Peripheral::GetDeviceInformation<Core>();
+		const auto& dvcCores = GetDeviceInformation<Core>();
 		for(const auto& core : dvcCores)
 		{
 			cores.emplace_back(std::make_unique<Core>(core));
@@ -36,18 +35,12 @@ public:
 		return std::make_unique<CPU>(std::move(cores));
 	}
 
-	template<>
-	static const std::unique_ptr<GPU> GetDevice(int index)
-	{
-		return std::unique_ptr<GPU>(CreateGPU(Peripheral::GetDeviceInformation<GPU>()[index]));
-	}
-
 	template<typename T>
 	static const std::vector<std::unique_ptr<T>> GetDevices()
 	{
 		std::vector<std::unique_ptr<T>> c;
 
-		std::vector<Device> dvc = Peripheral::GetDeviceInformation<T>();
+		const auto& dvc = GetDeviceInformation<T>();
 		for(const auto& d : dvc)
 		{
 			c.emplace_back(std::make_unique<T>(d));
@@ -67,27 +60,13 @@ public:
 	{
 		std::vector<std::unique_ptr<GPU>> c;
 
-		std::vector<Device> dvc = Peripheral::GetDeviceInformation<GPU>();
+		std::vector<Device> dvc = GetDeviceInformation<GPU>();
 		for(const auto& d : dvc)
 		{
 			c.emplace_back(std::unique_ptr<GPU>(CreateGPU(d)));
 		}
 
 		return c;
-	}
-
-	template<typename T>
-	static const unsigned long GetDeviceCount()
-	{
-		unsigned long count = 0;
-		const auto& registryInformation = Peripheral::GetDeviceCount<T>();
-
-		for(const auto& info : registryInformation)
-		{
-			count += info.second;
-		}
-
-		return count;
 	}
 
 private:
@@ -107,4 +86,143 @@ private:
 			return new IntelGPU(device);
 		}
 	}
+
+	static constexpr wchar_t RootServices[] = L"SYSTEM\\CurrentControlSet\\Services";
+	static constexpr wchar_t RootDeviceEnumerator[] = L"SYSTEM\\CurrentControlSet\\Enum";
+
+	template<typename T>
+	static const std::vector<std::wstring> GetEnumerator()
+	{
+		// Use ACPI/PPM to get the real number of cores
+		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM",L"intelppm" };
+		static std::vector<std::wstring> DisksEnumerator{ L"disk" };
+		static std::vector<std::wstring> GPUsEnumerator{ L"amdkmdag", L"nvlddmkm", L"iAlm" };
+
+		if (typeid(T) == typeid(Core))
+		{
+			return CoresEnumerator;
+		}
+		else if (typeid(T) == typeid(Disk))
+		{
+			return DisksEnumerator;
+		}
+		else if (typeid(T) == typeid(GPU))
+		{
+			return GPUsEnumerator;
+		}
+	}
+
+	template<typename T>
+	static const std::unordered_map<std::wstring, unsigned long> GetDeviceCount()
+	{
+		std::unordered_map<std::wstring, unsigned long> data;
+		const auto& pathsEnum = GetEnumerator<T>();
+
+		for (const auto& path : pathsEnum)
+		{
+			unsigned long amount = 0;
+			RegKey key = { HKEY_LOCAL_MACHINE, RootServices, KEY_READ | KEY_WOW64_32KEY };
+			if (key.TryOpen(key.Get(), path, KEY_READ | KEY_WOW64_32KEY))
+			{
+				if (key.TryOpen(key.Get(), L"Enum", KEY_READ | KEY_WOW64_32KEY))
+				{
+					amount += key.GetDwordValue(L"Count");
+				}
+				else
+				{
+					continue;
+				}
+			}
+			else
+			{
+				continue;
+			}
+
+			data[path] += amount;
+		}
+
+		return data;
+	}
+
+	template<typename T>
+	static const std::vector<DeviceEnumerator> QueryRegistryForEnum(const std::unordered_map<std::wstring, unsigned long> registryInformation)
+	{
+		std::vector<DeviceEnumerator> deviceEnumerator;
+
+		for (const auto& info : registryInformation)
+		{
+			for (unsigned int i = 0; i < info.second; i++)
+			{
+				RegKey key = { HKEY_LOCAL_MACHINE, RootServices, KEY_READ | KEY_WOW64_32KEY };
+				if (key.TryOpen(key.Get(), info.first, KEY_READ | KEY_WOW64_32KEY))
+				{
+					if (key.TryOpen(key.Get(), L"Enum", KEY_READ | KEY_WOW64_32KEY))
+					{
+						DeviceEnumerator dm;
+						std::wstringstream wss;
+						wss << RootDeviceEnumerator << L"\\" << key.GetStringValue(std::to_wstring(i));
+						dm.index = i;
+						dm.path = wss.str();
+						deviceEnumerator.push_back(dm);
+					}
+				}
+			}
+		}
+
+		return deviceEnumerator;
+	}
+
+	template<typename T>
+	static const std::vector<Device> GetDeviceInformation()
+	{
+		std::vector<Device> vec;
+
+		const auto& registryInformation = GetDeviceCount<T>();
+		const auto& deviceEnumerator = QueryRegistryForEnum<T>(registryInformation);
+
+		for (const auto& dm : deviceEnumerator)
+		{
+			RegKey key;
+
+			key = { HKEY_LOCAL_MACHINE, dm.path, KEY_READ | KEY_WOW64_32KEY };
+			if (key.IsValid())
+			{
+				Device d;
+
+				for (unsigned int m = 0; m < Device::MembersCount(); m++)
+				{
+					if (Device::GetMemberType(m) == typeid(unsigned long))
+					{
+						const auto& v = key.TryGetDwordValue(Device::GetMemberName(m));
+						if (v.has_value())
+						{
+							d.SetMemberValue<unsigned long>(m, v.value());
+						}
+					}
+					else if (Device::GetMemberType(m) == typeid(std::wstring))
+					{
+						const auto& v = key.TryGetStringValue(Device::GetMemberName(m));
+						if (v.has_value())
+						{
+							d.SetMemberValue<std::wstring>(m, v.value());
+						}
+					}
+					else if (Device::GetMemberType(m) == typeid(std::vector<std::wstring>))
+					{
+						const auto& v = key.TryGetMultiStringValue(Device::GetMemberName(m));
+						if (v.has_value())
+						{
+							d.SetMemberValue<std::vector<std::wstring>>(m, v.value());
+						}
+					}
+				}
+
+				d.Index = dm.index;
+				d.IsLoaded = true;
+				vec.push_back(d);
+			}
+		}
+
+		return vec;
+	};
 };

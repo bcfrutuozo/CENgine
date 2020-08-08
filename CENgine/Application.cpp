@@ -9,6 +9,8 @@
 #include "Channels.h"
 
 #include <algorithm>
+#include <winioctl.h>
+#include <Windows.h>
 
 Application::Application(const std::string& commandLine)
 	:

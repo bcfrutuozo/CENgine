@@ -3,13 +3,6 @@
 #include "Peripheral.h"
 #include "Core.h"
 
-#include <Pdh.h>
-#include <Psapi.h>
-
-#pragma comment(lib, "pdh.lib")
-
-#include <memory>
-
 class CPU : public Peripheral
 {
 public:

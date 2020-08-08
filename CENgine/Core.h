@@ -5,8 +5,6 @@
 #include <Pdh.h>
 #include <Psapi.h>
 
-#pragma comment(lib, "pdh.lib")
-
 class Core : public Peripheral
 {
 public:

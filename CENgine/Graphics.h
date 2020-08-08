@@ -80,7 +80,7 @@ public:
 	~Graphics();
 	void SetFullscreenState(Type type);
 	Type GetFullscreenState() const noexcept;
-	void BeginFrame(float red, float green, float blue) const noexcept;
+	void BeginFrame(float red, float green, float blue) const;
 	void EndFrame();
 	void DrawIndexed(UINT count) NOXND;
 	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
