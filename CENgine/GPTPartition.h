@@ -9,9 +9,11 @@ public:
 	GPTPartition(const PARTITION_INFORMATION_EX& p_Layout);
 	~GPTPartition();
 	void ShowWidget() override;
-	GPTPartitionType GetTypeByIdentifier(GUID guid);
+	bool IsLDMPartition();
 
 private:
+
+	GPTPartitionType GetTypeByIdentifier(GUID guid);
 
 	std::string m_Name;
 	GPTPartitionType m_GPTType;

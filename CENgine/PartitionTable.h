@@ -16,7 +16,7 @@ public:
 		RAW = 99,
 	};
 
-	PartitionTable(const Style p_Style, const unsigned int p_PartitionCount, const bool p_HasUEFISignature);
+	PartitionTable(const Style p_Style, const unsigned int p_PartitionCount);
 	virtual ~PartitionTable() = default;
 
 	void AddPartition(Partition* p_pPartition);
@@ -27,7 +27,6 @@ public:
 protected:
 
 	Style m_Style;
-	bool m_HasUEFISignature;
 	unsigned int m_Count;
 	unsigned int m_MaxPartitionCount;
 	std::vector<std::unique_ptr<Partition>> m_pPartitions;

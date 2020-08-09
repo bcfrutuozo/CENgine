@@ -7,18 +7,6 @@
 #include "GPTPartition.h"
 
 #include <winioctl.h>
-#pragma pack(pop)
-
-#define DRIVE_INDEX_MIN             0x00000000
-#define DRIVE_INDEX_MAX             0x000000C0
-
-#define CheckDriveIndex(DriveIndex) \
-	if ((DriveIndex < DRIVE_INDEX_MIN) || (DriveIndex > DRIVE_INDEX_MAX)) { \
-		OutputDebugString("WARNING: Bad index value. Please check the code!\n"); \
-	} \
-	DriveIndex -= DRIVE_INDEX_MIN;
-
-#define UEFI_SIGNATURE             0x49464555	// 'U', 'E', 'F', 'I', as a 32 bit little endian longword
 
 Disk::Disk(Device device)
 	:
@@ -80,32 +68,61 @@ void Disk::Initialize()
 	switch (layout->PartitionStyle)
 	{
 	case PARTITION_STYLE_MBR:
-		m_PartitionTable = std::unique_ptr<PartitionTable>(new MBRPartitionTable(layout->PartitionCount, layout->Mbr.Signature == UEFI_SIGNATURE));
+		m_PartitionTable = std::unique_ptr<PartitionTable>(new MBRPartitionTable(layout->PartitionCount, layout->Mbr.CheckSum, layout->Mbr.Signature));
 
 		for (int i = 0; i < layout->PartitionCount; ++i)
 		{
-			m_PartitionTable->AddPartition(new MBRPartition(layout->PartitionEntry[i]));
+			if (layout->PartitionEntry[i].Mbr.PartitionType != PARTITION_ENTRY_UNUSED)
+			{
+				m_PartitionTable->AddPartition(new MBRPartition(layout->PartitionEntry[i]));
+			}
 		}
 		break;
 	case PARTITION_STYLE_GPT:
 		m_PartitionTable = std::unique_ptr<PartitionTable>(new GPTPartitionTable(layout->PartitionCount, GuidToString(layout->Gpt.DiskId), layout->Gpt.StartingUsableOffset.QuadPart, layout->Gpt.UsableLength.QuadPart));
 		for (int i = 0; i < layout->PartitionCount; ++i)
 		{
-			m_PartitionTable->AddPartition(new GPTPartition(layout->PartitionEntry[i]));
+			auto p = new GPTPartition(layout->PartitionEntry[i]);
+
+			if (p->IsLDMPartition())
+			{
+				m_HasLDMPartition = true;
+			}
+
+			m_PartitionTable->AddPartition(p);
 		}
 		break;
+	}
+
+	m_HeaderTitle = StringFormat("Disk %d - %s", m_Device.Index, m_Name.c_str());
+
+	if (!m_HasLDMPartition)
+	{
+		m_LogicalName = std::string(GetLogicalName(m_Device.Index));
 	}
 }
 
 void Disk::ShowWidget()
 {
-	ImGui::Text("Disk %d - %s | Free Space: %d | Total Size: %d", m_Device.Index, m_Name.c_str(), m_FreeBytes, m_TotalBytes);
-	ImGui::Text("Cylinders: %d", m_Cylinders);
-	ImGui::Text("Tracks per Cylinder = %d", m_TracksPerCylinder);
-	ImGui::Text("Sectors per Track = %d", m_SectorsPerTrack);
-	ImGui::Text("Bytes per Sector = %d",m_BytesPerSector);
-	ImGui::Text("Disk Size: %d GBs", m_TotalSize);
-	m_PartitionTable->ShowWidget();
+	if (ImGui::CollapsingHeader(m_HeaderTitle.c_str()))
+	{
+		if (!m_HasLDMPartition)
+		{
+			ImGui::Text("Logical name: %s", m_LogicalName.c_str());
+			ImGui::Text("Free Space: %I64u MBs", m_FreeBytes);
+		}
+		else
+		{
+			ImGui::Text("Logical name: Dynamic Volume");
+		}
+
+		ImGui::Text("Cylinders: %d", m_Cylinders);
+		ImGui::Text("Tracks per Cylinder = %d", m_TracksPerCylinder);
+		ImGui::Text("Sectors per Track = %d", m_SectorsPerTrack);
+		ImGui::Text("Bytes per Sector = %d", m_BytesPerSector);
+		ImGui::Text("Disk Size: %d GBs", m_TotalSize);
+		m_PartitionTable->ShowWidget();
+	}
 }
 
 void Disk::GetWorkload()
@@ -113,10 +130,19 @@ void Disk::GetWorkload()
 	BOOL fResult;
 
 	//GetDiskFreeSpaceEx function, which can get the space state of the drive disk, returns a BOOL-type data  
-	fResult = GetDiskFreeSpaceEx(m_Name.c_str(),
-		(PULARGE_INTEGER)&m_FreeBytesToCaller,
-		(PULARGE_INTEGER)&m_TotalBytes,
-		(PULARGE_INTEGER)&m_FreeBytes);
+
+	ULARGE_INTEGER fbc = { 0 };
+	ULARGE_INTEGER tb = { 0 };
+	ULARGE_INTEGER fb = { 0 };
+
+	fResult = GetDiskFreeSpaceEx(m_LogicalName.c_str(),
+		(PULARGE_INTEGER)&fbc,
+		(PULARGE_INTEGER)&tb,
+		(PULARGE_INTEGER)&fb);
+
+	m_FreeBytesToCaller = fbc.QuadPart;
+	m_TotalBytes = tb.QuadPart;
+	m_FreeBytes = fb.QuadPart;
 
 	if (fResult)
 	{
@@ -125,12 +151,24 @@ void Disk::GetWorkload()
 	}
 }
 
+bool Disk::CheckDriveIndex(unsigned int p_Index)
+{
+	if ((p_Index < DRIVE_INDEX_MIN) || (p_Index > DRIVE_INDEX_MAX))
+	{
+		return false;
+	}
+
+	return true;
+}
+
 const std::string Disk::GetPhysicalName(unsigned long DriveIndex)
 {
-	CheckDriveIndex(DriveIndex);
-	char path[24];
-	sprintf_s(path, "\\\\.\\PHYSICALDRIVE%d", DriveIndex);
-	return path;
+	if (CheckDriveIndex(DriveIndex))
+	{
+		return StringFormat("\\\\.\\PHYSICALDRIVE%d", DriveIndex);
+	}
+
+	throw std::runtime_error("The specified drive index is not a valid one");
 }
 
 HANDLE Disk::GetPhysicalHandle(const std::string& physicalName)
@@ -147,7 +185,7 @@ HANDLE Disk::GetLogicalHandle(const std::string& physicalName)
 	return hLogical;
 }
 
-const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBackslash)
+const std::string Disk::GetLogicalName(unsigned long DriveIndex)
 {
 	char volume_name[MAX_PATH];
 	HANDLE hDrive = INVALID_HANDLE_VALUE, hVolume = INVALID_HANDLE_VALUE;
@@ -160,7 +198,7 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 
 	CheckDriveIndex(DriveIndex);
 
-	for (int i = 0; hDrive == INVALID_HANDLE_VALUE; i++)
+	for (int i = 0; ; ++i)
 	{
 		if (i == 0)
 		{
@@ -186,7 +224,6 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 		len = strlen(volume_name);
 		if ((len <= 1) || (_strnicmp(volume_name, "\\\\?\\", 4) != 0) || (volume_name[len - 1] != '\\'))
 		{
-			printf_s("'%s' is not a GUID volume name\n", volume_name);
 			continue;
 		}
 
@@ -195,7 +232,6 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 
 		if (QueryDosDeviceA(&volume_name[4], path, sizeof(path)) == 0)
 		{
-			printf_s("Failed to get device path for GUID volume '%s': %s\n", volume_name, GetLastError());
 			continue;
 		}
 
@@ -203,20 +239,18 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 		for (j = 0; (j < ARRAYSIZE(ignore_device)) && (_strnicmp(path, ignore_device[j], strlen(ignore_device[j])) != 0); j++);
 		if (j < ARRAYSIZE(ignore_device))
 		{
-			printf_s("Skipping GUID volume for '%s'\n", path);
 			continue;
 		}
 
 		// If we can't have FILE_SHARE_WRITE, forget it
-		hDrive = CreateFileA(volume_name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, 0);
-		if (hDrive == INVALID_HANDLE_VALUE) {
-			printf_s("Could not open GUID volume '%s': %s\n", volume_name, GetLastError());
+		hDrive = CreateFileA(volume_name, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+		if (hDrive == INVALID_HANDLE_VALUE)
+		{
 			continue;
 		}
 
 		if ((!DeviceIoControl(hDrive, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &DiskExtents, sizeof(DiskExtents), &size, NULL)) || (size <= 0))
 		{
-			printf_s("Could not get Disk Extents: %s\n", GetLastError());
 			CloseHandle(hDrive);
 			continue;
 		}
@@ -224,11 +258,8 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 		CloseHandle(hDrive);
 		if ((DiskExtents.NumberOfDiskExtents >= 1) && (DiskExtents.Extents[0].DiskNumber == DriveIndex))
 		{
-			if (bKeepTrailingBackslash)
-			{
-				volume_name[len - 1] = '\\';
-			}
-
+			// Adding backlash
+			volume_name[len - 1] = '\\';
 			break;
 		}
 	}
@@ -236,7 +267,7 @@ const char* Disk::GetLogicalName(unsigned long DriveIndex, bool bKeepTrailingBac
 	if (hVolume != INVALID_HANDLE_VALUE)
 		FindVolumeClose(hVolume);
 
-	return volume_name;
+	return std::string(volume_name);
 }
 
 HANDLE Disk::GetHandle(const std::string& path)
@@ -245,7 +276,7 @@ HANDLE Disk::GetHandle(const std::string& path)
 
 	if (path != "")
 	{
-		hDrive = CreateFileA(path.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
+		hDrive = CreateFileA(path.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
 
 		if (hDrive == INVALID_HANDLE_VALUE)
 		{

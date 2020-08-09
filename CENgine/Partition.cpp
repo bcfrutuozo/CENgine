@@ -3,13 +3,12 @@
 Partition::Partition(const PARTITION_INFORMATION_EX& p_PartitionInformation, Style style, const std::string& p_Id)
 	:
 	m_Id(p_Id),
-	m_Style(style)
+	m_Style(style),
+	m_Number(p_PartitionInformation.PartitionNumber),
+	m_Length(p_PartitionInformation.PartitionLength.QuadPart),
+	m_StartingOffset(p_PartitionInformation.StartingOffset.QuadPart),
+	m_IsRewritePartition(p_PartitionInformation.RewritePartition == 1 ? true : false)
 {
-	m_Number = p_PartitionInformation.PartitionNumber;
-	m_Length = p_PartitionInformation.PartitionLength.QuadPart;
-	m_StartingOffset = p_PartitionInformation.StartingOffset.QuadPart;
-	m_IsRewritePartition = p_PartitionInformation.RewritePartition == 1 ? true : false;
-	
 	int rpt = -1;
 	unsigned int calc = 0;
 	for (unsigned int divisor = 1073741824; calc < 1 && divisor > 1024; divisor/= 1024, ++rpt)
