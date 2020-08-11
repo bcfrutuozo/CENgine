@@ -184,7 +184,7 @@ void Graphics::EndFrame()
 		}
 		else
 		{
-			GFX_EXCEPT(hr);
+			throw GFX_EXCEPT(hr);
 		}
 	}
 }

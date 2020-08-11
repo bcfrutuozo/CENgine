@@ -9,7 +9,7 @@ public:
 	GPTPartition(const PARTITION_INFORMATION_EX& p_Layout);
 	~GPTPartition();
 	void ShowWidget() override;
-	bool IsLDMPartition();
+	//bool IsLDMPartition();
 
 private:
 

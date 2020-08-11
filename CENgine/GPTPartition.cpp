@@ -28,15 +28,15 @@ void GPTPartition::ShowWidget()
 	}
 }
 
-bool GPTPartition::IsLDMPartition()
-{
-	if (m_GPTType.Identifier == GUID{ 0x5808C8AA, 0x7E8F, 0x42E0, 0x85, 0xD2, 0xE1, 0xE9, 0x04, 0x34, 0xCF, 0xB3 })
-	{
-		return true;
-	}
-
-	return false;
-}
+//bool GPTPartition::IsLDMPartition()
+//{
+//	if (m_GPTType.Identifier == GUID{ 0x5808C8AA, 0x7E8F, 0x42E0, 0x85, 0xD2, 0xE1, 0xE9, 0x04, 0x34, 0xCF, 0xB3 })
+//	{
+//		return true;
+//	}
+//
+//	return false;
+//}
 
 GPTPartitionType GPTPartition::GetTypeByIdentifier(GUID guid)
 {

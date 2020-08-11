@@ -39,7 +39,8 @@ public:
 		DEVICE_MEMBERS_MULTIPLE_STRINGS
 #undef X
 
-		unsigned int Index;
+		std::wstring Enumerator;
+	unsigned int Index;
 	bool IsLoaded = false;
 
 	static unsigned int MembersCount()

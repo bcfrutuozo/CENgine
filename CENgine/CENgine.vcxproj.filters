@@ -139,6 +139,12 @@
     <Filter Include="Source Files\Hardware\CPU">
       <UniqueIdentifier>{6326efce-88fc-4bec-96ff-4c50843396ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Hardware\Volume">
+      <UniqueIdentifier>{672ba212-ecd0-4ffd-9967-f68799948253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\Volume">
+      <UniqueIdentifier>{a1199e4c-fff9-4ebd-a853-f460088a7f32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -431,6 +437,12 @@
     </ClCompile>
     <ClCompile Include="GPTPartitionTable.cpp">
       <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="Volume.cpp">
+      <Filter>Source Files\Hardware\Volume</Filter>
+    </ClCompile>
+    <ClCompile Include="Peripheral.cpp">
+      <Filter>Source Files\Hardware</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3775,6 +3787,15 @@
     </ClInclude>
     <ClInclude Include="GPTPartitionTable.h">
       <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="Volume.h">
+      <Filter>Header Files\Hardware\Volume</Filter>
+    </ClInclude>
+    <ClInclude Include="DDK.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="PeripheralThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

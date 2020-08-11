@@ -145,6 +145,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NullPixelShader.cpp" />
     <ClCompile Include="Pass.cpp" />
+    <ClCompile Include="Peripheral.cpp" />
     <ClCompile Include="Projection.cpp" />
     <ClCompile Include="ShadowCameraCbuf.cpp" />
     <ClCompile Include="ShadowRasterizer.cpp" />
@@ -192,6 +193,7 @@
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VerticalBlurPass.cpp" />
+    <ClCompile Include="Volume.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -1176,6 +1178,7 @@
     <ClInclude Include="cuda\include\cuda\vector_functions.h" />
     <ClInclude Include="cuda\include\cuda\vector_functions.hpp" />
     <ClInclude Include="cuda\include\cuda\vector_types.h" />
+    <ClInclude Include="DDK.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Disk.h" />
     <ClInclude Include="dlib.h" />
@@ -1239,6 +1242,7 @@
     <ClInclude Include="NullPixelShader.h" />
     <ClInclude Include="OutlineDrawingPass.h" />
     <ClInclude Include="OutlineMaskGenerationPass.h" />
+    <ClInclude Include="PeripheralThrowMacros.h" />
     <ClInclude Include="Peripheral.h" />
     <ClInclude Include="Projection.h" />
     <ClInclude Include="ShadowCameraCbuf.h" />
@@ -1306,6 +1310,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VerticalBlurPass.h" />
+    <ClInclude Include="Volume.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsThrowMacros.h" />
     <ClInclude Include="Timer.h" />

@@ -20,7 +20,7 @@ DXGIInfoManager::DXGIInfoManager()
 	const auto hModDXGIDebug = LoadLibraryEx("dxgidebug.dll", nullptr, LOAD_LIBRARY_SEARCH_SYSTEM32);
 	if(hModDXGIDebug == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	// Get the address of DXGIGetDebugInterface in DLL
@@ -29,7 +29,7 @@ DXGIInfoManager::DXGIInfoManager()
 
 	if(DxgiGetDebugInterface == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	HRESULT hr;

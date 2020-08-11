@@ -8,6 +8,7 @@
 #include "NvidiaGPU.h"
 #include "AmdGPU.h"
 #include "IntelGPU.h"
+#include "Volume.h"
 
 #include <unordered_map>
 
@@ -97,6 +98,7 @@ private:
 		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM",L"intelppm" };
 		static std::vector<std::wstring> DisksEnumerator{ L"disk" };
 		static std::vector<std::wstring> GPUsEnumerator{ L"amdkmdag", L"nvlddmkm", L"iAlm" };
+		static std::vector<std::wstring> VolumesEnumerator{ L"fvevol" };
 
 		if (typeid(T) == typeid(Core))
 		{
@@ -109,6 +111,10 @@ private:
 		else if (typeid(T) == typeid(GPU))
 		{
 			return GPUsEnumerator;
+		}
+		else if (typeid(T) == typeid(Volume))
+		{
+			return VolumesEnumerator;
 		}
 	}
 
@@ -188,6 +194,8 @@ private:
 			if (key.IsValid())
 			{
 				Device d;
+				
+				d.Enumerator = std::wstring(dm.path);
 
 				for (unsigned int m = 0; m < Device::MembersCount(); m++)
 				{

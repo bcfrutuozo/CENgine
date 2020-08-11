@@ -17,7 +17,8 @@ Performance::Performance(Timer& timer)
 	lastSampleTime(0.0f),
 	m_CPU(Hardware::GetDevice<CPU>()),
 	m_GPUs(Hardware::GetDevices<GPU>()),
-	m_Disks(Hardware::GetDevices<Disk>())
+	m_Disks(Hardware::GetDevices<Disk>()),
+	m_Volumes(Hardware::GetDevices<Volume>())
 {
 
 }
@@ -39,6 +40,11 @@ void Performance::Initialize()
 	for(const auto& disk : m_Disks)
 	{
 		disk->Initialize();
+	}
+
+	for (const auto& volume : m_Volumes)
+	{
+		volume->Initialize();
 	}
 }
 
@@ -67,6 +73,12 @@ void Performance::ShowWidget()
 		{
 			disk->ShowWidget();
 		}
+
+		ImGui::Separator();
+		for (const auto& volume : m_Volumes)
+		{
+			volume->ShowWidget();
+		}
 	}
 
 	ImGui::End();
@@ -92,6 +104,11 @@ void Performance::GetWorkload()
 		for(const auto& disk : m_Disks)
 		{
 			disk->GetWorkload();
+		}
+
+		for (const auto& volume : m_Volumes)
+		{
+			volume->GetWorkload();
 		}
 	}
 }

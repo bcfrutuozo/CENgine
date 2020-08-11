@@ -5,10 +5,9 @@
 
 #include <memory>
 
-#define DRIVE_INDEX_MIN             0x00000000
-#define DRIVE_INDEX_MAX             0x000000C0
-
-static constexpr GUID LDMPartition = { 0x5808C8AA, 0x7E8F, 0x42E0, { 0x85, 0xD2, 0xE1, 0xE9, 0x04, 0x34, 0xCF, 0xB3} };
+static constexpr unsigned int DRIVE_INDEX_MIN = 0x00000000;
+static constexpr unsigned int DRIVE_INDEX_MAX = 0x000000C0;
+static constexpr int kNominalMediaRotRateWordIndex = 217;
 
 class Disk : public Peripheral
 {
@@ -19,19 +18,28 @@ public:
 	void Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
-	const std::string GetLogicalName(unsigned long DriveIndex);
+
 private:
 
-	static bool CheckDriveIndex(unsigned int p_Index);
-	static const std::string GetPhysicalName(unsigned long DriveIndex);
-	static HANDLE GetPhysicalHandle(const std::string& physicalName);
-	static HANDLE GetLogicalHandle(const std::string& physicalName);
-	static HANDLE GetHandle(const std::string& physicalName);
+	enum class Type
+	{
+		HDD,
+		SSD,
+	};
 
+	const std::string GetLogicalName(unsigned long p_DriveIndex);
+	static const bool CheckDriveIndex(unsigned int p_DriveIndex);
+	static const std::string GetPhysicalName(unsigned long p_DriveIndex);
+	static const HANDLE GetPhysicalHandle(const std::string& p_PhysicalName);
+	static const HANDLE GetLogicalHandle(const std::string& p_PhysicalName);
+	static const bool ValidateLogicalNameWithDriveIndex(const char* p_VolumeName, const unsigned long p_DriveIndex);
+	static const HANDLE GetHandle(std::string p_Path);
+
+	Type m_Type;
 	std::unique_ptr<PartitionTable> m_PartitionTable;
 	std::string m_HeaderTitle;
 	std::string m_LogicalName;
-	bool m_HasLDMPartition;
+	unsigned int m_RPM;
 	long long m_Cylinders;
 	unsigned long m_TracksPerCylinder;
 	unsigned long m_SectorsPerTrack;

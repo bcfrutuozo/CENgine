@@ -58,7 +58,7 @@ Window::Window(int width, int height, const char* p_name)
 	wr.bottom = height + wr.top;
 	if(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	// Create window and get its handle
@@ -71,7 +71,7 @@ Window::Window(int width, int height, const char* p_name)
 
 	if(handleWindow == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	// Show window
@@ -92,7 +92,7 @@ Window::Window(int width, int height, const char* p_name)
 	rid.hwndTarget = nullptr;
 	if(RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 }
 
@@ -106,7 +106,7 @@ void Window::SetTitle(const std::string& t_Title)
 {
 	if(SetWindowText(handleWindow, t_Title.c_str()) == 0)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 }
 
@@ -166,7 +166,7 @@ Graphics& Window::Gfx() const
 {
 	if(!pGraphics)
 	{
-		throw CHWND_NOGFX_EXCEPT();
+		throw WND_NOGFX_EXCEPT();
 	}
 
 	return *pGraphics;
@@ -220,7 +220,7 @@ void Window::CreateChild(int width, int height, const char* name)
 	wr.bottom = height + wr.top;
 	if(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	// Create window and get its handle
@@ -233,7 +233,7 @@ void Window::CreateChild(int width, int height, const char* name)
 
 	if(hr == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT();
+		throw WND_LAST_EXCEPT();
 	}
 
 	children.push_back(hr);
@@ -457,7 +457,7 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 				break;
 			}
 
-			UINT size;
+			UINT size = 0;
 			// First get the size of the input data
 			if(GetRawInputData(
 				reinterpret_cast<HRAWINPUT>(lParam),

@@ -1,10 +1,12 @@
 #include "Disk.h"
+#include "DDK.h"	// Driver development kit headers to get disk information
 #include "imgui/imgui.h"
 #include "Utilities.h"
 #include "MBRPartitionTable.h"
 #include "GPTPartitionTable.h"
 #include "MBRPartition.h"
 #include "GPTPartition.h"
+#include "PeripheralThrowMacros.h"
 
 #include <winioctl.h>
 
@@ -22,6 +24,8 @@ Disk::Disk(Device device)
 	Peripheral(device)
 {
 	m_Name = (GetPhysicalName(device.Index));
+	m_HeaderTitle = StringFormat("Disk %d - %s", device.Index, m_Name.c_str());
+	m_LogicalName = std::string(GetLogicalName(device.Index));
 }
 
 Disk::~Disk()
@@ -35,7 +39,6 @@ void Disk::Initialize()
 	DWORD junk;                   // discard results
 
 	DISK_GEOMETRY geometry = { 0 };
-
 	HANDLE handle = GetPhysicalHandle(m_Name);
 
 	bResult = DeviceIoControl(handle,  // device to be queried
@@ -63,6 +66,63 @@ void Disk::Initialize()
 		&junk,                 // # bytes returned
 		nullptr);  // synchronous I/O
 
+
+	STORAGE_PROPERTY_QUERY spqTrim;
+	spqTrim.PropertyId = (STORAGE_PROPERTY_ID)StorageDeviceTrimProperty;
+	spqTrim.QueryType = PropertyStandardQuery;
+
+	DEVICE_TRIM_DESCRIPTOR dtd = { 0 };
+	junk = 0;
+	bResult = DeviceIoControl(handle, IOCTL_STORAGE_QUERY_PROPERTY, &spqTrim, sizeof(spqTrim), &dtd, sizeof(dtd), &junk, NULL);
+
+	// Check for TRIM dtd.TrimEnabled
+
+	STORAGE_PROPERTY_QUERY spqSeekP;
+	spqSeekP.PropertyId = (STORAGE_PROPERTY_ID)StorageDeviceSeekPenaltyProperty;
+	spqSeekP.QueryType = PropertyStandardQuery;
+
+	// Check for SEEKPENALTY dspd.IncursSeekPenalty 
+
+	junk = 0;
+	DEVICE_SEEK_PENALTY_DESCRIPTOR dspd = { 0 };
+	bResult = DeviceIoControl(handle, IOCTL_STORAGE_QUERY_PROPERTY, &spqSeekP, sizeof(spqSeekP), &dspd, sizeof(dspd), &junk, NULL);
+
+	ATAIdentifyDeviceQuery id_query;
+	memset(&id_query, 0, sizeof(id_query));
+
+	id_query.header.Length = sizeof(id_query.header);
+	id_query.header.AtaFlags = ATA_FLAGS_DATA_IN;
+	id_query.header.DataTransferLength = sizeof(id_query.data);
+	id_query.header.TimeOutValue = 3;   //Timeout in seconds
+	id_query.header.DataBufferOffset = offsetof(ATAIdentifyDeviceQuery, data[0]);
+	id_query.header.CurrentTaskFile[6] = 0xec; // ATA IDENTIFY DEVICE
+
+	junk = 0;
+	bResult = DeviceIoControl(handle, IOCTL_ATA_PASS_THROUGH, &id_query, sizeof(id_query), &id_query, sizeof(id_query), &junk, NULL);
+
+	//Index of nominal media rotation rate
+	//SOURCE: http://www.t13.org/documents/UploadedDocuments/docs2009/d2015r1a-ATAATAPI_Command_Set_-_2_ACS-2.pdf
+	//          7.18.7.81 Word 217
+	//QUOTE: Word 217 indicates the nominal media rotation rate of the device and is defined in table:
+	//          Value           Description
+	//          --------------------------------
+	//          0000h           Rate not reported
+	//          0001h           Non-rotating media (e.g., solid state device)
+	//          0002h-0400h     Reserved
+	//          0401h-FFFEh     Nominal media rotation rate in rotations per minute (rpm)
+	//                                  (e.g., 7 200 rpm = 1C20h)
+	//          FFFFh           Reserved
+	m_RPM = (UINT)id_query.data[kNominalMediaRotRateWordIndex];
+
+	if (dtd.TrimEnabled == 1 && dspd.IncursSeekPenalty == 0 && m_RPM == 1)
+	{
+		m_Type = Type::SSD;
+	}
+	else
+	{
+		m_Type = Type::HDD;
+	}
+
 	CloseHandle(handle);
 
 	switch (layout->PartitionStyle)
@@ -70,7 +130,7 @@ void Disk::Initialize()
 	case PARTITION_STYLE_MBR:
 		m_PartitionTable = std::unique_ptr<PartitionTable>(new MBRPartitionTable(layout->PartitionCount, layout->Mbr.CheckSum, layout->Mbr.Signature));
 
-		for (int i = 0; i < layout->PartitionCount; ++i)
+		for (unsigned long i = 0; i < layout->PartitionCount; ++i)
 		{
 			if (layout->PartitionEntry[i].Mbr.PartitionType != PARTITION_ENTRY_UNUSED)
 			{
@@ -80,25 +140,11 @@ void Disk::Initialize()
 		break;
 	case PARTITION_STYLE_GPT:
 		m_PartitionTable = std::unique_ptr<PartitionTable>(new GPTPartitionTable(layout->PartitionCount, GuidToString(layout->Gpt.DiskId), layout->Gpt.StartingUsableOffset.QuadPart, layout->Gpt.UsableLength.QuadPart));
-		for (int i = 0; i < layout->PartitionCount; ++i)
+		for (unsigned long i = 0; i < layout->PartitionCount; ++i)
 		{
-			auto p = new GPTPartition(layout->PartitionEntry[i]);
-
-			if (p->IsLDMPartition())
-			{
-				m_HasLDMPartition = true;
-			}
-
-			m_PartitionTable->AddPartition(p);
+			m_PartitionTable->AddPartition(new GPTPartition(layout->PartitionEntry[i]));
 		}
 		break;
-	}
-
-	m_HeaderTitle = StringFormat("Disk %d - %s", m_Device.Index, m_Name.c_str());
-
-	if (!m_HasLDMPartition)
-	{
-		m_LogicalName = std::string(GetLogicalName(m_Device.Index));
 	}
 }
 
@@ -106,34 +152,32 @@ void Disk::ShowWidget()
 {
 	if (ImGui::CollapsingHeader(m_HeaderTitle.c_str()))
 	{
-		if (!m_HasLDMPartition)
+		ImGui::Text("Logical name: %s", m_LogicalName.c_str());
+		ImGui::Text("Free Space: %I64u GBs", m_FreeBytes);
+		ImGui::Text("Total Disk Size: %d GBs", m_TotalSize);
+		ImGui::Text("Type: %s", m_Type == Type::HDD ? "HDD" : "SSD");
+		if (m_Type == Type::HDD)
 		{
-			ImGui::Text("Logical name: %s", m_LogicalName.c_str());
-			ImGui::Text("Free Space: %I64u MBs", m_FreeBytes);
+			ImGui::Text("Rotation: %u RPM", m_RPM);
+			ImGui::Text("Cylinders: %d", m_Cylinders);
+			ImGui::Text("Tracks per Cylinder = %d", m_TracksPerCylinder);
+			ImGui::Text("Sectors per Track = %d", m_SectorsPerTrack);
+			ImGui::Text("Bytes per Sector = %d", m_BytesPerSector);
 		}
-		else
-		{
-			ImGui::Text("Logical name: Dynamic Volume");
-		}
-
-		ImGui::Text("Cylinders: %d", m_Cylinders);
-		ImGui::Text("Tracks per Cylinder = %d", m_TracksPerCylinder);
-		ImGui::Text("Sectors per Track = %d", m_SectorsPerTrack);
-		ImGui::Text("Bytes per Sector = %d", m_BytesPerSector);
-		ImGui::Text("Disk Size: %d GBs", m_TotalSize);
 		m_PartitionTable->ShowWidget();
 	}
 }
 
 void Disk::GetWorkload()
 {
+	// No processing for Disk. VOLUMES refers to the letters and drives in Windows.
 	BOOL fResult;
-
-	//GetDiskFreeSpaceEx function, which can get the space state of the drive disk, returns a BOOL-type data  
 
 	ULARGE_INTEGER fbc = { 0 };
 	ULARGE_INTEGER tb = { 0 };
 	ULARGE_INTEGER fb = { 0 };
+
+	// CHECK FOR RAID 0 TO GET THE REAL AVAILABLE SPACE OF THE DISK.
 
 	fResult = GetDiskFreeSpaceEx(m_LogicalName.c_str(),
 		(PULARGE_INTEGER)&fbc,
@@ -146,14 +190,14 @@ void Disk::GetWorkload()
 
 	if (fResult)
 	{
-		m_TotalBytes = m_TotalBytes / 1048576;
-		m_FreeBytes = m_FreeBytes / 1048576;
+		m_TotalBytes = m_TotalBytes / 1073741824;
+		m_FreeBytes = m_FreeBytes / 1073741824;
 	}
 }
 
-bool Disk::CheckDriveIndex(unsigned int p_Index)
+const bool Disk::CheckDriveIndex(unsigned int p_DriveIndex)
 {
-	if ((p_Index < DRIVE_INDEX_MIN) || (p_Index > DRIVE_INDEX_MAX))
+	if ((p_DriveIndex < DRIVE_INDEX_MIN) || (p_DriveIndex > DRIVE_INDEX_MAX))
 	{
 		return false;
 	}
@@ -161,126 +205,126 @@ bool Disk::CheckDriveIndex(unsigned int p_Index)
 	return true;
 }
 
-const std::string Disk::GetPhysicalName(unsigned long DriveIndex)
+const std::string Disk::GetPhysicalName(unsigned long p_DriveIndex)
 {
-	if (CheckDriveIndex(DriveIndex))
+	if (CheckDriveIndex(p_DriveIndex))
 	{
-		return StringFormat("\\\\.\\PHYSICALDRIVE%d", DriveIndex);
+		return StringFormat("\\\\.\\PHYSICALDRIVE%d", p_DriveIndex);
 	}
 
 	throw std::runtime_error("The specified drive index is not a valid one");
 }
 
-HANDLE Disk::GetPhysicalHandle(const std::string& physicalName)
+const HANDLE Disk::GetPhysicalHandle(const std::string& p_PhysicalName)
 {
 	HANDLE hPhysical = INVALID_HANDLE_VALUE;
-	hPhysical = GetHandle(physicalName.c_str());
+	hPhysical = GetHandle(p_PhysicalName.c_str());
 	return hPhysical;
 }
 
-HANDLE Disk::GetLogicalHandle(const std::string& physicalName)
+const HANDLE Disk::GetLogicalHandle(const std::string& p_PhysicalName)
 {
 	HANDLE hLogical = INVALID_HANDLE_VALUE;
-	hLogical = GetHandle(physicalName);
+	hLogical = GetHandle(p_PhysicalName);
 	return hLogical;
 }
 
-const std::string Disk::GetLogicalName(unsigned long DriveIndex)
+const std::string Disk::GetLogicalName(unsigned long p_DriveIndex)
 {
-	char volume_name[MAX_PATH];
-	HANDLE hDrive = INVALID_HANDLE_VALUE, hVolume = INVALID_HANDLE_VALUE;
-	size_t len;
-	char path[MAX_PATH];
-	VOLUME_DISK_EXTENTS DiskExtents;
-	DWORD size;
-	UINT drive_type;
-	static const char* ignore_device[] = { "\\Device\\CdRom", "\\Device\\Floppy" };
+	char volume_name[50];
+	HANDLE hVolume = INVALID_HANDLE_VALUE;
 
-	CheckDriveIndex(DriveIndex);
-
-	for (int i = 0; ; ++i)
+	if (CheckDriveIndex(p_DriveIndex))
 	{
-		if (i == 0)
+		for (int i = 0; ; ++i)
 		{
-			hVolume = FindFirstVolumeA(volume_name, sizeof(volume_name));
-			if (hVolume == INVALID_HANDLE_VALUE)
-			{
-				printf_s("Could not access first GUID volume: %s\n", GetLastError());
-			}
-		}
+			bool found = false;
 
-		else
-		{
-			if (!FindNextVolumeA(hVolume, volume_name, sizeof(volume_name)))
+			if (i == 0)
 			{
-				if (GetLastError() != ERROR_NO_MORE_FILES)
+				hVolume = FindFirstVolumeA(volume_name, sizeof(volume_name));
+				if (hVolume == INVALID_HANDLE_VALUE)
 				{
-					printf_s("Could not access next GUID volume: %s\n", GetLastError());
+					throw PRPH_LAST_EXCEPT();
 				}
 			}
+			else
+			{
+				if (FindNextVolumeA(hVolume, volume_name, sizeof(volume_name)) == 0)
+				{
+					throw PRPH_LAST_EXCEPT();
+				}
+			}
+
+			if (ValidateLogicalNameWithDriveIndex(volume_name, p_DriveIndex))
+			{
+				FindVolumeClose(hVolume);
+				return std::string(volume_name);
+			}
 		}
+	}
+	else
+	{
+		throw PRPH_INVALID_INDEX_EXCEPT(p_DriveIndex);
+	}
+}
 
-		// Sanity checks
-		len = strlen(volume_name);
-		if ((len <= 1) || (_strnicmp(volume_name, "\\\\?\\", 4) != 0) || (volume_name[len - 1] != '\\'))
-		{
-			continue;
-		}
+const bool Disk::ValidateLogicalNameWithDriveIndex(const char* p_VolumeName, const unsigned long p_DriveIndex)
+{
+	DWORD size;
+	BYTE buffer[8192];	// To support until 256 DISK_EXTENT (24 bytes) structures (6144 bytes at total)
+	PVOLUME_DISK_EXTENTS DiskExtents = (PVOLUME_DISK_EXTENTS)buffer;
+	HANDLE hDrive = INVALID_HANDLE_VALUE;
+	bool found = false;
 
-		drive_type = GetDriveTypeA(volume_name);
-		volume_name[len - 1] = 0;
+	if (GetDriveTypeA(p_VolumeName) != DRIVE_FIXED)
+	{
+		return false;
+	}
 
-		if (QueryDosDeviceA(&volume_name[4], path, sizeof(path)) == 0)
-		{
-			continue;
-		}
+	hDrive = GetHandle(p_VolumeName);
 
-		int j;
-		for (j = 0; (j < ARRAYSIZE(ignore_device)) && (_strnicmp(path, ignore_device[j], strlen(ignore_device[j])) != 0); j++);
-		if (j < ARRAYSIZE(ignore_device))
-		{
-			continue;
-		}
-
-		// If we can't have FILE_SHARE_WRITE, forget it
-		hDrive = CreateFileA(volume_name, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
-		if (hDrive == INVALID_HANDLE_VALUE)
-		{
-			continue;
-		}
-
-		if ((!DeviceIoControl(hDrive, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, &DiskExtents, sizeof(DiskExtents), &size, NULL)) || (size <= 0))
-		{
-			CloseHandle(hDrive);
-			continue;
-		}
-
+	if ((!DeviceIoControl(hDrive, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, NULL, 0, DiskExtents, 8192, &size, NULL)) || (size <= 0))
+	{
 		CloseHandle(hDrive);
-		if ((DiskExtents.NumberOfDiskExtents >= 1) && (DiskExtents.Extents[0].DiskNumber == DriveIndex))
+		return false;
+	}
+	
+	if ((DiskExtents->NumberOfDiskExtents >= 1))
+	{
+		// Adding backlash
+		for (unsigned int i = 0; i < DiskExtents->NumberOfDiskExtents; ++i)
 		{
-			// Adding backlash
-			volume_name[len - 1] = '\\';
-			break;
+			if ((DiskExtents->Extents[i].DiskNumber == p_DriveIndex))
+			{
+				found = true;
+				break;
+			}
 		}
 	}
 
-	if (hVolume != INVALID_HANDLE_VALUE)
-		FindVolumeClose(hVolume);
+	CloseHandle(hDrive);
 
-	return std::string(volume_name);
+	return found;
 }
 
-HANDLE Disk::GetHandle(const std::string& path)
+const HANDLE Disk::GetHandle(std::string p_Path)
 {
 	HANDLE hDrive = INVALID_HANDLE_VALUE;
 
-	if (path != "")
+	// Remove last trailing backslash
+	if (p_Path.back() == '\\')
 	{
-		hDrive = CreateFileA(path.c_str(), 0, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+		p_Path.pop_back();
+	}
+
+	if (p_Path != "")
+	{
+		hDrive = CreateFileA(p_Path.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 
 		if (hDrive == INVALID_HANDLE_VALUE)
 		{
-			//printf_s("Could not open drive %s: %s\n", Path, GetLastError());
+			throw PRPH_LAST_EXCEPT();
 		}
 	}
 

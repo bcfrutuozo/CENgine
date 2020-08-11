@@ -19,7 +19,7 @@ PointLight::PointLight(Graphics& graphics, DirectX::XMFLOAT3 position, float rad
 	};
 
 	Reset();
-	pCamera = std::make_shared<Camera>(graphics, "Light", cbData.viewLightPos, 0, -PI / 2, true);
+	pCamera = std::make_shared<Camera>(graphics, "Light", cbData.viewLightPos, 0.0f, (-PI / 2.0f), true);
 }
 
 void PointLight::SpawnControlWindow() noexcept
