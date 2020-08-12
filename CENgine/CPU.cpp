@@ -67,7 +67,7 @@ void CPU::Initialize()
 	memset(CPUBrandString, 0, sizeof(CPUBrandString));
 
 	// Get the information associated with each extended ID.
-	for (int i = 0x80000000; i <= nExIds; ++i)
+	for (unsigned int i = 0x80000000; i <= nExIds; ++i)
 	{
 		__cpuid(CPUInfo, i);
 		// Interpret CPU brand string.
@@ -79,6 +79,8 @@ void CPU::Initialize()
 			memcpy(CPUBrandString + 32, CPUInfo, sizeof(CPUInfo));
 	}
 
+	// Force the string to end with \0 to avoid compile warnings
+	CPUBrandString[0x39] = '\0';
 	m_Name = CPUBrandString;
 
 	for (const auto& core : m_Cores)
@@ -116,7 +118,7 @@ void CPU::GetWorkload()
 	PDH_FMT_COUNTERVALUE v;
 	FILETIME ftime, fsys, fuser;
 	ULARGE_INTEGER now, sys, user;
-	double percent;
+	unsigned long long percent;
 
 	// Get Total Workload
 	if (canReadCPU)
@@ -129,7 +131,7 @@ void CPU::GetWorkload()
 			status = PdhGetFormattedCounterValue(counterHandle, PDH_FMT_DOUBLE, NULL, &v);
 			if (status == ERROR_SUCCESS)
 			{
-				m_CPUTotalWorkload = v.doubleValue;
+				m_CPUTotalWorkload = static_cast<float>(v.doubleValue);
 			}
 		}
 	}
@@ -148,7 +150,7 @@ void CPU::GetWorkload()
 	lastUserCPU = user;
 	lastSysCPU = sys;
 
-	m_CPUEngineWorkload = percent * 100;
+	m_CPUEngineWorkload = static_cast<float>(percent) * 100.0f;
 
 	for (const auto& core : m_Cores)
 	{

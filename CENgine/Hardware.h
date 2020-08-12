@@ -86,6 +86,8 @@ private:
 		{
 			return new IntelGPU(device);
 		}
+
+		throw std::runtime_error("Invalid GPU type passed to factory");
 	}
 
 	static constexpr wchar_t RootServices[] = L"SYSTEM\\CurrentControlSet\\Services";
@@ -116,6 +118,8 @@ private:
 		{
 			return VolumesEnumerator;
 		}
+
+		throw std::runtime_error("Invalid type to get enumerator");
 	}
 
 	template<typename T>

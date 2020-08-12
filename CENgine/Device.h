@@ -31,21 +31,24 @@ class Device
 {
 public:
 
-	// Created 3 X Macro instances to avoid warnings during compilation
-
-#define X(type, member) type member;
+// Initialize struct values to remove compile warnings
+#define X(type, member, index) type member = 0;
 	DEVICE_MEMBERS_UNSIGNED_LONG
-		DEVICE_MEMBERS_STRING
-		DEVICE_MEMBERS_MULTIPLE_STRINGS
 #undef X
 
+#define X(type, member, index) type member;
+	DEVICE_MEMBERS_STRING
+	DEVICE_MEMBERS_MULTIPLE_STRINGS
+#undef X
+
+
 		std::wstring Enumerator;
-	unsigned int Index;
+	unsigned int Index = 0;
 	bool IsLoaded = false;
 
 	static unsigned int MembersCount()
 	{
-#define X(_, __) +1
+#define X(_, __, ___) +1
 		static const unsigned int count = DEVICE_MEMBERS_UNSIGNED_LONG + DEVICE_MEMBERS_STRING + DEVICE_MEMBERS_MULTIPLE_STRINGS;
 #undef X
 
@@ -120,7 +123,7 @@ public:
 struct DeviceEnumerator
 {
 	std::wstring path;
-	unsigned int index;
+	unsigned int index = 0;
 };
 
 #ifndef DVC_IMPL_SOURCE

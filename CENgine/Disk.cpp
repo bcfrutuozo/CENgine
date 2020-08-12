@@ -35,12 +35,12 @@ Disk::~Disk()
 
 void Disk::Initialize()
 {
-	BOOL bResult;                 // results flag
-	DWORD junk;                   // discard results
-
-	DISK_GEOMETRY geometry = { 0 };
+	bool bResult;	// results flag
+	DWORD junk;		// function return
 	HANDLE handle = GetPhysicalHandle(m_Name);
 
+	// Get disk geometry information to calculate its size
+	DISK_GEOMETRY geometry = { 0 };
 	bResult = DeviceIoControl(handle,  // device to be queried
 		IOCTL_DISK_GET_DRIVE_GEOMETRY,  // operation to perform
 		NULL,
@@ -55,38 +55,23 @@ void Disk::Initialize()
 	m_BytesPerSector = geometry.BytesPerSector;
 	m_TotalSize = ((m_Cylinders * m_TracksPerCylinder * m_SectorsPerTrack * m_BytesPerSector) / 1073741824); // Showing the value as GBs
 
-	BYTE buffer[4096];
-	PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX)buffer;
-	bResult = DeviceIoControl(handle,  // device to be queried
-		IOCTL_DISK_GET_DRIVE_LAYOUT_EX,  // operation to perform
-		NULL,
-		0, // no input buffer
-		layout, // output buffer
-		4096, // Assuming the system is GPT and each driver can handle up to 4 partitions.
-		&junk,                 // # bytes returned
-		nullptr);  // synchronous I/O
-
-
+	// Check for TRIM to check for SSD type
 	STORAGE_PROPERTY_QUERY spqTrim;
 	spqTrim.PropertyId = (STORAGE_PROPERTY_ID)StorageDeviceTrimProperty;
 	spqTrim.QueryType = PropertyStandardQuery;
-
 	DEVICE_TRIM_DESCRIPTOR dtd = { 0 };
 	junk = 0;
 	bResult = DeviceIoControl(handle, IOCTL_STORAGE_QUERY_PROPERTY, &spqTrim, sizeof(spqTrim), &dtd, sizeof(dtd), &junk, NULL);
 
-	// Check for TRIM dtd.TrimEnabled
-
+	// Check for SEEKPENALTY to check for SSD type
 	STORAGE_PROPERTY_QUERY spqSeekP;
 	spqSeekP.PropertyId = (STORAGE_PROPERTY_ID)StorageDeviceSeekPenaltyProperty;
 	spqSeekP.QueryType = PropertyStandardQuery;
-
-	// Check for SEEKPENALTY dspd.IncursSeekPenalty 
-
-	junk = 0;
 	DEVICE_SEEK_PENALTY_DESCRIPTOR dspd = { 0 };
+	junk = 0;
 	bResult = DeviceIoControl(handle, IOCTL_STORAGE_QUERY_PROPERTY, &spqSeekP, sizeof(spqSeekP), &dspd, sizeof(dspd), &junk, NULL);
 
+	// Get device query to get device information like RPM
 	ATAIdentifyDeviceQuery id_query;
 	memset(&id_query, 0, sizeof(id_query));
 
@@ -100,7 +85,6 @@ void Disk::Initialize()
 	junk = 0;
 	bResult = DeviceIoControl(handle, IOCTL_ATA_PASS_THROUGH, &id_query, sizeof(id_query), &id_query, sizeof(id_query), &junk, NULL);
 
-	//Index of nominal media rotation rate
 	//SOURCE: http://www.t13.org/documents/UploadedDocuments/docs2009/d2015r1a-ATAATAPI_Command_Set_-_2_ACS-2.pdf
 	//          7.18.7.81 Word 217
 	//QUOTE: Word 217 indicates the nominal media rotation rate of the device and is defined in table:
@@ -112,7 +96,7 @@ void Disk::Initialize()
 	//          0401h-FFFEh     Nominal media rotation rate in rotations per minute (rpm)
 	//                                  (e.g., 7 200 rpm = 1C20h)
 	//          FFFFh           Reserved
-	m_RPM = (UINT)id_query.data[kNominalMediaRotRateWordIndex];
+	m_RPM = static_cast<unsigned int>(id_query.data[kNominalMediaRotRateWordIndex]);
 
 	if (dtd.TrimEnabled == 1 && dspd.IncursSeekPenalty == 0 && m_RPM == 1)
 	{
@@ -122,6 +106,19 @@ void Disk::Initialize()
 	{
 		m_Type = Type::HDD;
 	}
+
+	// Get layout information to get partition data
+	BYTE buffer[4096];
+	junk = 0;
+	PDRIVE_LAYOUT_INFORMATION_EX layout = (PDRIVE_LAYOUT_INFORMATION_EX)buffer;
+	bResult = DeviceIoControl(handle,  // device to be queried
+		IOCTL_DISK_GET_DRIVE_LAYOUT_EX,  // operation to perform
+		NULL,
+		0, // no input buffer
+		layout, // output buffer
+		4096, // Assuming the system is GPT and each driver can handle up to 4 partitions.
+		&junk,                 // # bytes returned
+		nullptr);  // synchronous I/O
 
 	CloseHandle(handle);
 
@@ -170,14 +167,13 @@ void Disk::ShowWidget()
 
 void Disk::GetWorkload()
 {
-	// No processing for Disk. VOLUMES refers to the letters and drives in Windows.
-	BOOL fResult;
+	bool fResult;
 
 	ULARGE_INTEGER fbc = { 0 };
 	ULARGE_INTEGER tb = { 0 };
 	ULARGE_INTEGER fb = { 0 };
 
-	// CHECK FOR RAID 0 TO GET THE REAL AVAILABLE SPACE OF THE DISK.
+	// TODO: CHECK FOR RAID 0 TO GET THE REAL AVAILABLE SPACE OF THE DISK.
 
 	fResult = GetDiskFreeSpaceEx(m_LogicalName.c_str(),
 		(PULARGE_INTEGER)&fbc,
@@ -195,24 +191,27 @@ void Disk::GetWorkload()
 	}
 }
 
-const bool Disk::CheckDriveIndex(unsigned int p_DriveIndex)
+const HANDLE Disk::GetHandle(std::string p_Path)
 {
-	if ((p_DriveIndex < DRIVE_INDEX_MIN) || (p_DriveIndex > DRIVE_INDEX_MAX))
+	HANDLE hDrive = INVALID_HANDLE_VALUE;
+
+	// Remove last trailing backslash
+	if (p_Path.back() == '\\')
 	{
-		return false;
+		p_Path.pop_back();
 	}
 
-	return true;
-}
-
-const std::string Disk::GetPhysicalName(unsigned long p_DriveIndex)
-{
-	if (CheckDriveIndex(p_DriveIndex))
+	if (!p_Path.empty())
 	{
-		return StringFormat("\\\\.\\PHYSICALDRIVE%d", p_DriveIndex);
+		hDrive = CreateFileA(p_Path.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+		if (hDrive == INVALID_HANDLE_VALUE)
+		{
+			throw PRPH_LAST_EXCEPT();
+		}
 	}
 
-	throw std::runtime_error("The specified drive index is not a valid one");
+	return hDrive;
 }
 
 const HANDLE Disk::GetPhysicalHandle(const std::string& p_PhysicalName)
@@ -229,7 +228,17 @@ const HANDLE Disk::GetLogicalHandle(const std::string& p_PhysicalName)
 	return hLogical;
 }
 
-const std::string Disk::GetLogicalName(unsigned long p_DriveIndex)
+const std::string Disk::GetPhysicalName(const unsigned long p_DriveIndex)
+{
+	if (CheckDriveIndex(p_DriveIndex))
+	{
+		return StringFormat("\\\\.\\PHYSICALDRIVE%d", p_DriveIndex);
+	}
+
+	throw std::runtime_error("The specified drive index is not a valid one");
+}
+
+const std::string Disk::GetLogicalName(const unsigned long p_DriveIndex)
 {
 	char volume_name[50];
 	HANDLE hVolume = INVALID_HANDLE_VALUE;
@@ -269,6 +278,16 @@ const std::string Disk::GetLogicalName(unsigned long p_DriveIndex)
 	}
 }
 
+const bool Disk::CheckDriveIndex(const unsigned int p_DriveIndex)
+{
+	if ((p_DriveIndex < DRIVE_INDEX_MIN) || (p_DriveIndex > DRIVE_INDEX_MAX))
+	{
+		return false;
+	}
+
+	return true;
+}
+
 const bool Disk::ValidateLogicalNameWithDriveIndex(const char* p_VolumeName, const unsigned long p_DriveIndex)
 {
 	DWORD size;
@@ -306,27 +325,4 @@ const bool Disk::ValidateLogicalNameWithDriveIndex(const char* p_VolumeName, con
 	CloseHandle(hDrive);
 
 	return found;
-}
-
-const HANDLE Disk::GetHandle(std::string p_Path)
-{
-	HANDLE hDrive = INVALID_HANDLE_VALUE;
-
-	// Remove last trailing backslash
-	if (p_Path.back() == '\\')
-	{
-		p_Path.pop_back();
-	}
-
-	if (p_Path != "")
-	{
-		hDrive = CreateFileA(p_Path.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-
-		if (hDrive == INVALID_HANDLE_VALUE)
-		{
-			throw PRPH_LAST_EXCEPT();
-		}
-	}
-
-	return hDrive;
 }

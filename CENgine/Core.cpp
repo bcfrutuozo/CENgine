@@ -98,17 +98,17 @@ void Core::GetWorkload()
 	{
 		if (PdhGetFormattedCounterValue(hIdleCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvIdle) == ERROR_SUCCESS)
 		{
-			m_Idle = cvIdle.doubleValue;
+			m_Idle = static_cast<float>(cvIdle.doubleValue);
 		};
 
 		if (PdhGetFormattedCounterValue(hPrivelegedCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvPriveleged) == ERROR_SUCCESS)
 		{
-			m_Kernel = cvPriveleged.doubleValue;
+			m_Kernel = static_cast<float>(cvPriveleged.doubleValue);
 		}
 
 		if (PdhGetFormattedCounterValue(hProcessorCounters, PDH_FMT_DOUBLE, &dwCounterType, &cvProcessor) == ERROR_SUCCESS)
 		{
-			m_Processor = cvProcessor.doubleValue;
+			m_Processor = static_cast<float>(cvProcessor.doubleValue);
 		}
 	}
 }

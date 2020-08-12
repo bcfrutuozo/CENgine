@@ -131,8 +131,8 @@ void Performance::GetCPUTemperature()
 void Performance::GetMemorySizeInformation()
 {
 	GlobalMemoryStatusEx(&memInfo);
-	m_TotalPhysicalMemory = static_cast<unsigned long>(memInfo.ullTotalPhys / 1048576);								// Formats the value to MB
-	m_TotalVirtualMemory = static_cast<unsigned long>(memInfo.ullTotalPageFile / 1048576);							// Formats the value to MB
+	m_TotalPhysicalMemory = (memInfo.ullTotalPhys / 1048576);								// Formats the value to MB
+	m_TotalVirtualMemory = (memInfo.ullTotalPageFile / 1048576);							// Formats the value to MB
 }
 
 void Performance::GetMemoryTotalUsage()

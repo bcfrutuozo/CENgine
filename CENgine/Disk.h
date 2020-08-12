@@ -27,13 +27,14 @@ private:
 		SSD,
 	};
 
-	const std::string GetLogicalName(unsigned long p_DriveIndex);
-	static const bool CheckDriveIndex(unsigned int p_DriveIndex);
-	static const std::string GetPhysicalName(unsigned long p_DriveIndex);
+	static const HANDLE GetHandle(std::string p_Path);
 	static const HANDLE GetPhysicalHandle(const std::string& p_PhysicalName);
 	static const HANDLE GetLogicalHandle(const std::string& p_PhysicalName);
+	static const std::string GetPhysicalName(const unsigned long p_DriveIndex);
+	static const std::string GetLogicalName(const unsigned long p_DriveIndex);
+	static const bool CheckDriveIndex(const unsigned int p_DriveIndex);
 	static const bool ValidateLogicalNameWithDriveIndex(const char* p_VolumeName, const unsigned long p_DriveIndex);
-	static const HANDLE GetHandle(std::string p_Path);
+	
 
 	Type m_Type;
 	std::unique_ptr<PartitionTable> m_PartitionTable;

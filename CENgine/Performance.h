@@ -36,10 +36,10 @@ private:
 	std::vector<std::unique_ptr<GPU>> m_GPUs;
 	std::vector<std::unique_ptr<Volume>> m_Volumes;
 	long m_MemoryLoad;
-	unsigned long m_TotalPhysicalMemory;
-	unsigned long m_TotalVirtualMemory;
-	unsigned long m_VirtualMemoryTotalWorkload;
-	unsigned long m_VirtualMemoryEngineWorkload;
-	unsigned long m_PhysicalMemoryTotalWorkload;
-	unsigned long m_PhysicalMemoryEngineWorkload;
+	unsigned long long m_TotalPhysicalMemory;
+	unsigned long long m_TotalVirtualMemory;
+	unsigned long long m_VirtualMemoryTotalWorkload;
+	unsigned long long m_VirtualMemoryEngineWorkload;
+	unsigned long long m_PhysicalMemoryTotalWorkload;
+	unsigned long long m_PhysicalMemoryEngineWorkload;
 };
