@@ -1,6 +1,9 @@
 #include "Projection.h"
-#include "imgui/imgui.h"
 #include "Graphics.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 Projection::Projection(Graphics& graphics, float width, float height, float nearZ, float farZ)
 	:

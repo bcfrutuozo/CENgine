@@ -10,8 +10,8 @@ Partition::Partition(const PARTITION_INFORMATION_EX& p_PartitionInformation, Sty
 	m_IsRewritePartition(p_PartitionInformation.RewritePartition == 1 ? true : false)
 {
 	int rpt = -1;
-	unsigned int calc = 0;
-	for (unsigned int divisor = 1073741824; calc < 1 && divisor > 1024; divisor/= 1024, ++rpt)
+	long long calc = 0;
+	for (auto divisor = 1073741824LL; calc < 1 && divisor > 1024; divisor/= 1024, ++rpt)
 	{
 		calc = m_Length / divisor;
 	}

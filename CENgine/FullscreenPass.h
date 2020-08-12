@@ -16,7 +16,7 @@ namespace RGP
 	{
 	public:
 
-		FullscreenPass(const std::string name, Graphics& graphics) NOXND;
+		FullscreenPass(std::string name, Graphics& graphics) NOXND;
 		void Execute(Graphics& graphics) const NOXND override;
 	};
 }

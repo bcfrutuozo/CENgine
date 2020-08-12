@@ -1,5 +1,8 @@
 #include "ImGuiManager.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <filesystem>
 

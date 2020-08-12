@@ -110,7 +110,7 @@ public:
 		using Element = CENgineexp::VertexLayout::ElementType;
 		if(!layout)
 		{
-			layout = CENgineexp::VertexLayout().Append(CENgineexp::VertexLayout::Position3D);
+			layout = CENgineexp::VertexLayout().Append(CENgineexp::VertexLayout::ElementType::Position3D);
 		}
 		
 		return MakeTesselated(std::move(*layout), 12, 24);

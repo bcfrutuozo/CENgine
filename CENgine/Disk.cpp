@@ -1,12 +1,15 @@
 #include "Disk.h"
 #include "DDK.h"	// Driver development kit headers to get disk information
-#include "imgui/imgui.h"
 #include "Utilities.h"
 #include "MBRPartitionTable.h"
 #include "GPTPartitionTable.h"
 #include "MBRPartition.h"
 #include "GPTPartition.h"
 #include "PeripheralThrowMacros.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <winioctl.h>
 
@@ -24,7 +27,7 @@ Disk::Disk(Device device)
 	Peripheral(device)
 {
 	m_Name = (GetPhysicalName(device.Index));
-	m_HeaderTitle = StringFormat("Disk %d - %s", device.Index, m_Name.c_str());
+	m_HeaderTitle = StringFormat("Disk %u - %s", device.Index, m_Name.c_str());
 	m_LogicalName = std::string(GetLogicalName(device.Index));
 }
 
@@ -49,11 +52,11 @@ void Disk::Initialize()
 		&junk,                 // # bytes returned
 		nullptr);  // synchronous I/O
 
-	m_Cylinders = geometry.Cylinders.QuadPart;
+	m_Cylinders = static_cast<unsigned long long>(geometry.Cylinders.QuadPart);
 	m_TracksPerCylinder = geometry.TracksPerCylinder;
 	m_SectorsPerTrack = geometry.SectorsPerTrack;
 	m_BytesPerSector = geometry.BytesPerSector;
-	m_TotalSize = ((m_Cylinders * m_TracksPerCylinder * m_SectorsPerTrack * m_BytesPerSector) / 1073741824); // Showing the value as GBs
+	m_TotalSize = ((m_Cylinders * m_TracksPerCylinder * m_SectorsPerTrack * m_BytesPerSector) / static_cast<unsigned long long>(1073741824)); // Showing the value as GBs
 
 	// Check for TRIM to check for SSD type
 	STORAGE_PROPERTY_QUERY spqTrim;
@@ -147,7 +150,7 @@ void Disk::Initialize()
 
 void Disk::ShowWidget()
 {
-	if (ImGui::CollapsingHeader(m_HeaderTitle.c_str()))
+	if (ImGui::TreeNode(m_HeaderTitle.c_str()))
 	{
 		ImGui::Text("Logical name: %s", m_LogicalName.c_str());
 		ImGui::Text("Free Space: %I64u GBs", m_FreeBytes);
@@ -162,6 +165,8 @@ void Disk::ShowWidget()
 			ImGui::Text("Bytes per Sector = %d", m_BytesPerSector);
 		}
 		m_PartitionTable->ShowWidget();
+		
+		ImGui::TreePop();
 	}
 }
 

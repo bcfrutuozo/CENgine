@@ -348,9 +348,6 @@
     <ClCompile Include="Frustum.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="Testing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="RenderQueuePass.cpp">
       <Filter>Source Files\Jobber\Passlib</Filter>
     </ClCompile>
@@ -976,9 +973,6 @@
     </ClInclude>
     <ClInclude Include="WireframePass.h">
       <Filter>Header Files\Jobber\Passlib</Filter>
-    </ClInclude>
-    <ClInclude Include="Testing.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BindingPass.h">
       <Filter>Header Files\Jobber\Passlib\Base</Filter>
@@ -3927,9 +3921,6 @@
     </None>
     <None Include="assimp\include\assimp\vector3.inl">
       <Filter>Header Files\Libraries\assimp</Filter>
-    </None>
-    <None Include="dxtex\include\dxtex\DirectXTex.inl">
-      <Filter>Header Files\Libraries\dxtex</Filter>
     </None>
     <None Include="dxtex\bin\Debug\DirectXTex.pdb" />
     <None Include="dxtex\bin\Release\DirectXTex.pdb" />

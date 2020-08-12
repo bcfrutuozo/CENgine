@@ -1,6 +1,9 @@
 #include "ScriptParser.h"
 #include "TexturePreprocessor.h"
+
+#pragma warning(push, 0)
 #include "json.hpp"
+#pragma warning(pop)
 
 #include <sstream>
 #include <fstream>

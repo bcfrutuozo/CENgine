@@ -2,9 +2,12 @@
 #include "Math.h"
 #include "ModelException.h"
 
+#pragma warning(push)
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#pragma warning(pop)
+
 #include <filesystem>
 #include <sstream>
 

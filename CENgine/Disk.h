@@ -41,11 +41,11 @@ private:
 	std::string m_HeaderTitle;
 	std::string m_LogicalName;
 	unsigned int m_RPM;
-	long long m_Cylinders;
-	unsigned long m_TracksPerCylinder;
-	unsigned long m_SectorsPerTrack;
-	unsigned long m_BytesPerSector;
-	unsigned long m_TotalSize;
+	unsigned long long m_Cylinders;
+	unsigned long long m_TracksPerCylinder;
+	unsigned long long m_SectorsPerTrack;
+	unsigned long long m_BytesPerSector;
+	unsigned long long m_TotalSize;
 	unsigned long long m_TotalBytes;
 	unsigned long long m_FreeBytes;
 	unsigned long long m_FreeBytesToCaller;

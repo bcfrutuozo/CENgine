@@ -1,5 +1,8 @@
 #include "MBRPartitionTable.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 MBRPartitionTable::MBRPartitionTable(const unsigned int p_PartitionCount, unsigned long p_CheckSum, unsigned long p_Signature)
 	:
@@ -11,7 +14,7 @@ MBRPartitionTable::MBRPartitionTable(const unsigned int p_PartitionCount, unsign
 
 void MBRPartitionTable::ShowWidget()
 {
-	if(ImGui::CollapsingHeader("Partition Table"))
+	if(ImGui::TreeNode("Partition Table"))
 	{
 		ImGui::Text("Style: MBR");
 		ImGui::Text("CheckSum: %Iu", m_CheckSum);
@@ -24,5 +27,7 @@ void MBRPartitionTable::ShowWidget()
 		{
 			p->ShowWidget();
 		}
+
+		ImGui::TreePop();
 	}
 }

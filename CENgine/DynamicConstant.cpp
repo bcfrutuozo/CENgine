@@ -19,8 +19,8 @@ namespace DRR
 		struct Array : public LayoutElement::ExtraDataBase
 		{
 			std::optional<LayoutElement> layoutElement;
-			size_t element_size;
-			size_t size;
+			size_t element_size = 0;
+			size_t size = 0;
 		};
 	};
 
@@ -28,12 +28,12 @@ namespace DRR
 	{
 		switch(type)
 		{
-			#define X(el) case el: return Map<el>::code;
+			#define X(el) case Type::el: return Map<Type::el>::code;
 			LEAF_ELEMENT_TYPES
 			#undef X
-			case Struct:
+			case Type::Struct:
 				return GetSignatureForStruct();
-			case Array:
+			case Type::Array:
 				return GetSignatureForArray();
 			default:
 				assert("Bad type in signature generation" && false);
@@ -43,12 +43,12 @@ namespace DRR
 
 	bool LayoutElement::Exists() const noexcept
 	{
-		return type != Empty;
+		return type != Type::Empty;
 	}
 
 	std::pair<size_t, const LayoutElement*> LayoutElement::CalculateIndexingOffset(size_t offset, size_t index) const NOXND
 	{
-		assert("Indexing into non-array" && type == Array);
+		assert("Indexing into non-array" && type == Type::Array);
 		const auto& data = static_cast<ExtraData::Array&>(*pExtraData);
 		assert(index < data.size);
 		return { offset + data.element_size * index, &*data.layoutElement };
@@ -56,7 +56,7 @@ namespace DRR
 
 	LayoutElement& LayoutElement::operator[](const std::string& key) NOXND
 	{
-		assert("Keying into non-struct" && type == Struct);
+		assert("Keying into non-struct" && type == Type::Struct);
 		for(auto& mem : static_cast<ExtraData::Struct&>(*pExtraData).layoutElements)
 		{
 			if(mem.first == key)
@@ -74,7 +74,7 @@ namespace DRR
 
 	LayoutElement& LayoutElement::T() NOXND
 	{
-		assert("Accessing T of non-array" && type == Array);
+		assert("Accessing T of non-array" && type == Type::Array);
 		return *static_cast<ExtraData::Array&>(*pExtraData).layoutElement;
 	}
 
@@ -92,15 +92,15 @@ namespace DRR
 	{
 		switch(type)
 		{
-			#define X(el) case el: return *offset + Map<el>::hlslSize;
+			#define X(el) case Type::el: return *offset + Map<Type::el>::hlslSize;
 			LEAF_ELEMENT_TYPES
 				#undef X
-			case Struct:
+			case Type::Struct:
 				{
 					const auto& data = static_cast<ExtraData::Struct&>(*pExtraData);
 					return AdvanceToBoundary(data.layoutElements.back().second.GetOffsetEnd());
 				}
-			case Array:
+			case Type::Array:
 				{
 					const auto& data = static_cast<ExtraData::Array&>(*pExtraData);
 					return *offset + AdvanceToBoundary(data.layoutElement->GetSizeInBytes()) * data.size;
@@ -118,7 +118,7 @@ namespace DRR
 
 	LayoutElement& LayoutElement::Add(Type addedType, std::string name) NOXND
 	{
-		assert("Add to non-struct in layout" && type == Struct);
+		assert("Add to non-struct in layout" && type == Type::Struct);
 		assert("invalid symbol name in Struct" && ValidateSymbolName(name));
 		auto& structData = static_cast<ExtraData::Struct&>(*pExtraData);
 		for(auto& mem : structData.layoutElements)
@@ -134,7 +134,7 @@ namespace DRR
 
 	LayoutElement& LayoutElement::Set(Type addedType, size_t size) NOXND
 	{
-		assert("Set on non-array in layout" && type == Array);
+		assert("Set on non-array in layout" && type == Type::Array);
 		assert(size != 0u);
 		auto& arrayData = static_cast<ExtraData::Array&>(*pExtraData);
 		arrayData.layoutElement = { addedType };
@@ -146,12 +146,12 @@ namespace DRR
 		:
 	type{ typeIn }
 	{
-		assert(typeIn != Empty);
-		if(typeIn == Struct)
+		assert(typeIn != Type::Empty);
+		if(typeIn == Type::Struct)
 		{
 			pExtraData = std::unique_ptr<ExtraData::Struct>{ new ExtraData::Struct() };
 		}
-		else if(typeIn == Array)
+		else if(typeIn == Type::Array)
 		{
 			pExtraData = std::unique_ptr<ExtraData::Array>{ new ExtraData::Array() };
 		}
@@ -161,12 +161,12 @@ namespace DRR
 	{
 		switch(type)
 		{
-			#define X(el) case el: offset = AdvanceIfCrossesBoundary( offsetIn,Map<el>::hlslSize ); return *offset + Map<el>::hlslSize;
+			#define X(el) case Type::el: offset = AdvanceIfCrossesBoundary( offsetIn,Map<Type::el>::hlslSize ); return *offset + Map<Type::el>::hlslSize;
 			LEAF_ELEMENT_TYPES
 				#undef X
-			case Struct:
+		case Type::Struct:
 				return FinalizeForStruct(offsetIn);
-			case Array:
+			case Type::Array:
 				return FinalizeForArray(offsetIn);
 			default:
 				assert("Bad type in size computation" && false);
@@ -262,7 +262,7 @@ namespace DRR
 
 	IncompleteLayout::IncompleteLayout() noexcept
 		:
-		Layout{ std::shared_ptr<LayoutElement>{ new LayoutElement(Struct) } }
+		Layout{ std::shared_ptr<LayoutElement>{ new LayoutElement(Type::Struct) } }
 	{ }
 
 	LayoutElement& IncompleteLayout::operator[](const std::string& key) NOXND

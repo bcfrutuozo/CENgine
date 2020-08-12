@@ -1,7 +1,10 @@
 #include "PointLight.h"
-#include "imgui/imgui.h"
 #include "Camera.h"
 #include "Math.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 PointLight::PointLight(Graphics& graphics, DirectX::XMFLOAT3 position, float radius)
 	:

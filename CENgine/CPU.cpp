@@ -1,5 +1,8 @@
 #include "CPU.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <intrin.h>
 

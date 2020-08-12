@@ -19,7 +19,7 @@ public:
 		if( !layout )
 		{
 			layout = CENgineexp::VertexLayout{};
-			layout->Append( CENgineexp::VertexLayout::Position3D );
+			layout->Append( CENgineexp::VertexLayout::ElementType::Position3D );
 		}
 
 		constexpr float side = 1.0f / 2.0f;

@@ -5,9 +5,11 @@
 #include "Material.h"
 #include "Matrix.h"
 
+#pragma warning(push)
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
+#pragma warning(pop)
 
 Model::Model(Graphics& graphics, const std::string& path, const float scale)
 {

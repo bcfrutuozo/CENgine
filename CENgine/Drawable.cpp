@@ -4,7 +4,9 @@
 #include "BindableCodex.h"
 #include "Material.h"
 
+#pragma warning(push)
 #include <assimp/scene.h>
+#pragma warning(pop)
 
 Drawable::Drawable(Graphics& graphics, const Material& mat, const aiMesh& mesh, float scale) noexcept
 {

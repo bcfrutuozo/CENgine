@@ -1,7 +1,10 @@
 #include "Camera.h"
 #include "Math.h"
-#include "imgui/imgui.h"
 #include "Graphics.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 Camera::Camera(Graphics& graphics, std::string name, DirectX::XMFLOAT3 homePosition, float homePitch, float homeYaw, bool isTethered) noexcept
 	:

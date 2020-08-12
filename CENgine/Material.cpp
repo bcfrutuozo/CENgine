@@ -27,8 +27,8 @@ modelPath(modelPath.string())
 		aiString texFileName;
 
 		// Common (pre)
-		vtxLayout.Append(CENgineexp::VertexLayout::Position3D);
-		vtxLayout.Append(CENgineexp::VertexLayout::Normal);
+		vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Position3D);
+		vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Normal);
 		DRR::IncompleteLayout pscLayout;
 		bool hasTexture = false;
 		bool hasGlossAlpha = false;
@@ -40,7 +40,7 @@ modelPath(modelPath.string())
 			{
 				hasTexture = true;
 				shaderCode += "Dif";
-				vtxLayout.Append(CENgineexp::VertexLayout::Texture2D);
+				vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Texture2D);
 				auto tex = Bind::Texture::Resolve(graphics, rootPath + texFileName.C_Str());
 				if(tex->HasAlpha())
 				{
@@ -51,7 +51,7 @@ modelPath(modelPath.string())
 			}
 			else
 			{
-				pscLayout.Add<DRR::Float3>("materialColor");
+				pscLayout.Add<DRR::Type::Float3>("materialColor");
 			}
 
 			step.AddBindable(Bind::Rasterizer::Resolve(graphics, hasAlpha));
@@ -63,17 +63,17 @@ modelPath(modelPath.string())
 			{
 				hasTexture = true;
 				shaderCode += "Spc";
-				vtxLayout.Append(CENgineexp::VertexLayout::Texture2D);
+				vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Texture2D);
 				auto tex = Bind::Texture::Resolve(graphics, rootPath + texFileName.C_Str(), 1);
 				hasGlossAlpha = tex->HasAlpha();
 				step.AddBindable(std::move(tex));
-				pscLayout.Add<DRR::Bool>("useGlossAlpha");
-				pscLayout.Add<DRR::Bool>("useSpecularMap");
+				pscLayout.Add<DRR::Type::Bool>("useGlossAlpha");
+				pscLayout.Add<DRR::Type::Bool>("useSpecularMap");
 			}
 
-			pscLayout.Add<DRR::Float3>("specularColor");
-			pscLayout.Add<DRR::Float>("specularWeight");
-			pscLayout.Add<DRR::Float>("specularGloss");
+			pscLayout.Add<DRR::Type::Float3>("specularColor");
+			pscLayout.Add<DRR::Type::Float>("specularWeight");
+			pscLayout.Add<DRR::Type::Float>("specularGloss");
 		}
 
 		// Normal
@@ -82,12 +82,12 @@ modelPath(modelPath.string())
 			{
 				hasTexture = true;
 				shaderCode += "Nrm";
-				vtxLayout.Append(CENgineexp::VertexLayout::Texture2D);
-				vtxLayout.Append(CENgineexp::VertexLayout::Tangent);
-				vtxLayout.Append(CENgineexp::VertexLayout::Bitangent);
+				vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Texture2D);
+				vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Tangent);
+				vtxLayout.Append(CENgineexp::VertexLayout::ElementType::Bitangent);
 				step.AddBindable(Bind::Texture::Resolve(graphics, rootPath + texFileName.C_Str(), 2));
-				pscLayout.Add<DRR::Bool>("useNormalMap");
-				pscLayout.Add<DRR::Float>("normalMapWeight");
+				pscLayout.Add<DRR::Type::Bool>("useNormalMap");
+				pscLayout.Add<DRR::Type::Float>("normalMapWeight");
 			}
 		}
 
@@ -157,7 +157,7 @@ modelPath(modelPath.string())
 
 			{
 				DRR::IncompleteLayout lay;
-				lay.Add<DRR::Float3>("materialColor");
+				lay.Add<DRR::Type::Float3>("materialColor");
 				auto buffer = DRR::Buffer(std::move(lay));
 				buffer["materialColor"] = DirectX::XMFLOAT3{ 1.0f, 0.4f, 0.4f };
 				draw.AddBindable(std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buffer, 1u));
@@ -204,7 +204,9 @@ CENgineexp::VertexBuffer Material::ExtractVertices(const aiMesh& mesh) const noe
 std::vector<unsigned short> Material::ExtractIndices(const aiMesh& mesh) const noexcept
 {
 	std::vector<unsigned short> indices;
-	indices.reserve(mesh.mNumFaces * 3);
+	size_t reserveSize = mesh.mNumFaces * 3ULL;
+
+	indices.reserve(reserveSize);
 	for(unsigned int i = 0; i < mesh.mNumFaces; i++)
 	{
 		const auto& face = mesh.mFaces[i];

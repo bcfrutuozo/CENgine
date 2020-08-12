@@ -4,9 +4,12 @@
 #include "Conditional_noexcept.h"
 #include "Color.h"
 
+#pragma warning(push)
+#include <assimp/scene.h>
+#pragma warning(pop)
+
 #include <vector>
 #include <type_traits>
-#include <assimp/scene.h>
 #include <utility>
 
 #define ELEMENT_AI_EXTRACTOR(member) static SysType Extract(const aiMesh& mesh, size_t i) noexcept { return *reinterpret_cast<const SysType*>(&mesh.member[i]); }
@@ -29,7 +32,7 @@ namespace CENgineexp
 	{
 	public:
 
-		enum ElementType
+		enum class ElementType
 		{
 			#define X(el) el,
 			LAYOUT_ELEMENT_TYPES
@@ -38,7 +41,7 @@ namespace CENgineexp
 
 		template<ElementType> struct Map;
 
-		template<> struct Map<Position2D>
+		template<> struct Map<ElementType::Position2D>
 		{
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
@@ -47,7 +50,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mVertices)
 		};
 
-		template<> struct Map<Position3D>
+		template<> struct Map<ElementType::Position3D>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -56,7 +59,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mVertices)
 		};
 
-		template<> struct Map<Texture2D>
+		template<> struct Map<ElementType::Texture2D>
 		{
 			using SysType = DirectX::XMFLOAT2;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32_FLOAT;
@@ -65,7 +68,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mTextureCoords[0])
 		};
 
-		template<> struct Map<Normal>
+		template<> struct Map<ElementType::Normal>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -74,7 +77,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mNormals)
 		};
 
-		template<> struct Map<Tangent>
+		template<> struct Map<ElementType::Tangent>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -83,7 +86,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mTangents)
 		};
 
-		template<> struct Map<Bitangent>
+		template<> struct Map<ElementType::Bitangent>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -92,7 +95,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mBitangents)
 		};
 
-		template<> struct Map<Float3Color>
+		template<> struct Map<ElementType::Float3Color>
 		{
 			using SysType = DirectX::XMFLOAT3;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -101,7 +104,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mColors[0])
 		};
 
-		template<> struct Map<Float4Color>
+		template<> struct Map<ElementType::Float4Color>
 		{
 			using SysType = DirectX::XMFLOAT4;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -110,7 +113,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mColors[0])
 		};
 
-		template<> struct Map<BGRAColor>
+		template<> struct Map<ElementType::BGRAColor>
 		{
 			using SysType = ::BGRAColor;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -119,7 +122,7 @@ namespace CENgineexp
 			ELEMENT_AI_EXTRACTOR(mColors[0])
 		};
 
-		template<> struct Map<Count>
+		template<> struct Map<ElementType::Count>
 		{
 			using SysType = long double;
 			static constexpr DXGI_FORMAT dxgiFormat = DXGI_FORMAT_UNKNOWN;
@@ -134,12 +137,12 @@ namespace CENgineexp
 		{
 			switch(type)
 			{
-				#define X(el) case VertexLayout::el: return F<VertexLayout::el>::Exec(std::forward<Args>(args)...);
+				#define X(el) case VertexLayout::ElementType::el: return F<VertexLayout::ElementType::el>::Exec(std::forward<Args>(args)...);
 				LAYOUT_ELEMENT_TYPES
 					#undef X
 			}
 			assert("Invalid element type" && false);
-			return F<VertexLayout::Count>::Exec(std::forward<Args>(args)...);
+			return F<VertexLayout::ElementType::Count>::Exec(std::forward<Args>(args)...);
 		}
 
 		class Element

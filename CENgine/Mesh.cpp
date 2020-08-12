@@ -1,11 +1,14 @@
 #include "Mesh.h"
-#include "imgui/imgui.h"
 #include "Surface.h"
 #include "Matrix.h"
 #include "DynamicConstant.h"
 #include "DynamicConstantBuffer.h"
 #include "LayoutCodex.h"
 #include "Stencil.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <sstream>
 #include <unordered_map>

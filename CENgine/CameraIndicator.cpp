@@ -12,7 +12,7 @@ CameraIndicator::CameraIndicator(Graphics& graphics)
 
 	const auto geometryTag = "$cam";
 	CENgineexp::VertexLayout layout;
-	layout.Append(CENgineexp::VertexLayout::Position3D);
+	layout.Append(CENgineexp::VertexLayout::ElementType::Position3D);
 	CENgineexp::VertexBuffer vertices{ std::move(layout) };
 	{
 		const float x = 4.0f / 3.0f * 0.75f;
@@ -72,7 +72,7 @@ CameraIndicator::CameraIndicator(Graphics& graphics)
 		struct PSColorConstant
 		{
 			DirectX::XMFLOAT3 color = { 0.2f,0.2f,0.6f };
-			float padding;
+			float padding = 0.0f;
 		} colorConst;
 
 		only.AddBindable(PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));

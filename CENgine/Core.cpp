@@ -1,5 +1,8 @@
 #include "Core.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <PdhMsg.h>
 

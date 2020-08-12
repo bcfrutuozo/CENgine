@@ -1,5 +1,8 @@
 #include "GPTPartitionTable.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 GPTPartitionTable::GPTPartitionTable(unsigned int p_PartitionCount, const std::string p_DiskId, long long p_StartingUsableOffset, long long p_UsableLength)
 	:
@@ -11,7 +14,7 @@ GPTPartitionTable::GPTPartitionTable(unsigned int p_PartitionCount, const std::s
 
 void GPTPartitionTable::ShowWidget()
 {
-	if (ImGui::CollapsingHeader("Partition Table"))
+	if (ImGui::TreeNode("Partition Table"))
 	{
 		ImGui::Text("Style: GPT");
 		ImGui::Text("Disk Id: %s", m_DiskId.c_str());
@@ -24,5 +27,7 @@ void GPTPartitionTable::ShowWidget()
 		{
 			p->ShowWidget();
 		}
+
+		ImGui::TreePop();
 	}
 }

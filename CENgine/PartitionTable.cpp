@@ -1,20 +1,15 @@
 #include "PartitionTable.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 PartitionTable::PartitionTable(const Style p_Style, const unsigned int p_PartitionCount)
 	:
 	m_Style(p_Style),
-	m_Count(p_PartitionCount)
-{
-	if (m_Style == Style::MBR || m_Style == Style::RAW)
-	{
-		m_MaxPartitionCount = 4;
-	}
-	else if (m_Style == Style::GPT)
-	{
-		m_MaxPartitionCount = 128;
-	}
-}
+	m_Count(p_PartitionCount),
+	m_MaxPartitionCount((p_Style == Style::MBR || p_Style == Style::RAW) ? 4 : 128)
+{	}
 
 void PartitionTable::AddPartition(Partition* p_pPartition)
 {

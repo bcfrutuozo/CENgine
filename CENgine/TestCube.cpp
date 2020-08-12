@@ -2,12 +2,15 @@
 #include "Cube.h"
 #include "BindableCommon.h"
 #include "DynamicConstantBuffer.h"
-#include "imgui/imgui.h"
 #include "DynamicConstant.h"
 #include "TechniqueProbe.h"
 #include "Channels.h"
 #include "TransformCbufScaling.h"
 #include "Channels.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 TestCube::TestCube(Graphics& graphics, float size)
 {
@@ -37,9 +40,9 @@ TestCube::TestCube(Graphics& graphics, float size)
 			only.AddBindable(Bind::PixelShader::Resolve(graphics, "ShadowTest_PS.cso"));
 
 			DRR::IncompleteLayout lay;
-			lay.Add<DRR::Float3>("specularColor");
-			lay.Add<DRR::Float>("specularWeight");
-			lay.Add<DRR::Float>("specularGloss");
+			lay.Add<DRR::Type::Float3>("specularColor");
+			lay.Add<DRR::Type::Float>("specularWeight");
+			lay.Add<DRR::Type::Float>("specularGloss");
 			auto buf = DRR::Buffer(std::move(lay));
 			buf["specularColor"] = DirectX::XMFLOAT3{ 1.0f,1.0f,1.0f };
 			buf["specularWeight"] = 0.1f;
@@ -72,7 +75,7 @@ TestCube::TestCube(Graphics& graphics, float size)
 			Step draw("outlineDraw");
 
 			DRR::IncompleteLayout lay;
-			lay.Add<DRR::Float4>("color");
+			lay.Add<DRR::Type::Float4>("color");
 			auto buf = DRR::Buffer(std::move(lay));
 			buf["color"] = DirectX::XMFLOAT4{ 1.0f,0.4f,0.4f,1.0f };
 			draw.AddBindable(std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buf, 1u));

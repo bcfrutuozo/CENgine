@@ -1,6 +1,9 @@
 #include "Performance.h"
-#include "imgui/imgui.h"
 #include "Utilities.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 Performance::Performance(Timer& timer)
 	:

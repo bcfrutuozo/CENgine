@@ -1,7 +1,10 @@
 #include "Node.h"
 #include "Mesh.h"
 #include "ModelProbe.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 Node::Node(int id, const std::string& name, std::vector<Mesh*> psMeshes, const DirectX::XMMATRIX& transformMatrix) NOXND
 	:

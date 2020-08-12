@@ -4,10 +4,11 @@
 #include "WindowsThrowMacros.h"
 #include "GraphicsThrowMacros.h"
 
+#pragma warning(push)
 #include <dxgidebug.h>
-#include <memory>
+#pragma warning(pop)
 
-#pragma comment(lib, "dxguid.lib")
+#include <memory>
 
 DXGIInfoManager::DXGIInfoManager()
 	:

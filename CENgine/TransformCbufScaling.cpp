@@ -34,6 +34,6 @@ std::unique_ptr<Bind::CloningBindable> Bind::TransformCbufScaling::Clone() const
 DRR::IncompleteLayout Bind::TransformCbufScaling::MakeLayout()
 {
 	DRR::IncompleteLayout layout;
-	layout.Add<DRR::Float>("scale");
+	layout.Add<DRR::Type::Float>("scale");
 	return layout;
 }

@@ -53,7 +53,7 @@ Frustum::Frustum(Graphics& graphics, float width, float height, float nearZ, flo
 			struct PSColorConstant
 			{
 				DirectX::XMFLOAT3 color = { 0.6f,0.2f,0.2f };
-				float padding;
+				float padding = 0.0f;
 			} colorConst;
 
 			unoccluded.AddBindable(Bind::PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));
@@ -73,7 +73,7 @@ Frustum::Frustum(Graphics& graphics, float width, float height, float nearZ, flo
 			struct PSColorConstant2
 			{
 				DirectX::XMFLOAT3 color = { 0.25f,0.08f,0.08f };
-				float padding;
+				float padding = 0.0f;
 			} colorConst;
 
 			occluded.AddBindable(Bind::PixelConstantBuffer<PSColorConstant2>::Resolve(graphics, colorConst, 1u));
@@ -89,7 +89,7 @@ Frustum::Frustum(Graphics& graphics, float width, float height, float nearZ, flo
 void Frustum::SetVertices(Graphics& graphics, float width, float height, float nearZ, float farZ)
 {
 	CENgineexp::VertexLayout layout;
-	layout.Append(CENgineexp::VertexLayout::Position3D);
+	layout.Append(CENgineexp::VertexLayout::ElementType::Position3D);
 	CENgineexp::VertexBuffer vertices{ std::move(layout) };
 	{
 		const float zRatio = farZ / nearZ;

@@ -1,5 +1,8 @@
 #include "GPTPartition.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 GPTPartition::GPTPartition(const PARTITION_INFORMATION_EX& p_PartitionInformation)
 	:
@@ -17,14 +20,16 @@ GPTPartition::~GPTPartition()
 
 void GPTPartition::ShowWidget()
 {
-	if (ImGui::CollapsingHeader(m_HeaderTitle.c_str()))
+	if (ImGui::TreeNode(m_HeaderTitle.c_str()))
 	{
 		ImGui::Text("Partition Type: %s", m_GPTType.Name);
 		ImGui::Text("Id: %s", m_Id.c_str());
-		ImGui::Text("Partition Length: %u %s", m_VisualLength, m_Measurement.c_str());
+		ImGui::Text("Partition Length: %I64d %s", m_VisualLength, m_Measurement.c_str());
 		ImGui::Text("Starting Offset: %I64d", m_StartingOffset);
 		ImGui::Text("Attributes: %I64u", m_Attributes);
 		ImGui::Text("Rewrite Protection: %s", m_IsRewritePartition ? "Yes" : "No");
+
+		ImGui::TreePop();
 	}
 }
 
@@ -45,4 +50,6 @@ GPTPartitionType GPTPartition::GetTypeByIdentifier(GUID guid)
 		if (guid == Types[i].Identifier)
 			return Types[i];
 	}
+
+	throw std::runtime_error("Invalid GPT identifier type");
 }

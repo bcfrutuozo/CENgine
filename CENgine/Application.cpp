@@ -1,12 +1,14 @@
 #include "Application.h"
 #include "Math.h"
-#include "imgui/imgui.h"
 #include "Utilities.h"
 #include "Log.h"
-#include "Testing.h"
 #include "TestModelProbe.h"
 #include "Camera.h"
 #include "Channels.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 #include <algorithm>
 #include <winioctl.h>

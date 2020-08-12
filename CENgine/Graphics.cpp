@@ -1,20 +1,18 @@
 #include "Graphics.h"
 #include "dxerr.h"
 #include "GraphicsThrowMacros.h"
-#include "imgui/imgui_impl_dx11.h"
-#include "imgui/imgui_impl_win32.h"
 #include "Conditional_noexcept.h"
 #include "DepthStencil.h"
 #include "RenderTarget.h"
 
+#pragma warning(push)
+#include "imgui/imgui_impl_dx11.h"
+#include "imgui/imgui_impl_win32.h"
+#pragma warning(pop)
+
 #include <sstream>
 #include <d3dcompiler.h>
 #include <array>
-
-// Set the linker settings
-#pragma comment(lib, "d3d11.lib")
-// For Shader loading functions real time compilation
-#pragma comment(lib, "D3DCompiler.lib")
 
 Graphics::Graphics(HWND handle, int width, int height, Type windowType)
 	:
@@ -146,6 +144,7 @@ void Graphics::BeginFrame(float red, float green, float blue) const
 			{
 				throw std::runtime_error("Unable to switch to windowed mode!");
 			}
+			break;
 			case Type::Fullscreen:
 			if(FAILED(pSwapChain->SetFullscreenState(true, nullptr)))
 			{

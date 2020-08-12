@@ -1,6 +1,9 @@
 #include "NvidiaGPU.h"
 #include "NVIDIA_Functions.h"
+
+#pragma warning(push)
 #include "imgui/imgui.h"
+#pragma warning(pop)
 
 NvidiaGPU::NvidiaGPU(Device device)
 	:

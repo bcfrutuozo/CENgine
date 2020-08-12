@@ -59,9 +59,9 @@ namespace RGP
 		{
 			{
 				DRR::IncompleteLayout l;
-				l.Add<DRR::Integer>("nTaps");
-				l.Add<DRR::Array>("coefficients");
-				l["coefficients"].Set<DRR::Float>(maxRadius * 2 + 1);
+				l.Add<DRR::Type::Integer>("nTaps");
+				l.Add<DRR::Type::Array>("coefficients");
+				l["coefficients"].Set<DRR::Type::Float>(maxRadius * 2 + 1);
 				DRR::Buffer buffer{ std::move(l) };
 				blurKernel = std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buffer, 0);
 				SetKernelGauss(radius, sigma);
@@ -69,7 +69,7 @@ namespace RGP
 			}
 			{
 				DRR::IncompleteLayout l;
-				l.Add<DRR::Bool>("isHorizontal");
+				l.Add<DRR::Type::Bool>("isHorizontal");
 				DRR::Buffer buffer{ std::move(l) };
 				blurDirection = std::make_shared<Bind::DynamicCachingPixelConstantBuffer>(graphics, buffer, 1);
 				AddGlobalSource(DirectBindableSource<Bind::DynamicCachingPixelConstantBuffer>::Make("blurDirection", blurDirection));

@@ -1,8 +1,11 @@
 #include "CameraContainer.h"
 #include "Camera.h"
 #include "Graphics.h"
-#include "imgui/imgui.h"
 #include "RenderGraph.h"
+
+#pragma warning(push)
+#include "imgui/imgui.h"
+#pragma warning(pop)
 
 CameraContainer::~CameraContainer()
 { }

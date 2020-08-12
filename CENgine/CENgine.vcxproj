@@ -76,7 +76,7 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pdh.lib;assimp-vc142-mt.lib;Debug\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;pdh.lib;dxguid.lib;d3d11.lib;D3DCompiler.lib;assimp-vc142-mt.lib;Debug\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,13 +162,31 @@
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="ImGuiManager.cpp" />
-    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TurnOffAllWarnings</WarningLevel>
+      <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="DXGIInfoManager.cpp" />
     <ClCompile Include="PixelShader.cpp" />
@@ -186,7 +204,6 @@
     <ClCompile Include="Technique.cpp" />
     <ClCompile Include="TestCube.cpp" />
     <ClCompile Include="ScaleOutlineRenderGraph.cpp" />
-    <ClCompile Include="Testing.cpp" />
     <ClCompile Include="TexturePreprocessor.cpp" />
     <ClCompile Include="TransformCbufScaling.cpp" />
     <ClCompile Include="Utilities.cpp" />
@@ -1266,7 +1283,6 @@
     <ClInclude Include="Technique.h" />
     <ClInclude Include="TechniqueProbe.h" />
     <ClInclude Include="TestCube.h" />
-    <ClInclude Include="Testing.h" />
     <ClInclude Include="TestModelProbe.h" />
     <ClInclude Include="ScaleOutlineRenderGraph.h" />
     <ClInclude Include="TexturePreprocessor.h" />
@@ -1719,7 +1735,6 @@
     <None Include="cuda\include\cuda\thrust\system\tbb\detail\vector.inl" />
     <None Include="dxtex\bin\Debug\DirectXTex.pdb" />
     <None Include="dxtex\bin\Release\DirectXTex.pdb" />
-    <None Include="dxtex\include\dxtex\DirectXTex.inl" />
     <None Include="HLSL.props" />
     <CopyFileToFolders Include="imgui_default.ini">
       <FileType>Document</FileType>

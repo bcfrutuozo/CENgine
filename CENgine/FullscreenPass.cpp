@@ -3,13 +3,13 @@
 
 namespace RGP
 {
-	FullscreenPass::FullscreenPass(const std::string name, Graphics& graphics) NOXND
+	FullscreenPass::FullscreenPass(std::string name, Graphics& graphics) NOXND
 		:
 	BindingPass(std::move(name))
 	{
 		// Setup fullscreen geometry
 		CENgineexp::VertexLayout layout;
-		layout.Append(CENgineexp::VertexLayout::Position2D);
+		layout.Append(CENgineexp::VertexLayout::ElementType::Position2D);
 		CENgineexp::VertexBuffer vBuf{ layout };
 		vBuf.EmplaceBack(DirectX::XMFLOAT2{ -1, 1 });
 		vBuf.EmplaceBack(DirectX::XMFLOAT2{ 1, 1 });

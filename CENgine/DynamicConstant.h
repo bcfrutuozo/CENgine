@@ -22,7 +22,7 @@
 // Namespace for dynamic runtime reflection
 namespace DRR
 {
-	enum Type
+	enum class Type
 	{
 		#define X(el) el,
 		LEAF_ELEMENT_TYPES
@@ -39,7 +39,7 @@ namespace DRR
 		static constexpr bool valid = false;
 	};
 
-	template<> struct Map<Float>
+	template<> struct Map<Type::Float>
 	{
 		using SysType = float;								// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType); // Size of type on GPU side
@@ -47,7 +47,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Float2>
+	template<> struct Map<Type::Float2>
 	{
 		using SysType = DirectX::XMFLOAT2;					// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType); // Size of type on GPU side
@@ -55,7 +55,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Float3>
+	template<> struct Map<Type::Float3>
 	{
 		using SysType = DirectX::XMFLOAT3;					// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType); // Size of type on GPU side
@@ -63,7 +63,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Float4>
+	template<> struct Map<Type::Float4>
 	{
 		using SysType = DirectX::XMFLOAT4;					// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType); // Size of type on GPU side
@@ -71,7 +71,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Matrix>
+	template<> struct Map<Type::Matrix>
 	{
 		using SysType = DirectX::XMFLOAT4X4;				// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType); // Size of type on GPU side
@@ -79,7 +79,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Bool>
+	template<> struct Map<Type::Bool>
 	{
 		using SysType = bool;								// Type used on the CPU side
 		static constexpr size_t hlslSize = 4u;				// Size of type on GPU side
@@ -87,7 +87,7 @@ namespace DRR
 		static constexpr bool valid = true;					// Metaprogramming flag to check validity of Map <param>
 	};
 
-	template<> struct Map<Integer>
+	template<> struct Map<Type::Integer>
 	{
 		using SysType = int;								// Type used on the CPU side
 		static constexpr size_t hlslSize = sizeof(SysType);	// Size of type on GPU side
@@ -96,7 +96,7 @@ namespace DRR
 	};
 
 	// Ensures that every leaf type in master list has an entry in the static attribute map
-	#define X(el) static_assert(Map<el>::valid,"Missing map implementation for " #el);
+	#define X(el) static_assert(Map<Type::el>::valid,"Missing map implementation for " #el);
 	LEAF_ELEMENT_TYPES
 		#undef X
 
@@ -109,9 +109,9 @@ namespace DRR
 	};
 
 	#define X(el) \
-	template<> struct ReverseMap<typename Map<el>::SysType> \
+	template<> struct ReverseMap<typename Map<Type::el>::SysType> \
 	{ \
-		static constexpr Type type = el; \
+		static constexpr Type type = Type::el; \
 		static constexpr bool valid = true; \
 	};
 	LEAF_ELEMENT_TYPES
@@ -173,7 +173,7 @@ namespace DRR
 		{
 			switch(type)
 			{
-				#define X(el) case el: assert(typeid(Map<el>::SysType) == typeid(T)); return *offset;
+				#define X(el) case Type::el: assert(typeid(Map<Type::el>::SysType) == typeid(T)); return *offset;
 				LEAF_ELEMENT_TYPES
 					#undef X
 				default:
@@ -236,7 +236,7 @@ namespace DRR
 		// Each element stores its own offset. This makes lookup to find its position in the byte buffer
 		// fast. Special handling is required for situations where arrays are involved
 		std::optional<size_t> offset;
-		Type type = Empty;
+		Type type = Type::Empty;
 		std::unique_ptr<ExtraDataBase> pExtraData;
 	};
 

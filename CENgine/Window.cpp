@@ -1,7 +1,10 @@
 #include "Window.h"
 #include "WindowsThrowMacros.h"
-#include "imgui/imgui_impl_win32.h"
 #include "resource.h"
+
+#pragma warning(push)
+#include "imgui/imgui_impl_win32.h"
+#pragma warning(pop)
 
 #include <sstream>
 

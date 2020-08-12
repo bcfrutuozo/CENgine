@@ -28,7 +28,7 @@ protected:
 
 	std::string m_Id;
 	std::string m_HeaderTitle;
-	unsigned int m_VisualLength;
+	long long m_VisualLength;
 	std::string m_Measurement;
 	unsigned long m_Number;
 	long long m_Length;

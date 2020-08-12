@@ -4,9 +4,12 @@
 #include "CENgineException.h"
 #include "Conditional_noexcept.h"
 
+#pragma warning(push)
+#include <dxtex/DirectXTex.h>
+#pragma warning(pop)
+
 #include <string>
 #include <optional>
-#include <dxtex/DirectXTex.h>
 
 class Surface
 {
