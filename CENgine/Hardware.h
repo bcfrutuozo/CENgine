@@ -3,12 +3,14 @@
 #include "Peripheral.h"
 #include "Core.h"
 #include "CPU.h"
-#include "Disk.h"
+#include "Drive.h"
 #include "GPU.h"
 #include "NvidiaGPU.h"
 #include "AmdGPU.h"
 #include "IntelGPU.h"
 #include "Volume.h"
+#include "Memory.h"
+#include "SMBIOS.h"
 
 #include <unordered_map>
 
@@ -34,6 +36,21 @@ public:
 		}
 
 		return std::make_unique<CPU>(std::move(cores));
+	}
+
+	template<>
+	static const std::unique_ptr<Memory> GetDevice(int index)
+	{
+		std::vector<std::unique_ptr<MemoryBank>> c;
+
+		//Physical Memory has no device in registry. Hidden by SMBIOS
+		const auto memArray = GetSMBIOSInstance().GetPhysicalMemoryArray();
+		for (int i = 0; i < memArray.NumberDevices; i++)
+		{
+			c.emplace_back(std::make_unique<MemoryBank>(GetSMBIOSInstance().GetPhysicalMemory(i)));
+		}
+
+		return std::make_unique<Memory>(memArray, std::move(c));;
 	}
 
 	template<typename T>
@@ -72,6 +89,12 @@ public:
 
 private:
 
+	static SMBIOS& GetSMBIOSInstance()
+	{
+		static SMBIOS instance;
+		return instance;
+	}
+
 	static GPU* CreateGPU(Device device)
 	{
 		if(StringContainsInsensitive(device.Mfg, L"NVIDIA"))
@@ -89,7 +112,6 @@ private:
 
 		throw std::runtime_error("Invalid GPU type passed to factory");
 	}
-
 	static constexpr wchar_t RootServices[] = L"SYSTEM\\CurrentControlSet\\Services";
 	static constexpr wchar_t RootDeviceEnumerator[] = L"SYSTEM\\CurrentControlSet\\Enum";
 
@@ -98,15 +120,15 @@ private:
 	{
 		// Use ACPI/PPM to get the real number of cores
 		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM",L"intelppm" };
-		static std::vector<std::wstring> DisksEnumerator{ L"disk" };
+		static std::vector<std::wstring> DisksEnumerator{ L"disk", L"cdrom" };
 		static std::vector<std::wstring> GPUsEnumerator{ L"amdkmdag", L"nvlddmkm", L"iAlm" };
-		static std::vector<std::wstring> VolumesEnumerator{ L"fvevol" };
+		static std::vector<std::wstring> VolumesEnumerator{ L"volume" };
 
 		if (typeid(T) == typeid(Core))
 		{
 			return CoresEnumerator;
 		}
-		else if (typeid(T) == typeid(Disk))
+		else if (typeid(T) == typeid(Drive))
 		{
 			return DisksEnumerator;
 		}
@@ -190,6 +212,7 @@ private:
 		const auto& registryInformation = GetDeviceCount<T>();
 		const auto& deviceEnumerator = QueryRegistryForEnum<T>(registryInformation);
 
+		int index = 0;
 		for (const auto& dm : deviceEnumerator)
 		{
 			RegKey key;

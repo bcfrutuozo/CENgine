@@ -2,7 +2,7 @@
 #include "WindowsThrowMacros.h"
 #include "resource.h"
 
-#pragma warning(push)
+#pragma warning(push, 0)
 #include "imgui/imgui_impl_win32.h"
 #pragma warning(pop)
 
@@ -51,7 +51,8 @@ Window::Window(int width, int height, const char* p_name)
 	:
 	width(width),
 	height(height),
-	isCursorEnabled(true)
+	isCursorEnabled(true),
+	broadcast(nullptr)
 {
 	// Calculate window size based on desired client region size
 	RECT wr;
@@ -213,36 +214,15 @@ bool Window::IsCursorEnabled() const noexcept
 	return isCursorEnabled;
 }
 
-void Window::CreateChild(int width, int height, const char* name)
+bool Window::HasNewDevice() noexcept
 {
-	// Calculate window size based on desired client region size
-	RECT wr;
-	wr.left = 100;
-	wr.right = width + wr.left;
-	wr.top = 100;
-	wr.bottom = height + wr.top;
-	if(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
+	if (broadcast == nullptr)
 	{
-		throw WND_LAST_EXCEPT();
+		return false;
 	}
 
-	// Create window and get its handle
-	HWND hr = CreateWindow(
-		WindowClass::GetName(), name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, (wr.right - wr.left), (wr.bottom - wr.top),
-		handleWindow, nullptr, WindowClass::GetInstance(),
-		this);
-
-	if(hr == nullptr)
-	{
-		throw WND_LAST_EXCEPT();
-	}
-
-	children.push_back(hr);
-
-	// Show window
-	ShowWindow(hr, SW_SHOWDEFAULT);
+	broadcast = nullptr;
+	return true;
 }
 
 LRESULT WINAPI Window::HandleMessageSetup(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept
@@ -284,10 +264,29 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 
 	switch(message)
 	{
-
 		case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
+
+		// To check if new disks or pendrives were inserted or removed. We can update the performance disks and volumes by doing it so.
+		case WM_DEVICECHANGE:
+
+			broadcast = (PDEV_BROADCAST_HDR)lParam;
+			//PDEV_BROADCAST_DEVICEINTERFACE lpdbv = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
+
+			/*switch (wParam)
+			{
+				
+			case DBT_DEVICEARRIVAL:
+
+				break;
+			case DBT_DEVICEREMOVECOMPLETE:
+
+				break;
+
+			}*/
+
+			break;
 
 		// Clear key state when window loses focus to prevent input getting "stuck" 
 		case WM_KILLFOCUS:

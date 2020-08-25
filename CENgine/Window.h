@@ -6,6 +6,7 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 
+#include <Dbt.h>
 #include <optional>
 #include <memory>
 
@@ -72,7 +73,7 @@ public:
 	void DisableCursor() noexcept;
 	void SwitchWindowType() noexcept;
 	bool IsCursorEnabled() const noexcept;
-	void CreateChild(int width, int height, const char* name);
+	bool HasNewDevice() noexcept;
 	static std::optional<int> ProcessMessages();
 	Graphics& Gfx() const;
 	
@@ -100,4 +101,5 @@ private:
 	std::vector<HWND> children;
 	std::vector<BYTE> rawBuffer;
 	std::string commandLine;
+	PDEV_BROADCAST_HDR broadcast;
 };

@@ -70,3 +70,8 @@ const char* Peripheral::InvalidPeripheralIndexException::GetType() const noexcep
 {
 	return "CENgine Invalid Peripheral Index Exception";
 }
+
+const char* Peripheral::UnsupportedPeripheralTypeException::GetType() const noexcept
+{
+	return "CENgine Unsupported Peripheral Type Exception";
+}

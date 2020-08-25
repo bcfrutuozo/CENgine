@@ -145,6 +145,18 @@
     <Filter Include="Source Files\Hardware\Volume">
       <UniqueIdentifier>{a1199e4c-fff9-4ebd-a853-f460088a7f32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Hardware\Memory">
+      <UniqueIdentifier>{8b19d95b-ea18-4d8a-a615-cfb836f2e473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\Memory">
+      <UniqueIdentifier>{1801ed41-7fc5-4b11-b9ee-8759e6210198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware\SMBIOS">
+      <UniqueIdentifier>{9ba36dbd-1581-4eb7-bdbd-0aa2b7d06568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\SMBIOS">
+      <UniqueIdentifier>{e443c35b-85cc-46b9-be35-db14b8c9af5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
@@ -408,9 +420,6 @@
     <ClCompile Include="PartitionTable.cpp">
       <Filter>Source Files\Hardware\Disk</Filter>
     </ClCompile>
-    <ClCompile Include="Disk.cpp">
-      <Filter>Source Files\Hardware\Disk</Filter>
-    </ClCompile>
     <ClCompile Include="GPU.cpp">
       <Filter>Source Files\Hardware\GPU</Filter>
     </ClCompile>
@@ -440,6 +449,18 @@
     </ClCompile>
     <ClCompile Include="Peripheral.cpp">
       <Filter>Source Files\Hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="Drive.cpp">
+      <Filter>Source Files\Hardware\Disk</Filter>
+    </ClCompile>
+    <ClCompile Include="SMBIOS.cpp">
+      <Filter>Source Files\Hardware\SMBIOS</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryBank.cpp">
+      <Filter>Source Files\Hardware\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Source Files\Hardware\Memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -513,9 +534,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
@@ -847,9 +865,6 @@
     </ClInclude>
     <ClInclude Include="ScriptParser.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="DynamicConstant.h">
       <Filter>Header Files</Filter>
@@ -3749,9 +3764,6 @@
     <ClInclude Include="assimp\include\assimp\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Disk.h">
-      <Filter>Header Files\Hardware\Disk</Filter>
-    </ClInclude>
     <ClInclude Include="PartitionTable.h">
       <Filter>Header Files\Hardware\Disk</Filter>
     </ClInclude>
@@ -3790,6 +3802,24 @@
     </ClInclude>
     <ClInclude Include="PeripheralThrowMacros.h">
       <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drive.h">
+      <Filter>Header Files\Hardware\Disk</Filter>
+    </ClInclude>
+    <ClInclude Include="SMBIOS.h">
+      <Filter>Header Files\Hardware\SMBIOS</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryBank.h">
+      <Filter>Header Files\Hardware\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files\Hardware\Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

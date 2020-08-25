@@ -13,7 +13,7 @@
 class Hardware;
 class Core;
 class CPU;
-class Disk;
+class Drive;
 class GPU;
 
 class Peripheral
@@ -45,6 +45,16 @@ public:
 
 	// Invalid Peripheral Index Exception
 	class InvalidPeripheralIndexException : public HrException
+	{
+		using HrException::HrException;
+	public:
+		const char* GetType() const noexcept override;
+	private:
+		std::string reason;
+	};
+
+	// Unsupported Peripheral Type
+	class UnsupportedPeripheralTypeException : public HrException
 	{
 		using HrException::HrException;
 	public:

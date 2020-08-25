@@ -12,14 +12,10 @@ public:
 	void Initialize();
 	void ShowWidget();
 	void GetWorkload();
+	void ReloadStorageDevices();
 private:
 
-	void GetCPUTotalWorkload();
-	void GetCPUEngineWorkload();
 	void GetCPUTemperature();
-	void GetMemorySizeInformation();
-	void GetMemoryTotalUsage();
-	void GetMemoryEngineUsage();
 
 	static constexpr float updatePeriod = 0.5f;
 
@@ -27,19 +23,9 @@ private:
 	Timer timer;
 	float lastSampleTime;
 
-	// Variables to check memory
-	MEMORYSTATUSEX memInfo;
-	PROCESS_MEMORY_COUNTERS_EX pmc;
-
 	std::unique_ptr<CPU> m_CPU;
-	std::vector<std::unique_ptr<Disk>> m_Disks;
+	std::unique_ptr<Memory> m_Memory;
+	std::vector<std::unique_ptr<Drive>> m_Disks;
 	std::vector<std::unique_ptr<GPU>> m_GPUs;
 	std::vector<std::unique_ptr<Volume>> m_Volumes;
-	long m_MemoryLoad;
-	unsigned long long m_TotalPhysicalMemory;
-	unsigned long long m_TotalVirtualMemory;
-	unsigned long long m_VirtualMemoryTotalWorkload;
-	unsigned long long m_VirtualMemoryEngineWorkload;
-	unsigned long long m_PhysicalMemoryTotalWorkload;
-	unsigned long long m_PhysicalMemoryEngineWorkload;
 };

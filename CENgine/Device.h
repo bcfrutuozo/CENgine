@@ -9,6 +9,12 @@
 	X(unsigned long, Address, 0) \
 	X(unsigned long, Capabilities, 1) \
 	X(unsigned long, ConfigFlags, 4) \
+	X(unsigned long, AutoRun, 15) \
+	X(unsigned long, BootFlags, 16) \
+	X(unsigned long, ErrorControl, 17) \
+	X(unsigned long, Start, 18) \
+	X(unsigned long, Tag, 19) \
+	X(unsigned long, Type, 20) \
 
 #define DEVICE_MEMBERS_STRING \
 	X(std::wstring, ClassGUID, 2) \
@@ -21,11 +27,15 @@
 	X(std::wstring, ParentIdPrefix, 12) \
 	X(std::wstring, Service, 13) \
 	X(std::wstring, UINumberDescFormat, 14) \
+	X(std::wstring, DisplayName, 23) \
+	X(std::wstring, Group, 24) \
+	X(std::wstring, ImagePath, 25) \
 
 #define DEVICE_MEMBERS_MULTIPLE_STRINGS \
 	X(std::vector<std::wstring>, CompatibleIDs, 3) \
 	X(std::vector<std::wstring>, HardwareID, 9) \
-
+	X(std::vector<std::wstring>, AutoRunAlwaysDisable, 21) \
+	X(std::vector<std::wstring>, Owners, 22) \
 
 class Device
 {

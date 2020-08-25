@@ -114,7 +114,7 @@
     <ClCompile Include="CameraIndicator.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CPU.cpp" />
-    <ClCompile Include="Disk.cpp" />
+    <ClCompile Include="Drive.cpp" />
     <ClCompile Include="dlib_windows.cpp" />
     <ClCompile Include="GPTPartition.cpp" />
     <ClCompile Include="GPTPartitionTable.cpp" />
@@ -122,6 +122,8 @@
     <ClCompile Include="IntelGPU.cpp" />
     <ClCompile Include="MBRPartition.cpp" />
     <ClCompile Include="MBRPartitionTable.cpp" />
+    <ClCompile Include="MemoryBank.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="monitor.cpp" />
     <ClCompile Include="NvidiaGPU.cpp" />
     <ClCompile Include="nvml.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="ShadowSampler.cpp" />
     <ClCompile Include="Sink.cpp" />
     <ClCompile Include="SkyboxTransformCbuf.cpp" />
+    <ClCompile Include="SMBIOS.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
     <ClCompile Include="RenderGraph.cpp" />
@@ -1197,7 +1200,7 @@
     <ClInclude Include="cuda\include\cuda\vector_types.h" />
     <ClInclude Include="DDK.h" />
     <ClInclude Include="Device.h" />
-    <ClInclude Include="Disk.h" />
+    <ClInclude Include="Drive.h" />
     <ClInclude Include="dlib.h" />
     <ClInclude Include="dlib_windows.h" />
     <ClInclude Include="GPTPartition.h" />
@@ -1206,6 +1209,8 @@
     <ClInclude Include="IntelGPU.h" />
     <ClInclude Include="MBRPartition.h" />
     <ClInclude Include="MBRPartitionTable.h" />
+    <ClInclude Include="MemoryBank.h" />
+    <ClInclude Include="Memory.h" />
     <ClInclude Include="monitor.h" />
     <ClInclude Include="nvapi\include\nvapi.h" />
     <ClInclude Include="nvapi\include\NvApiDriverSettings.h" />
@@ -1269,6 +1274,7 @@
     <ClInclude Include="Sink.h" />
     <ClInclude Include="SkyboxPass.h" />
     <ClInclude Include="SkyboxTransformCbuf.h" />
+    <ClInclude Include="SMBIOS.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Rasterizer.h" />
     <ClInclude Include="Pass.h" />

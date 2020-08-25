@@ -74,7 +74,7 @@ int Application::Start()
 
 void Application::HandleInput(float dt)
 {
-	while(const auto e = window.keyboard.ReadKey())
+	while(const auto& e = window.keyboard.ReadKey())
 	{
 		if(!e->IsPress())
 		{
@@ -135,12 +135,18 @@ void Application::HandleInput(float dt)
 	}
 
 
-	while(const auto delta = window.mouse.ReadRawDelta())
+	while(const auto& delta = window.mouse.ReadRawDelta())
 	{
 		if(!window.IsCursorEnabled())
 		{
 			cameras->Rotate(static_cast<float>(delta->x), static_cast<float>(delta->y));
 		}
+	}
+
+	// Handle system input
+	if (window.HasNewDevice())
+	{
+		perf.ReloadStorageDevices();
 	}
 }
 
