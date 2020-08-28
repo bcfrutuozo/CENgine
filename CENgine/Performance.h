@@ -15,6 +15,7 @@ public:
 	void ReloadStorageDevices();
 private:
 
+	static void RaisePrivilege();
 	void GetCPUTemperature();
 
 	static constexpr float updatePeriod = 0.5f;

@@ -124,6 +124,11 @@ void Performance::ReloadStorageDevices()
 	}
 }
 
+void Performance::RaisePrivilege()
+{
+
+}
+
 void Performance::GetCPUTemperature()
 {
 	//TODO: IMPLEMENT TEMPERATURE

@@ -240,6 +240,8 @@ public:
 
 private:
 
+	static void RaisePrivilege();
+
 	void Reset();
 	bool Increment();
 	const Entry* Next();
