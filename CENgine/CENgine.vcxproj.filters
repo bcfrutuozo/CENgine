@@ -136,26 +136,26 @@
     <Filter Include="Source Files\Hardware\SMBIOS">
       <UniqueIdentifier>{e443c35b-85cc-46b9-be35-db14b8c9af5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Hardware\Memory\GPU">
-      <UniqueIdentifier>{7c657c5d-544a-474c-ad8d-c83d8013ccf8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\Memory\GPU\NVIDIA">
-      <UniqueIdentifier>{2fe8148f-5b35-4db0-af06-5000ede1871f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\Memory\GPU\NVIDIA\Wrappers">
-      <UniqueIdentifier>{978ff957-7986-4a5a-9084-1cb4644fd492}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\Memory\GPU\INTEL">
-      <UniqueIdentifier>{db54a731-cfc5-4077-8837-3f0b4c314657}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Hardware\Memory\GPU\AMD">
-      <UniqueIdentifier>{d226770e-12b4-490c-a82c-af8811746893}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Hardware\Drive">
       <UniqueIdentifier>{3c320035-29fd-4d24-9310-781a6a15d242}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Hardware\Drive">
       <UniqueIdentifier>{62902f7c-792d-4051-8a6c-4c0fb257a87b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU">
+      <UniqueIdentifier>{7c657c5d-544a-474c-ad8d-c83d8013ccf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\NVIDIA">
+      <UniqueIdentifier>{2fe8148f-5b35-4db0-af06-5000ede1871f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\NVIDIA\Wrappers">
+      <UniqueIdentifier>{978ff957-7986-4a5a-9084-1cb4644fd492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\INTEL">
+      <UniqueIdentifier>{db54a731-cfc5-4077-8837-3f0b4c314657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hardware\GPU\AMD">
+      <UniqueIdentifier>{d226770e-12b4-490c-a82c-af8811746893}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -309,9 +309,6 @@
     <ClCompile Include="GraphicsResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DepthStencil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestCube.cpp">
       <Filter>Source Files\Drawable</Filter>
     </ClCompile>
@@ -397,31 +394,31 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AmdGPU.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\AMD</Filter>
+      <Filter>Source Files\Hardware\GPU\AMD</Filter>
     </ClCompile>
     <ClCompile Include="IntelGPU.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\INTEL</Filter>
+      <Filter>Source Files\Hardware\GPU\INTEL</Filter>
     </ClCompile>
     <ClCompile Include="nvml.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="monitor.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="dlib_windows.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\NVIDIA\Wrappers</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="NvidiaGPU.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU\NVIDIA</Filter>
+      <Filter>Source Files\Hardware\GPU\NVIDIA</Filter>
     </ClCompile>
     <ClCompile Include="PartitionTable.cpp">
       <Filter>Source Files\Hardware\Drive</Filter>
     </ClCompile>
     <ClCompile Include="GPU.cpp">
-      <Filter>Source Files\Hardware\Memory\GPU</Filter>
+      <Filter>Source Files\Hardware\GPU</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Source Files\Hardware\CPU</Filter>
@@ -461,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="Memory.cpp">
       <Filter>Source Files\Hardware\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthStencil.cpp">
+      <Filter>Source Files\Bindable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3821,6 +3821,9 @@
     <ClInclude Include="Memory.h">
       <Filter>Header Files\Hardware\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="cengine.ico">
@@ -3922,6 +3925,12 @@
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="_PShadow_Static.hlsli">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shadow_VS.hlsl">
+      <Filter>Source Files\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shadow_PS.hlsl">
       <Filter>Source Files\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

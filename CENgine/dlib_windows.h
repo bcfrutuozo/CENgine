@@ -1,6 +1,8 @@
 #pragma once
 
-#include <windows.h>
+#include "CENgineWin.h"
+
+#include <Windows.h>
 
 typedef HMODULE dlib_handle_t;
 typedef FARPROC dfunc_handle_t;

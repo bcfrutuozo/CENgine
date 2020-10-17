@@ -152,6 +152,7 @@ namespace RGP
 
 	void BlurOutlineRenderGraph::RenderWidgets(Graphics& graphics)
 	{
+		RenderShadowWidget(graphics);
 		RenderKernelWidget(graphics);
 		dynamic_cast<SkyboxPass&>(FindPassByName("skybox")).RenderWidget();
 	}
@@ -208,9 +209,16 @@ namespace RGP
 		ImGui::End();
 	}
 
-	void BlurOutlineRenderGraph::DumpShadowMap(Graphics& graphics, const std::string& path)
+	void BlurOutlineRenderGraph::RenderShadowWidget(Graphics& graphics)
 	{
-		dynamic_cast<ShadowMappingPass&>(FindPassByName("shadowMap")).DumpShadowMap(graphics, path);
+		if(ImGui::Begin("Shadow"))
+		{
+			if(ImGui::Button("Dump Cubemap"))
+			{
+				DumpShadowMap(graphics, "Dumps\\shadow_");
+			}
+		}
+		ImGui::End();
 	}
 
 	void BlurOutlineRenderGraph::BindMainCamera(Camera& camera)
@@ -223,5 +231,10 @@ namespace RGP
 	{
 		dynamic_cast<ShadowMappingPass&>(FindPassByName("shadowMap")).BindShadowCamera(camera);
 		dynamic_cast<LambertianPass&>(FindPassByName("lambertian")).BindShadowCamera(camera);
+	}
+
+	void BlurOutlineRenderGraph::DumpShadowMap(Graphics& graphics, const std::string& path)
+	{
+		dynamic_cast<ShadowMappingPass&>(FindPassByName("shadowMap")).DumpShadowMap(graphics, path);
 	}
 }

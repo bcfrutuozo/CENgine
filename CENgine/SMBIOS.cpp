@@ -1,5 +1,6 @@
 #include "SMBIOS.h"
 #include "Utilities.h"
+#include "CENgineWin.h"
 
 #include <iostream>
 #include <sstream>

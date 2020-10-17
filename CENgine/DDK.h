@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CENgineWin.h"
+
 #include <ntddscsi.h>
 
 #ifndef StorageDeviceTrimProperty

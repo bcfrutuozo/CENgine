@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CENgineWin.h"
+
 #include <stddef.h>
 #include <stdint.h>
 #include <cstring>

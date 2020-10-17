@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CENgineWin.h"
 #include "PartitionType.h"
 #include "Utilities.h"
 

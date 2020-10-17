@@ -25,6 +25,7 @@ namespace RGP
 		void DumpShadowMap(Graphics& graphics, const std::string& path);
 		void BindMainCamera(Camera& camera);
 		void BindShadowCamera(Camera& camera);
+		void StoreDepth(Graphics& graphics, const std::string& path);
 	private:
 
 		enum class KernelType
@@ -33,6 +34,7 @@ namespace RGP
 			Box,
 		} kernelType = KernelType::Gauss;
 
+		void RenderShadowWidget(Graphics& graphics);
 		void RenderKernelWidget(Graphics& graphics);
 		void SetKernelGauss(int radius, float sigma) NOXND;
 		void SetKernelBox(int radius) NOXND;

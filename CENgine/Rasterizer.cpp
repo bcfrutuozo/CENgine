@@ -4,7 +4,6 @@
 
 namespace Bind
 {
-
 	Rasterizer::Rasterizer(Graphics& graphics, const bool isTwoSided)
 		:
 		isTwoSided(isTwoSided)
@@ -13,6 +12,7 @@ namespace Bind
 
 		D3D11_RASTERIZER_DESC rDesc = CD3D11_RASTERIZER_DESC(CD3D11_DEFAULT{});
 		rDesc.CullMode = isTwoSided ? D3D11_CULL_NONE : D3D11_CULL_BACK;
+		//rDesc.FillMode = D3D11_FILL_WIREFRAME;
 
 		GFX_THROW_INFO(GetDevice(graphics)->CreateRasterizerState(&rDesc, &pRasterizer));
 	}

@@ -23,7 +23,7 @@ Application::Application(const std::string& commandLine)
 	perf(timer)
 {
 	perf.Initialize();
-	//window.CreateChild(100, 100, "Debugger");
+
 	cameras.AddCamera(std::make_unique<Camera>(window.Gfx(), "A", DirectX::XMFLOAT3{ -13.5f,6.0f,3.5f }, 0.0f, PI / 2.0f));
 	cameras.AddCamera(light.ShareCamera());
 
@@ -127,10 +127,6 @@ void Application::HandleInput(float dt)
 		if(window.keyboard.IsKeyPressed('F'))
 		{
 			cameras->Translate({ 0.0f, -dt, 0.0f });
-		}
-		if(window.keyboard.IsKeyPressed('G'))
-		{
-			window.SwitchWindowType();
 		}
 	}
 

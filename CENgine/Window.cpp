@@ -130,19 +130,6 @@ void Window::DisableCursor() noexcept
 	EncloseCursor();
 }
 
-void Window::SwitchWindowType() noexcept
-{
-	switch(pGraphics->GetFullscreenState())
-	{
-		case Graphics::Type::Windowed:
-		pGraphics->SetFullscreenState(Graphics::Type::Fullscreen);
-		break;
-		case Graphics::Type::Fullscreen:
-		pGraphics->SetFullscreenState(Graphics::Type::Windowed);
-		break;
-	}
-}
-
 std::optional<int> Window::ProcessMessages()
 {
 	MSG msg;
@@ -370,7 +357,7 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 			break;
 		}
 		{
-			POINTS pt = MAKEPOINTS(lParam);
+			const POINTS pt = MAKEPOINTS(lParam);
 
 			// Check if in client region -> log move, and log enter + capture mouse (
 			mouse.OnMouseMove(pt.x, pt.y);
@@ -486,7 +473,7 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 			}
 
 			// Process the raw input data
-			auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+			const auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
 			if(ri.header.dwType == RIM_TYPEMOUSE &&
 				(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
 			{

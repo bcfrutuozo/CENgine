@@ -146,11 +146,6 @@ namespace RGP
 		throw RGC_EXCEPTION("In RenderGraph::GetRenderQueue, pass not found: " + passName);
 	}
 
-	void RGP::RenderGraph::StoreDepth(Graphics& graphics, const std::string& path)
-	{
-		masterDepth->ToSurface(graphics).Save(path);
-	}
-
 	void RenderGraph::LinkSinks(Pass& pass)
 	{
 		for(auto& si : pass.GetSinks())

@@ -71,7 +71,6 @@ public:
 	void SetTitle(const std::string& title);
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
-	void SwitchWindowType() noexcept;
 	bool IsCursorEnabled() const noexcept;
 	bool HasNewDevice() noexcept;
 	static std::optional<int> ProcessMessages();

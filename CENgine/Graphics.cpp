@@ -14,12 +14,11 @@
 #include <d3dcompiler.h>
 #include <array>
 
-Graphics::Graphics(HWND handle, int width, int height, Type windowType)
+Graphics::Graphics(HWND handle, int width, int height)
 	:
 	width(width),
 	height(height),
-	isImGuiEnabled(true),
-	windowType(windowType)
+	isImGuiEnabled(true)
 {
 	DXGI_SWAP_CHAIN_DESC swapDescriptor = {};
 
@@ -38,12 +37,12 @@ Graphics::Graphics(HWND handle, int width, int height, Type windowType)
 	swapDescriptor.SampleDesc.Quality = 0;
 	// Buffer function 
 	swapDescriptor.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	// Number of buffers
+	// Number of BACK-buffers
 	swapDescriptor.BufferCount = 1;
 	// Window Handle
 	swapDescriptor.OutputWindow = handle;
 	// Windowed Mode
-	swapDescriptor.Windowed = windowType == Type::Windowed ? TRUE : FALSE;
+	swapDescriptor.Windowed = TRUE;
 	swapDescriptor.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	swapDescriptor.Flags = 0;
 
@@ -72,29 +71,10 @@ Graphics::Graphics(HWND handle, int width, int height, Type windowType)
 		&pContext
 	));
 
-	DEVMODE dm;
-	ZeroMemory(&dm, sizeof(dm));
-	dm.dmSize = sizeof(dm);
-	if (0 != EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm))
-	{
-		int x;
-		x = 4;
-	}
-
 	// Gain access to texture resource in swap chain (back buffer)
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = nullptr;
 	GFX_THROW_INFO(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBuffer));
 	pTarget = std::shared_ptr<Bind::RenderTarget>{ new Bind::OutputOnlyRenderTarget(*this, pBackBuffer.Get()) };
-
-	// Viewport always fullscreen (for now)
-	D3D11_VIEWPORT vp;
-	vp.Width = (float)width;
-	vp.Height = (float)height;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0.0f;
-	vp.TopLeftY = 0.0f;
-	pContext->RSSetViewports(1u, &vp);
 
 	// Init ImGui D3D implementation
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
@@ -105,25 +85,6 @@ Graphics::~Graphics()
 	ImGui_ImplDX11_Shutdown();
 }
 
-void Graphics::SetFullscreenState(Type type)
-{
-	if(type == Type::Windowed && windowType != Type::Windowed)
-	{
-		hasWindowTypeSwitched = true;
-		windowType = Type::Windowed;
-	}
-	else if(type == Type::Fullscreen && windowType != Type::Fullscreen)
-	{
-		hasWindowTypeSwitched = true;
-		windowType = Type::Fullscreen;
-	}
-}
-
-Graphics::Type Graphics::GetFullscreenState() const noexcept
-{
-	return windowType;
-}
-
 void Graphics::BeginFrame(float red, float green, float blue) const
 {
 	// ImGui begin frame
@@ -132,26 +93,6 @@ void Graphics::BeginFrame(float red, float green, float blue) const
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-	}
-
-	// Sets to windowed if the window is
-	if(hasWindowTypeSwitched)
-	{
-		switch(windowType)
-		{
-			case Type::Windowed:
-			if(FAILED(pSwapChain->SetFullscreenState(false, nullptr)))
-			{
-				throw std::runtime_error("Unable to switch to windowed mode!");
-			}
-			break;
-			case Type::Fullscreen:
-			if(FAILED(pSwapChain->SetFullscreenState(true, nullptr)))
-			{
-				throw std::runtime_error("Unable to switch to fullscreen mode!");
-			}
-			break;
-		}
 	}
 
 	// Clearing shader inputs to prevent simultaneous in/out bind carried over from previous frame

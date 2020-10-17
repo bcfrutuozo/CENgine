@@ -3,6 +3,8 @@
 #include "Bindable.h"
 #include "BufferResource.h"
 
+#include <optional>
+
 class Graphics;
 class Surface;
 
@@ -23,7 +25,7 @@ namespace Bind
 		UINT GetHeight() const noexcept;
 	protected:
 
-		RenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture);
+		RenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture, std::optional<UINT> face);
 		RenderTarget(Graphics& graphics, UINT width, UINT height);
 
 		UINT width;
@@ -55,8 +57,6 @@ namespace Bind
 	public:
 
 		void Bind(Graphics& graphics) NOXND override;
-	private:
-
-		OutputOnlyRenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture);
+		OutputOnlyRenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture, std::optional<UINT> face = {});
 	};
 }

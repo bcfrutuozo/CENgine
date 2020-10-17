@@ -7,7 +7,6 @@
 
 namespace Bind
 {
-
 	RenderTarget::RenderTarget(Graphics& graphics, UINT width, UINT height)
 		:
 		width(width),
@@ -41,7 +40,7 @@ namespace Bind
 		GFX_THROW_INFO(GetDevice(graphics)->CreateRenderTargetView(pTexture.Get(), &rtvDesc, &pTargetView));
 	}
 
-	RenderTarget::RenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture)
+	RenderTarget::RenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture, std::optional<UINT> face)
 	{
 		INFOMAN(graphics);
 
@@ -54,8 +53,20 @@ namespace Bind
 		// Create the target view on the texture
 		D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 		rtvDesc.Format = t2dDesc.Format;
-		rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		rtvDesc.Texture2D = D3D11_TEX2D_RTV{ 0 };
+		
+		if (face.has_value())
+		{
+			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+			rtvDesc.Texture2DArray.ArraySize = 1;
+			rtvDesc.Texture2DArray.FirstArraySlice = *face;
+			rtvDesc.Texture2DArray.MipSlice = 0;
+		}
+		else
+		{
+			rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			rtvDesc.Texture2D = D3D11_TEX2D_RTV{ 0 };
+		}
+
 		GFX_THROW_INFO(GetDevice(graphics)->CreateRenderTargetView(
 			pTexture, &rtvDesc, &pTargetView));
 	}
@@ -84,8 +95,8 @@ namespace Bind
 
 		// Configure viewport
 		D3D11_VIEWPORT vp;
-		vp.Width = (float)width;
-		vp.Height = (float)height;
+		vp.Width = static_cast<float>(width);
+		vp.Height = static_cast<float>(height);
 		vp.MinDepth = 0.0f;
 		vp.MaxDepth = 1.0f;
 		vp.TopLeftX = 0.0f;
@@ -191,8 +202,8 @@ namespace Bind
 		assert("Cannot bind OutputOnlyRenderTarget as shader input" && false);
 	}
 
-	OutputOnlyRenderTarget::OutputOnlyRenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture)
+	OutputOnlyRenderTarget::OutputOnlyRenderTarget(Graphics& graphics, ID3D11Texture2D* pTexture, std::optional<UINT> face)
 		:
-		RenderTarget(graphics, pTexture)
+		RenderTarget(graphics, pTexture, face)
 	{ }
 }
