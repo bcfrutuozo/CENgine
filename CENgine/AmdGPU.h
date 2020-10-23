@@ -8,7 +8,7 @@ public:
 
 	AmdGPU(Device device);
 	~AmdGPU();
-	void Initialize() override;
+	bool Initialize() override;
 	void GetWorkload() override;
 	
 private:

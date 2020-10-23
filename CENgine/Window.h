@@ -71,11 +71,11 @@ public:
 	void SetTitle(const std::string& title);
 	void EnableCursor() noexcept;
 	void DisableCursor() noexcept;
+	void CreateConsole() const;
 	bool IsCursorEnabled() const noexcept;
 	bool HasNewDevice() noexcept;
 	static std::optional<int> ProcessMessages();
 	Graphics& Gfx() const;
-	
 	Keyboard keyboard;
 	Mouse mouse;
 
@@ -90,6 +90,8 @@ private:
 	static LRESULT CALLBACK HandleMessageSetup(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMessageThunk(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT CALLBACK HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept;
+
+	static DWORD __stdcall ConsoleThread(LPVOID data);
 
 	bool hasGraphics;
 	bool isCursorEnabled;

@@ -30,7 +30,7 @@ public:
 		std::vector<std::unique_ptr<Core>> cores;
 
 		const auto& dvcCores = GetDeviceInformation<Core>();
-		for(const auto& core : dvcCores)
+		for (const auto& core : dvcCores)
 		{
 			cores.emplace_back(std::make_unique<Core>(core));
 		}
@@ -59,7 +59,7 @@ public:
 		std::vector<std::unique_ptr<T>> c;
 
 		const auto& dvc = GetDeviceInformation<T>();
-		for(const auto& d : dvc)
+		for (const auto& d : dvc)
 		{
 			c.emplace_back(std::make_unique<T>(d));
 		}
@@ -79,7 +79,7 @@ public:
 		std::vector<std::unique_ptr<GPU>> c;
 
 		std::vector<Device> dvc = GetDeviceInformation<GPU>();
-		for(const auto& d : dvc)
+		for (const auto& d : dvc)
 		{
 			c.emplace_back(std::unique_ptr<GPU>(CreateGPU(d)));
 		}
@@ -97,15 +97,15 @@ private:
 
 	static GPU* CreateGPU(Device device)
 	{
-		if(StringContainsInsensitive(device.Mfg, L"NVIDIA"))
+		if (StringContainsInsensitive(device.Mfg, L"NVIDIA"))
 		{
 			return new NvidiaGPU(device);
 		}
-		else if(StringContainsInsensitive(device.Mfg, L"AMD"))
+		else if (StringContainsInsensitive(device.Mfg, L"AMD"))
 		{
 			return new AmdGPU(device);
 		}
-		else if(StringContainsInsensitive(device.Mfg, L"INTEL"))
+		else if (StringContainsInsensitive(device.Mfg, L"INTEL"))
 		{
 			return new IntelGPU(device);
 		}
@@ -119,7 +119,7 @@ private:
 	static const std::vector<std::wstring> GetEnumerator()
 	{
 		// Use ACPI/PPM to get the real number of cores
-		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM",L"intelppm" };
+		static std::vector<std::wstring> CoresEnumerator{ L"AmdPPM", L"intelppm" };
 		static std::vector<std::wstring> DisksEnumerator{ L"disk", L"cdrom" };
 		static std::vector<std::wstring> GPUsEnumerator{ L"amdkmdag", L"nvlddmkm", L"iAlm" };
 		static std::vector<std::wstring> VolumesEnumerator{ L"volume" };
@@ -221,7 +221,7 @@ private:
 			if (key.IsValid())
 			{
 				Device d;
-				
+
 				d.Enumerator = std::wstring(dm.path);
 
 				for (unsigned int m = 0; m < Device::MembersCount(); m++)

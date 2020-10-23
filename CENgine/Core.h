@@ -12,7 +12,7 @@ public:
 
 	Core(Device device);
 	~Core();
-	void Initialize() override;
+	bool Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
 private:

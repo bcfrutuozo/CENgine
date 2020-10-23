@@ -11,7 +11,7 @@ public:
 	Volume(Device p_Device);
 	~Volume();
 
-	void Initialize() override;
+	bool Initialize() override;
 	void GetWorkload() override;
 	void ShowWidget() override;
 

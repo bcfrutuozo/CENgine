@@ -33,7 +33,7 @@ MemoryBank::MemoryBank(const TypeMemoryDevice& p_MemoryDevice)
 MemoryBank::~MemoryBank()
 {}
 
-void MemoryBank::Initialize()
+bool MemoryBank::Initialize()
 {
 	switch(m_Type)
 	{
@@ -109,6 +109,8 @@ void MemoryBank::Initialize()
 	m_IsRegistedBuffered = m_TypeDetail & (1 << 13);
 	m_IsUnbufferedUnregisted = m_TypeDetail & (1 << 14);
 	m_IsLRDIMM = m_TypeDetail & (1 << 15);
+
+	return true;
 }
 
 void MemoryBank::ShowWidget()

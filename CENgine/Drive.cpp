@@ -57,11 +57,16 @@ Drive::~Drive()
 
 }
 
-void Drive::Initialize()
+bool Drive::Initialize()
 {
 	bool bResult;	// results flag
 	DWORD junk;		// function return
 	HANDLE handle = GetPhysicalHandle(m_Name);
+
+	if (handle == INVALID_HANDLE_VALUE)
+	{
+		return false;
+	}
 
 	// Get disk geometry information to calculate its size
 	DISK_GEOMETRY geometry = { 0 };
@@ -199,6 +204,8 @@ void Drive::Initialize()
 			break;
 		}
 	}
+
+	return true;
 }
 
 void Drive::ShowWidget()
@@ -292,11 +299,6 @@ const HANDLE Drive::GetHandle(std::string p_Path)
 	if (!p_Path.empty())
 	{
 		hDrive = CreateFileA(p_Path.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-
-		if (hDrive == INVALID_HANDLE_VALUE)
-		{
-			throw PRPH_LAST_EXCEPT();
-		}
 	}
 
 	return hDrive;
@@ -363,7 +365,14 @@ const std::string Drive::GetLogicalName(const unsigned long p_DriveIndex)
 			{
 				if (FindNextVolumeA(hVolume, volume_name, sizeof(volume_name)) == 0)
 				{
-					throw PRPH_LAST_EXCEPT();
+					if (GetLastError() == ERROR_NO_MORE_FILES)
+					{
+						return std::string("NULL");
+					}
+					else
+					{
+						throw PRPH_LAST_EXCEPT();
+					}
 				}
 			}
 

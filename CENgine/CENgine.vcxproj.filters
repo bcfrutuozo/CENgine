@@ -3761,9 +3761,6 @@
     <ClInclude Include="nvml.h">
       <Filter>Header Files\Hardware\GPU\NVIDIA\Wrappers</Filter>
     </ClInclude>
-    <ClInclude Include="assimp\include\assimp\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PartitionTable.h">
       <Filter>Header Files\Hardware\Drive</Filter>
     </ClInclude>
@@ -3823,6 +3820,9 @@
     </ClInclude>
     <ClInclude Include="Viewport.h">
       <Filter>Header Files\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="assimp\include\assimp\config.h">
+      <Filter>Header Files\Libraries\assimp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

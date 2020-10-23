@@ -24,7 +24,7 @@ CPU::CPU(std::vector<std::unique_ptr<Core>>&& cores)
 
 }
 
-void CPU::Initialize()
+bool CPU::Initialize()
 {
 	PDH_STATUS status;
 
@@ -86,10 +86,18 @@ void CPU::Initialize()
 	CPUBrandString[0x39] = '\0';
 	m_Name = CPUBrandString;
 
-	for (const auto& core : m_Cores)
+	bool valid = true;
+	for (auto it = begin(m_Cores); it != end(m_Cores); it++)
 	{
-		core->Initialize();
+		int index = distance(m_Cores.begin(), it);
+		if (!m_Cores[index]->Initialize())
+		{
+			m_Cores.erase(it--);
+			valid = false;
+		}
 	}
+
+	return valid;
 }
 
 CPU::~CPU()

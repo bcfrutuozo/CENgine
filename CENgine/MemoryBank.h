@@ -56,7 +56,7 @@ public:
 
 	MemoryBank(const TypeMemoryDevice& p_MemoryDevice);
 	~MemoryBank();
-	void Initialize() override;
+	bool Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
 private:

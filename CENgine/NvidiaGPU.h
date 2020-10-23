@@ -10,7 +10,7 @@ public:
 	
 	NvidiaGPU(Device device);
 	~NvidiaGPU();
-	void Initialize() override;
+	bool Initialize() override;
 	void GetWorkload() override;
 	
 private:

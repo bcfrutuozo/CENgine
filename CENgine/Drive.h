@@ -24,7 +24,7 @@ public:
 
 	Drive(Device driver);
 	~Drive();
-	void Initialize() override;
+	bool Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
 

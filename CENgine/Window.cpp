@@ -6,6 +6,7 @@
 #include "imgui/imgui_impl_win32.h"
 #pragma warning(pop)
 
+#include <iostream>
 #include <sstream>
 
 // Singleton WindowClass
@@ -60,7 +61,7 @@ Window::Window(int width, int height, const char* p_name)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	if(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
 		throw WND_LAST_EXCEPT();
 	}
@@ -73,7 +74,7 @@ Window::Window(int width, int height, const char* p_name)
 		nullptr, nullptr, WindowClass::GetInstance(),
 		this);
 
-	if(handleWindow == nullptr)
+	if (handleWindow == nullptr)
 	{
 		throw WND_LAST_EXCEPT();
 	}
@@ -94,7 +95,7 @@ Window::Window(int width, int height, const char* p_name)
 	rid.usUsage = 0x02; // Mouse page
 	rid.dwFlags = 0;
 	rid.hwndTarget = nullptr;
-	if(RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
+	if (RegisterRawInputDevices(&rid, 1, sizeof(rid)) == FALSE)
 	{
 		throw WND_LAST_EXCEPT();
 	}
@@ -108,7 +109,7 @@ Window::~Window()
 
 void Window::SetTitle(const std::string& t_Title)
 {
-	if(SetWindowText(handleWindow, t_Title.c_str()) == 0)
+	if (SetWindowText(handleWindow, t_Title.c_str()) == 0)
 	{
 		throw WND_LAST_EXCEPT();
 	}
@@ -130,15 +131,54 @@ void Window::DisableCursor() noexcept
 	EncloseCursor();
 }
 
+DWORD __stdcall Window::ConsoleThread(LPVOID data)
+{
+	if (!AllocConsole()) {
+		throw WND_LAST_EXCEPT();
+	}
+
+	// std::cout, std::clog, std::cerr, std::cin
+	FILE* fDummy;
+	freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	freopen_s(&fDummy, "CONIN$", "r", stdin);
+	std::cout.clear();
+	std::clog.clear();
+	std::cerr.clear();
+	std::cin.clear();
+
+	// std::wcout, std::wclog, std::wcerr, std::wcin
+	HANDLE hConOut = CreateFile(("CONOUT$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hConIn = CreateFile(("CONIN$"), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	SetStdHandle(STD_OUTPUT_HANDLE, hConOut);
+	SetStdHandle(STD_ERROR_HANDLE, hConOut);
+	SetStdHandle(STD_INPUT_HANDLE, hConIn);
+	std::wcout.clear();
+	std::wclog.clear();
+	std::wcerr.clear();
+	std::wcin.clear();
+
+	int x;
+
+	std::cin >> x;
+}
+
+void Window::CreateConsole() const
+{
+	unsigned int myCounter = 0;
+	DWORD myThreadId;
+	CreateThread(0, 0, ConsoleThread, &myCounter, 0, &myThreadId);
+}
+
 std::optional<int> Window::ProcessMessages()
 {
 	MSG msg;
 
 	// While queue has messages, remove and dispatch them without blocking on empty queue
-	while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		// Check for quit message because PeekMessage doesn't signal it via return val
-		if(msg.message == WM_QUIT)
+		if (msg.message == WM_QUIT)
 		{
 			// Return optional wrapping int (arg to PostQuitMessage is in wParam) signals quit
 			return static_cast<int>(msg.wParam);
@@ -155,7 +195,7 @@ std::optional<int> Window::ProcessMessages()
 
 Graphics& Window::Gfx() const
 {
-	if(!pGraphics)
+	if (!pGraphics)
 	{
 		throw WND_NOGFX_EXCEPT();
 	}
@@ -178,12 +218,12 @@ void Window::FreeCursor() noexcept
 
 void Window::HideCursor() noexcept
 {
-	while(::ShowCursor(FALSE) >= 0);
+	while (::ShowCursor(FALSE) >= 0);
 }
 
 void Window::ShowCursor() noexcept
 {
-	while(::ShowCursor(TRUE) < 0);
+	while (::ShowCursor(TRUE) < 0);
 }
 
 void Window::EnableImGuiMouse() noexcept
@@ -215,7 +255,7 @@ bool Window::HasNewDevice() noexcept
 LRESULT WINAPI Window::HandleMessageSetup(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept
 {
 	// Use create parameter passed in from CreateWindow() to store window class pointer at WinAPI side
-	if(message == WM_NCCREATE)
+	if (message == WM_NCCREATE)
 	{
 		// Extract pointer to window class from creation data
 		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
@@ -242,50 +282,50 @@ LRESULT WINAPI Window::HandleMessageThunk(HWND handleWindow, UINT message, WPARA
 
 LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LPARAM lParam) noexcept
 {
-	if(ImGui_ImplWin32_WndProcHandler(handleWindow, message, wParam, lParam))
+	if (ImGui_ImplWin32_WndProcHandler(handleWindow, message, wParam, lParam))
 	{
 		return true;
 	}
 
 	const auto& imio = ImGui::GetIO();
 
-	switch(message)
+	switch (message)
 	{
-		case WM_CLOSE:
+	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
 
 		// To check if new disks or pendrives were inserted or removed. We can update the performance disks and volumes by doing it so.
-		case WM_DEVICECHANGE:
+	case WM_DEVICECHANGE:
 
-			broadcast = (PDEV_BROADCAST_HDR)lParam;
-			//PDEV_BROADCAST_DEVICEINTERFACE lpdbv = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
+		broadcast = (PDEV_BROADCAST_HDR)lParam;
+		//PDEV_BROADCAST_DEVICEINTERFACE lpdbv = (PDEV_BROADCAST_DEVICEINTERFACE)lpdb;
 
-			/*switch (wParam)
-			{
-				
-			case DBT_DEVICEARRIVAL:
+		/*switch (wParam)
+		{
 
-				break;
-			case DBT_DEVICEREMOVECOMPLETE:
+		case DBT_DEVICEARRIVAL:
 
-				break;
-
-			}*/
+			break;
+		case DBT_DEVICEREMOVECOMPLETE:
 
 			break;
 
+		}*/
+
+		break;
+
 		// Clear key state when window loses focus to prevent input getting "stuck" 
-		case WM_KILLFOCUS:
+	case WM_KILLFOCUS:
 		keyboard.ClearState();
 		break;
 
-		case WM_ACTIVATE:
+	case WM_ACTIVATE:
 
 		// Confine/Free cursor on window to foreground/background if cursor disabled
-		if(!isCursorEnabled)
+		if (!isCursorEnabled)
 		{
-			if(wParam & WA_ACTIVE)
+			if (wParam & WA_ACTIVE)
 			{
 				EncloseCursor();
 				HideCursor();
@@ -299,35 +339,35 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 		break;
 
 		/************************ KEYBOARD MESSAGES ************************/
-		case WM_KEYDOWN:
+	case WM_KEYDOWN:
 		// Syskey commands need to be handled to track ALT key (VK_MENU)
-		case WM_SYSKEYDOWN:
+	case WM_SYSKEYDOWN:
 
 		// Stifle the keyboard message if ImGui wants to capture message
-		if(imio.WantCaptureKeyboard)
+		if (imio.WantCaptureKeyboard)
 		{
 			break;
 		}
 
-		if(!(lParam & 0x40000000) || keyboard.IsAutorepeatEnabled()) // Filter Autorepeat key events
+		if (!(lParam & 0x40000000) || keyboard.IsAutorepeatEnabled()) // Filter Autorepeat key events
 		{
 			keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
 		}
 		break;
-		case WM_KEYUP:
-		case WM_SYSKEYUP:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
 
 		// Stifle the keyboard message if ImGui wants to capture message
-		if(imio.WantCaptureKeyboard)
+		if (imio.WantCaptureKeyboard)
 		{
 			break;
 		}
 
 		keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
 		break;
-		case WM_CHAR:
+	case WM_CHAR:
 		// Stifle the keyboard message if ImGui wants to capture message
-		if(imio.WantCaptureKeyboard)
+		if (imio.WantCaptureKeyboard)
 		{
 			break;
 		}
@@ -337,12 +377,12 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 		/********************** END KEYBOARD MESSAGES **********************/
 
 		/********************** MOUSE MESSAGES **********************/
-		case WM_MOUSEMOVE:
+	case WM_MOUSEMOVE:
 
 		// Cursorless exclusive gets first dibs
-		if(!isCursorEnabled)
+		if (!isCursorEnabled)
 		{
-			if(!mouse.IsInWindow())
+			if (!mouse.IsInWindow())
 			{
 				SetCapture(handleWindow);
 				mouse.OnMouseEnter();
@@ -352,7 +392,7 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 		}
 
 		// Stifle the mouse message if ImGui wants to capture message
-		if(imio.WantCaptureMouse)
+		if (imio.WantCaptureMouse)
 		{
 			break;
 		}
@@ -363,126 +403,126 @@ LRESULT Window::HandleMessage(HWND handleWindow, UINT message, WPARAM wParam, LP
 			mouse.OnMouseMove(pt.x, pt.y);
 			break;
 		}
-		case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN:
+	{
+		SetForegroundWindow(handleWindow);
+		if (!isCursorEnabled)
 		{
-			SetForegroundWindow(handleWindow);
-			if(!isCursorEnabled)
-			{
-				EncloseCursor();
-				HideCursor();
-			}
+			EncloseCursor();
+			HideCursor();
+		}
 
-			// Stifle the mouse message if ImGui wants to capture message
-			if(imio.WantCaptureMouse)
-			{
-				break;
-			}
-
-			const POINTS pt = MAKEPOINTS(lParam);
-			mouse.OnLeftPressed(pt.x, pt.y);
+		// Stifle the mouse message if ImGui wants to capture message
+		if (imio.WantCaptureMouse)
+		{
 			break;
 		}
-		case WM_RBUTTONDOWN:
-		{
-			// Stifle the mouse message if ImGui wants to capture message
-			if(imio.WantCaptureMouse)
-			{
-				break;
-			}
 
-			const POINTS pt = MAKEPOINTS(lParam);
-			mouse.OnRightPressed(pt.x, pt.y);
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnLeftPressed(pt.x, pt.y);
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		// Stifle the mouse message if ImGui wants to capture message
+		if (imio.WantCaptureMouse)
+		{
 			break;
 		}
-		case WM_LBUTTONUP:
+
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnRightPressed(pt.x, pt.y);
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		// Stifle the mouse message if ImGui wants to capture message
+		if (imio.WantCaptureMouse)
 		{
-			// Stifle the mouse message if ImGui wants to capture message
-			if(imio.WantCaptureMouse)
-			{
-				break;
-			}
-			const POINTS pt = MAKEPOINTS(lParam);
-			mouse.OnLeftReleased(pt.x, pt.y);
 			break;
 		}
-		case WM_RBUTTONUP:
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnLeftReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		// Stifle the mouse message if ImGui wants to capture message
+		if (imio.WantCaptureMouse)
 		{
-			// Stifle the mouse message if ImGui wants to capture message
-			if(imio.WantCaptureMouse)
-			{
-				break;
-			}
-
-			const POINTS pt = MAKEPOINTS(lParam);
-			mouse.OnRightReleased(pt.x, pt.y);
 			break;
 		}
-		case WM_MOUSEWHEEL:
+
+		const POINTS pt = MAKEPOINTS(lParam);
+		mouse.OnRightReleased(pt.x, pt.y);
+		break;
+	}
+	case WM_MOUSEWHEEL:
+	{
+		// Stifle the mouse message if ImGui wants to capture message
+		if (imio.WantCaptureMouse)
 		{
-			// Stifle the mouse message if ImGui wants to capture message
-			if(imio.WantCaptureMouse)
-			{
-				break;
-			}
-
-			const POINTS pt = MAKEPOINTS(lParam);
-			if(GET_WHEEL_DELTA_WPARAM(wParam) > 0)
-			{
-				mouse.OnWheelUp(pt.x, pt.y);
-			}
-			else if(GET_WHEEL_DELTA_WPARAM(wParam) < 0)
-			{
-				mouse.OnWheelDown(pt.x, pt.y);
-			}
-		}
-
-		/******************** END MOUSE MESSAGES ********************/
-
-			/************** RAW MOUSE MESSAGES **************/
-		case WM_INPUT:
-		{
-			if(!mouse.IsRawEnabled())
-			{
-				break;
-			}
-
-			UINT size = 0;
-			// First get the size of the input data
-			if(GetRawInputData(
-				reinterpret_cast<HRAWINPUT>(lParam),
-				RID_INPUT,
-				nullptr,
-				&size,
-				sizeof(RAWINPUTHEADER)) == -1)
-			{
-				// Ignore messaging errors
-				break;
-			}
-			rawBuffer.resize(size);
-
-			// Read in the input data
-			if(GetRawInputData(
-				reinterpret_cast<HRAWINPUT>(lParam),
-				RID_INPUT,
-				rawBuffer.data(),
-				&size,
-				sizeof(RAWINPUTHEADER)) != size)
-			{
-				// Ignore messaging errors
-				break;
-			}
-
-			// Process the raw input data
-			const auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
-			if(ri.header.dwType == RIM_TYPEMOUSE &&
-				(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
-			{
-				mouse.OnRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);
-			}
-
-
 			break;
 		}
+
+		const POINTS pt = MAKEPOINTS(lParam);
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+		{
+			mouse.OnWheelUp(pt.x, pt.y);
+		}
+		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0)
+		{
+			mouse.OnWheelDown(pt.x, pt.y);
+		}
+	}
+
+	/******************** END MOUSE MESSAGES ********************/
+
+		/************** RAW MOUSE MESSAGES **************/
+	case WM_INPUT:
+	{
+		if (!mouse.IsRawEnabled())
+		{
+			break;
+		}
+
+		UINT size = 0;
+		// First get the size of the input data
+		if (GetRawInputData(
+			reinterpret_cast<HRAWINPUT>(lParam),
+			RID_INPUT,
+			nullptr,
+			&size,
+			sizeof(RAWINPUTHEADER)) == -1)
+		{
+			// Ignore messaging errors
+			break;
+		}
+		rawBuffer.resize(size);
+
+		// Read in the input data
+		if (GetRawInputData(
+			reinterpret_cast<HRAWINPUT>(lParam),
+			RID_INPUT,
+			rawBuffer.data(),
+			&size,
+			sizeof(RAWINPUTHEADER)) != size)
+		{
+			// Ignore messaging errors
+			break;
+		}
+
+		// Process the raw input data
+		const auto& ri = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+		if (ri.header.dwType == RIM_TYPEMOUSE &&
+			(ri.data.mouse.lLastX != 0 || ri.data.mouse.lLastY != 0))
+		{
+			mouse.OnRawDelta(ri.data.mouse.lLastX, ri.data.mouse.lLastY);
+		}
+
+
+		break;
+	}
 	}
 
 	return DefWindowProc(handleWindow, message, wParam, lParam);
@@ -506,7 +546,7 @@ std::string Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
 		nullptr);
 
 	// String length as 0 indicates a failure
-	if(nMessageLength == 0)
+	if (nMessageLength == 0)
 	{
 		return "Unidentified error code";
 	}

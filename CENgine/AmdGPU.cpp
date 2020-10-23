@@ -10,8 +10,10 @@ AmdGPU::~AmdGPU()
 
 }
 
-void AmdGPU::Initialize()
-{ }
+bool AmdGPU::Initialize()
+{
+	return true;
+}
 
 void AmdGPU::GetWorkload()
 {

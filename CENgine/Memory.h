@@ -15,7 +15,7 @@ public:
 
 	Memory(const TypePhysicalMemory& p_PhysicalMemory, std::vector<std::unique_ptr<MemoryBank>>&& p_MemoryBanks);
 	~Memory();
-	void Initialize() override;
+	bool Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
 private:

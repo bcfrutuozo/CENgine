@@ -8,7 +8,7 @@ public:
 
 	IntelGPU(Device device);
 	~IntelGPU();
-	void Initialize() override;
+	bool Initialize() override;
 	void GetWorkload() override;
 	
 private:

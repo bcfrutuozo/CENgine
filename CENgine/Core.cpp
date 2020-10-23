@@ -18,7 +18,7 @@ Core::Core(Device device)
 	Peripheral(device)
 {}
 
-void Core::Initialize()
+bool Core::Initialize()
 {
 	PDH_STATUS  pdhStatus = ERROR_SUCCESS;
 	LPTSTR      szCounterListBuffer = NULL;
@@ -80,6 +80,7 @@ void Core::Initialize()
 
 	free(szCounterListBuffer);
 	free(szInstanceListBuffer);
+	return true;
 }
 
 Core::~Core()

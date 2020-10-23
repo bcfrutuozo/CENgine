@@ -37,7 +37,7 @@ Volume::~Volume()
 {
 }
 
-void Volume::Initialize()
+bool Volume::Initialize()
 {
 	// 32 character for readable volume name plus '\0'
 	char name[64];
@@ -66,6 +66,8 @@ void Volume::Initialize()
 
 		m_FileSystem = std::string(fs);
 	}
+
+	return true;
 }
 
 void Volume::GetWorkload()

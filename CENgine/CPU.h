@@ -10,7 +10,7 @@ public:
 
 	CPU(std::vector<std::unique_ptr<Core>>&& cores);
 	~CPU();
-	void Initialize() override;
+	bool Initialize() override;
 	void ShowWidget() override;
 	void GetWorkload() override;
 protected:

@@ -64,7 +64,7 @@ public:
 	};
 
 	virtual ~Peripheral() = default;
-	virtual void Initialize() = 0;
+	virtual bool Initialize() = 0;
 	virtual void GetWorkload() = 0;
 	virtual void ShowWidget() = 0;
 

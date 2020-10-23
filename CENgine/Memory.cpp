@@ -23,16 +23,24 @@ Memory::~Memory()
 {
 }
 
-void Memory::Initialize()
+bool Memory::Initialize()
 {
 	GlobalMemoryStatusEx(&m_MemoryStatus);
 	m_TotalPhysicalMemory = (m_MemoryStatus.ullTotalPhys / 1048576);	// Formats the value to MB
 	m_TotalVirtualMemory = (m_MemoryStatus.ullTotalPageFile / 1048576);	// Formats the value to MB
 
-	for (const auto& memory : m_MemoryBanks)
+	bool valid = true;
+	for (auto it = begin(m_MemoryBanks); it != end(m_MemoryBanks); it++)
 	{
-		memory->Initialize();
+		int index = distance(m_MemoryBanks.begin(), it);
+		if (!m_MemoryBanks[index]->Initialize())
+		{
+			m_MemoryBanks.erase(it--);
+			valid = false;
+		}
 	}
+
+	return valid;
 }
 
 void Memory::ShowWidget()

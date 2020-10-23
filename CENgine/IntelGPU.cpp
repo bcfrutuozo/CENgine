@@ -10,8 +10,10 @@ IntelGPU::~IntelGPU()
 
 }
 
-void IntelGPU::Initialize()
-{ }
+bool IntelGPU::Initialize()
+{
+	return true;
+}
 
 void IntelGPU::GetWorkload()
 {

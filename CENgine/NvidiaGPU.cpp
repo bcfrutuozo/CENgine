@@ -14,7 +14,7 @@ NvidiaGPU::NvidiaGPU(Device device)
 NvidiaGPU::~NvidiaGPU()
 { }
 
-void NvidiaGPU::Initialize()
+bool NvidiaGPU::Initialize()
 {
 	const auto info = libraryAccess.get_info();
 
@@ -27,6 +27,8 @@ void NvidiaGPU::Initialize()
 
 	const auto& device = i->get_info();
 	m_Name = device.name;
+
+	return true;
 }
 
 void NvidiaGPU::GetWorkload()

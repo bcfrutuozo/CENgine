@@ -18,23 +18,25 @@ SolidSphere::SolidSphere(Graphics& graphics, float radius)
 
 	{
 		Technique solid{ Channel::main };
-		Step only("lambertian");
-		auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
-		only.AddBindable(Bind::InputLayout::Resolve(graphics, model.vertices.GetLayout(), *pvs));
-		only.AddBindable(std::move(pvs));
-
-		only.AddBindable(Bind::PixelShader::Resolve(graphics, "Solid_PS.cso"));
-
-		struct PSColorConstant
 		{
-			DirectX::XMFLOAT3 color = { 1.0f, 1.0f, 1.0f, };
-			float padding;
-		} colorConst;
+			Step only("lambertian");
+			auto pvs = Bind::VertexShader::Resolve(graphics, "Solid_VS.cso");
+			only.AddBindable(Bind::InputLayout::Resolve(graphics, model.vertices.GetLayout(), *pvs));
+			only.AddBindable(std::move(pvs));
 
-		only.AddBindable(Bind::PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));
-		only.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
-		only.AddBindable(Bind::Rasterizer::Resolve(graphics, false));
-		solid.AddStep(std::move(only));
+			only.AddBindable(Bind::PixelShader::Resolve(graphics, "Solid_PS.cso"));
+
+			struct PSColorConstant
+			{
+				DirectX::XMFLOAT3 color = { 1.0f, 1.0f, 1.0f, };
+				float padding;
+			} colorConst;
+
+			only.AddBindable(Bind::PixelConstantBuffer<PSColorConstant>::Resolve(graphics, colorConst, 1u));
+			only.AddBindable(std::make_shared<Bind::TransformCbuf>(graphics));
+			only.AddBindable(Bind::Rasterizer::Resolve(graphics, false));
+			solid.AddStep(std::move(only));
+		}
 		AddTechnique(std::move(solid));
 	}
 }

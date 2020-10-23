@@ -25,19 +25,31 @@ void Performance::Initialize()
 	m_CPU->Initialize();
 	m_Memory->Initialize();
 
-	for (const auto& gpu : m_GPUs)
+	for (auto it = begin(m_GPUs); it != end(m_GPUs); it++)
 	{
-		gpu->Initialize();
+		int index = distance(m_GPUs.begin(), it);
+		if (!m_GPUs[index]->Initialize())
+		{
+			m_GPUs.erase(it--);
+		}
 	}
 
-	for (const auto& disk : m_Disks)
+	for (auto it = begin(m_Disks); it != end(m_Disks); it++)
 	{
-		disk->Initialize();
+		int index = distance(m_Disks.begin(), it);
+		if (!m_Disks[index]->Initialize())
+		{
+			m_Disks.erase(it--);
+		}
 	}
 
-	for (const auto& volume : m_Volumes)
+	for (auto it = begin(m_Volumes); it != end(m_Volumes); it++)
 	{
-		volume->Initialize();
+		int index = distance(m_Volumes.begin(), it);
+		if (!m_Volumes[index]->Initialize())
+		{
+			m_Volumes.erase(it--);
+		}
 	}
 }
 

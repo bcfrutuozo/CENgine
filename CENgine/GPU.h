@@ -8,7 +8,7 @@ public:
 
 	GPU(Device device);
 	~GPU();
-	void Initialize() override { }
+	bool Initialize() override { return true; }
 	void ShowWidget() override;
 	void GetWorkload() override { }
 
