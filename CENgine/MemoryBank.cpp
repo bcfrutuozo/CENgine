@@ -9,7 +9,6 @@
 MemoryBank::MemoryBank(const TypeMemoryDevice& p_MemoryDevice)
 	:
 	m_DeviceLocator(p_MemoryDevice.DeviceLocator),
-	m_BankLocator(static_cast<unsigned char>(std::stoi(SplitString(p_MemoryDevice.BankLocator, " ")[1]))),
 	m_ErrorInformationHandle(p_MemoryDevice.ErrorInformationHandle),
 	m_TotalWidth(p_MemoryDevice.TotalWidth),
 	m_DeviceSet(p_MemoryDevice.DeviceSet),
@@ -27,6 +26,15 @@ MemoryBank::MemoryBank(const TypeMemoryDevice& p_MemoryDevice)
 	m_ConfiguredClockSpeed(p_MemoryDevice.ConfiguredClockSpeed),
 	m_ConfiguredVoltage(p_MemoryDevice.ConfiguredVoltage)
 {
+	/*
+	 * Since we might be running the OS within an VM, the SMBIOS can't access Physical RAM.
+	 * So we push the BankLocator as 0 for the emulated BIOS
+	 */
+	if(*p_MemoryDevice.BankLocator == '\0')
+		m_BankLocator = '0';
+	else
+		m_BankLocator = static_cast<unsigned char>(std::stoi(SplitString(p_MemoryDevice.BankLocator, " ")[1]));
+
 	m_Name = StringFormat("Physical Memory %u", m_BankLocator);
 }
 

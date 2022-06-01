@@ -71,7 +71,8 @@ namespace RGP
 		void Execute(Graphics& graphics) const NOXND override
 		{
 			using namespace DirectX;
-			const auto pos = XMLoadFloat3(&pShadowCamera->GetPosition());
+			const auto lfloat = pShadowCamera->GetPosition();
+			const auto pos = XMLoadFloat3(&lfloat);
 
 			graphics.SetProjection(XMLoadFloat4x4(&projection));
 			for (size_t i = 0; i < 6; i++)
